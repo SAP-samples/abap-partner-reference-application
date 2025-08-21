@@ -1,0 +1,106 @@
+@Metadata.layer: #CORE
+
+@UI: {
+  headerInfo: {
+    typeName: 'Visitor',
+    typeNamePlural: 'Visitors',
+    title: {
+      type: #STANDARD,
+      value: 'Name'
+      }
+  },
+  presentationVariant: [{
+    sortOrder: [{
+      by: 'Name',
+      direction: #ASC
+      }]
+    }]
+}
+
+annotate view ZPRA_MF_C_VisitorTP with
+{
+  @UI.hidden: true
+  Uuid;
+
+  @UI.facet: [{
+    id: 'GeneralInfo',
+    purpose: #STANDARD,
+    type: #IDENTIFICATION_REFERENCE,
+    position: 10,
+    label: 'General Information'
+  },
+  {
+    id: 'MusicFestivals',
+    purpose: #STANDARD,
+    type: #LINEITEM_REFERENCE,
+    targetQualifier: 'VisitorMusicFestivals',
+    targetElement: '_Visits',
+    position: 20,
+    label: 'Music Festivals'
+   },
+   {
+    id: 'AdminData',
+    purpose: #STANDARD,
+    type: #IDENTIFICATION_REFERENCE,
+    targetQualifier: 'AdminData',
+    position: 30,
+    label: 'Administrative Data'
+    }]
+  @UI: {
+    lineItem: [{
+      position: 10
+    }],
+    identification: [ {
+      position: 10
+    }],
+    selectionField: [ {
+      position: 10
+    }]
+  }
+  Name;
+
+  @UI: {
+    lineItem: [{
+      position: 20
+    }],
+    identification: [ {
+      position: 20
+    }],
+    selectionField: [ {
+      position: 20
+    }]
+  }
+  Email;
+
+  @UI: {
+   identification:  [{
+     qualifier: 'AdminData',
+     position: 10 }
+   ]}
+  CreatedBy;
+
+  @UI: {
+    identification: [{
+      qualifier: 'AdminData',
+      position: 20
+    }]
+   }
+  CreatedAt;
+
+  @UI: {
+    identification:  [{
+      qualifier: 'AdminData',
+      position: 30
+    }]
+  }
+  LastChangedBy;
+
+  @UI: {
+    identification:  [{
+      qualifier: 'AdminData',
+      position: 40
+    }]
+  }
+  LastChangedAt;
+
+}

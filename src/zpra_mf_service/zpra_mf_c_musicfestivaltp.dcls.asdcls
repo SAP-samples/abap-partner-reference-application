@@ -1,0 +1,12 @@
+@EndUserText.label: 'Access Control'
+@MappingRole: true
+
+define role ZPRA_MF_C_MUSICFESTIVALTP {
+    grant 
+        select
+            on
+                ZPRA_MF_C_MUSICFESTIVALTP
+                    where inheriting conditions from entity ZPRA_MF_R_MUSICFESTIVAL;   
+
+                        
+}

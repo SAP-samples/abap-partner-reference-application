@@ -1,0 +1,314 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo:{
+    typeName: 'Music Festival',
+    typeNamePlural: 'Music Festivals',
+    title: {
+      type: #STANDARD,
+      value: 'Title'
+      },
+    description: {
+      type: #STANDARD,
+      value: 'Description'
+      }
+    },
+  presentationVariant: [{
+    sortOrder: [{
+      by: 'LastChangedAt',
+      direction: #DESC
+      }],
+    visualizations: [{
+      type: #AS_LINEITEM
+      }]
+    }]
+   }
+
+annotate view ZPRA_MF_C_MusicFestivalTP with
+{
+  @UI.facet: [
+  {
+    id : 'EventDateTime',
+    purpose : #HEADER,
+    type : #DATAPOINT_REFERENCE,
+    targetQualifier: 'EventDateTime',
+    position : 10
+  },
+  {
+    id : 'BookedSeats',
+    purpose : #HEADER,
+    type : #DATAPOINT_REFERENCE,
+    targetQualifier: 'BookedSeats',
+    position : 20
+  },
+  {
+    id : 'VisitorsFeeAmount',
+    purpose : #HEADER,
+    type : #DATAPOINT_REFERENCE,
+    targetQualifier: 'VisitorsFeeAmount',
+    position : 30
+  },
+  {
+    id : 'Status',
+    purpose : #HEADER,
+    type : #DATAPOINT_REFERENCE,
+    targetQualifier: 'Status',
+    position : 40
+  },
+  {
+    id : 'CreatedByandOn',
+    purpose : #HEADER,
+    type : #FIELDGROUP_REFERENCE,
+    targetQualifier: 'CreatedByandOn',
+    position : 50
+  },
+  {
+    id: 'GeneralInfo',
+    purpose: #STANDARD,
+    type: #IDENTIFICATION_REFERENCE,
+    position: 10,
+    label: 'General Information'
+  },
+  {
+    id: 'Visitors',
+    type: #LINEITEM_REFERENCE,
+    purpose: #STANDARD,
+    targetElement: '_Visits',
+    targetQualifier: 'MaintainVisits',
+    position: 20,
+    label: 'Visitors'
+  },
+  {
+    id: 'Fieldgroup3',
+    type: #FIELDGROUP_REFERENCE,
+    targetQualifier: 'Fieldgroup3',
+    targetElement: '_proj',
+    position: 30,
+    label: 'Project Information'
+  },
+  {
+    id: 'AdminData',
+    type: #FIELDGROUP_REFERENCE,
+    targetQualifier: 'AdminData',
+    position: 100,
+    label: 'Administrative Data'
+  }]
+
+  @UI: {
+    lineItem: [{
+      type: #FOR_ACTION,
+      dataAction: 'generateSampleData',
+      position: 10,
+      label: 'Generate Sample Data'
+    },
+    {
+      type: #FOR_ACTION,
+      dataAction: 'cancel',
+      position: 20,
+      label: 'Cancel'
+    },
+    {
+      type: #FOR_ACTION,
+      dataAction: 'publish',
+      position: 30,
+      label: 'Publish'
+    }],
+    identification: [{
+      type: #FOR_ACTION,
+      dataAction: 'publish',
+      position: 10,
+      label: 'Publish'
+     },
+     {
+      type: #FOR_ACTION,
+      dataAction: 'crProj',
+      position: 20,
+      label: 'Create Project in SAP S/4HANA Cloud'
+     },
+     {
+      type: #FOR_ACTION,
+      dataAction: 'cancel',
+      position: 30,
+      label: 'Cancel'
+     }],
+    hidden: true
+    }
+  Uuid;
+
+  @UI:{
+   lineItem: [{
+     importance: #HIGH,
+     position: 10
+     }],
+   identification: [{
+     position: 10
+     }],
+   selectionField: [{
+     position: 10
+     }]
+   }
+  Title;
+
+  @UI: {
+    dataPoint: {
+      qualifier: 'Status',
+      criticality: 'StatusCriticality',
+      criticalityRepresentation: #WITH_ICON,
+      title: 'Status'
+      },
+    lineItem: [{
+      criticality: 'StatusCriticality',
+      criticalityRepresentation: #WITH_ICON,
+      importance: #HIGH,
+      position: 30
+      }],
+    identification: [{
+      criticality: 'StatusCriticality',
+      criticalityRepresentation: #WITH_ICON,
+      position: 20
+      }],
+    selectionField: [{
+      position: 30
+      }],
+    fieldGroup: [{
+      qualifier: 'Header',
+      position: 40
+      }],
+    textArrangement: #TEXT_ONLY
+    }
+  Status;
+
+  @UI.hidden: true
+  StatusCriticality;
+
+  @UI: {
+    lineItem: [{
+      importance: #HIGH,
+      position: 20
+      }],
+    identification: [{
+      position: 30
+      }],
+    selectionField: [{
+      position: 20
+      }],
+    multiLineText: true
+    }
+  Description;
+
+  @UI: {
+    lineItem: [{
+      importance: #HIGH,
+      position: 30
+      }],
+    identification: [{
+      position: 40
+      }],
+    selectionField: [{
+      position: 30
+      }],
+    dataPoint: {
+         qualifier: 'EventDateTime',
+         title: 'Event Date'
+       }
+    }
+  EventDateTime;
+
+  @UI: {
+    dataPoint: {
+      qualifier: 'VisitorsFeeAmount',
+      title: 'Price'
+      },
+    identification: [{
+      position: 50
+      }],
+    fieldGroup: [{
+      qualifier: 'Header',
+      position: 30
+      }]
+    }
+  VisitorsFeeAmount;
+
+  @UI: {
+    identification: [{
+      position: 60
+      }]
+    }
+  @EndUserText.label: 'Max Number of Visitors'
+  MaxVisitorsNumber;
+
+  @UI: {
+    identification: [{
+      position: 70
+      }]
+    }
+  FreeVisitorSeats;
+
+  @UI: {
+    dataPoint: {
+      qualifier: 'BookedSeats',
+      targetValueElement: 'MaxVisitorsNumber',
+      visualization: #PROGRESS,
+      title: 'Capacity'
+      },
+    lineItem: [{
+      type: #AS_DATAPOINT,
+      importance: #HIGH,
+      position: 40
+      }],
+    fieldGroup: [{
+      qualifier: 'Header',
+      position: 20,
+      label: 'Capacity'
+      }]
+    }
+  @EndUserText.label: 'Booked Seats'
+  BookedSeats;
+
+  @UI: {
+    fieldGroup: [{
+      qualifier: 'AdminData',
+      position: 10
+      },
+      {
+      qualifier: 'CreatedByandOn',
+      position: 10
+      }]
+    }
+  CreatedBy;
+
+  @UI: {
+    fieldGroup: [{
+      qualifier: 'AdminData',
+      position: 20
+      },
+      {
+      qualifier: 'CreatedByandOn',
+      position: 20
+      }]
+    }
+  CreatedAt;
+
+  @UI: {
+    fieldGroup: [{
+      qualifier: 'AdminData',
+      position: 30
+      }]
+    }
+  LastChangedBy;
+
+  @UI: {
+    fieldGroup: [{
+      qualifier: 'AdminData',
+      position: 40
+      }]
+    }
+  LastChangedAt;
+
+  @UI.hidden: true
+  LocalLastChangedAt;
+
+  @UI.fieldGroup: [{
+    qualifier: 'Fieldgroup3',
+    position: 10 }]
+  _proj;
+}

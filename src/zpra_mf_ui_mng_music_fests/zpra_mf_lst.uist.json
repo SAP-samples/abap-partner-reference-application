@@ -1,0 +1,17 @@
+{
+  "formatVersion": "1",
+  "header": {
+    "description": "Space for Music Festival Application",
+    "originalLanguage": "en",
+    "abapLanguageVersion": "cloudDevelopment"
+  },
+  "generalInformation": {
+    "title": "Music Festival Manager",
+    "sortPriority": 100.0
+  },
+  "pages": [
+    {
+      "name": "ZPRA_MF_LPT"
+    }
+  ]
+}

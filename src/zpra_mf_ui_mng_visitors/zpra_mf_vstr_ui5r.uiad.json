@@ -1,0 +1,35 @@
+{
+  "formatVersion": "2",
+  "header": {
+    "description": "Application to create and manage visitors",
+    "originalLanguage": "en",
+    "abapLanguageVersion": "cloudDevelopment"
+  },
+  "generalInformation": {
+    "appType": "ui5",
+    "catalogId": "SAP_TC_UI5_REPO_UIAD",
+    "targetMappingTitle": "Manage Visitors"
+  },
+  "ui5AppDetails": {
+    "appId": "visitors"
+  },
+  "navigation": {
+    "targetMappingId": "UI5R_CB37234BF5B3368F9127D8A88A9764E91030B4C3_TM",
+    "semanticObject": "ZPRA_MF_VSTR",
+    "action": "display",
+    "desktop": true,
+    "tablet": true,
+    "phone": true
+  },
+  "tiles": [
+    {
+      "id": "UI5R_CB37234BF5B3368F9127D8A88A9764E91030B4C3_AL",
+      "tileType": "static",
+      "isDefault": true,
+      "standard": {
+        "title": "Manage Visitors",
+        "icon": "sap-icon://visits"
+      }
+    }
+  ]
+}

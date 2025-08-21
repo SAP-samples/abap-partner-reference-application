@@ -1,0 +1,12 @@
+@EndUserText.label: 'Access Control'
+@MappingRole: true
+
+define role ZPRA_MF_R_MUSICFESTIVAL {
+    grant 
+        select
+            on
+                ZPRA_MF_R_MUSICFESTIVAL
+                    where
+                        ( ) = aspect pfcg_auth ( ZPRA_MF_AO, actvt = '03');
+                        
+}

@@ -1,0 +1,147 @@
+managed implementation in class ZBP_PRA_MF_R_MusicFestival unique;
+strict ( 2 );
+with draft;
+
+with cross associations;
+
+extensible;
+define own authorization context
+{
+  'ZPRA_MF_AO';
+}
+define behavior for ZPRA_MF_R_MusicFestival alias MusicFestival
+persistent table zpra_mf_a_mf
+extensible
+draft table zpra_mf_d_mf
+etag master LocalLastChangedAt
+lock master
+total etag LastChangedAt
+authorization master ( global, instance )
+
+{
+  field ( numbering : managed ) Uuid;
+  field ( mandatory ) Title, EventDateTime, MaxVisitorsNumber;
+  field ( readonly )
+  Uuid,
+  FreeVisitorSeats,
+  Status,
+  project_id,
+  CreatedBy,
+  CreatedAt,
+  LastChangedBy,
+  LastChangedAt,
+  LocalLastChangedAt;
+
+  association _Visits { create ( features : instance, authorization : update ); with draft; }
+
+  create;
+  update;
+  delete ( features : instance );
+
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+
+  action ( features : instance ) cancel result [1] $self;
+  action ( features : instance ) publish result [1] $self;
+  action ( features : instance ) CrProj result [1] $self;
+  //  action createproject;
+
+  static action generateSampleData;
+
+  internal action calculateFreeVisitorSeats;
+
+  validation validateMandatoryValue on save { create; field Title, MaxVisitorsNumber, EventDateTime; }
+  validation validateMaxVisitors on save { field FreeVisitorSeats, MaxVisitorsNumber; }
+  validation validateDate on save { field EventDateTime; }
+
+  determination determineStatus on modify { create; field MaxVisitorsNumber, FreeVisitorSeats; }
+  determination determineAvailableSeats on modify { field MaxVisitorsNumber; }
+
+  determine action validateMandatoryFields { validation validateMandatoryValue; }
+  determine action validateMaxVisitorsNumber { validation validateMaxVisitors; }
+  determine action validateEventDate { validation validateDate; }
+
+  side effects
+  {
+    field MaxVisitorsNumber affects field ( FreeVisitorSeats, Status );
+    action publish affects field Status;
+    action cancel affects field Status;
+    determine action validateMandatoryFields executed on field ( Title, EventDateTime, MaxVisitorsNumber ) affects messages;
+    determine action validateMaxVisitorsNumber executed on field ( FreeVisitorSeats, MaxVisitorsNumber ) affects messages;
+    determine action validateEventDate executed on field EventDateTime affects messages;
+  }
+
+  draft determine action Prepare
+  {
+    validation validateMandatoryValue;
+    validation validateMaxVisitors;
+    validation validateDate;
+  }
+
+  mapping for zpra_mf_a_mf corresponding extensible
+    {
+      Uuid                = uuid;
+      Title               = title;
+      Description         = description;
+      EventDateTime       = event_date_time;
+      MaxVisitorsNumber   = max_visitors_number;
+      FreeVisitorSeats    = free_visitor_seats;
+      VisitorsFeeAmount   = visitors_fee_amount;
+      VisitorsFeeCurrency = visitors_fee_currency;
+      Status              = status;
+      CreatedBy           = created_by;
+      CreatedAt           = created_at;
+      LastChangedAt       = last_changed_at;
+      LastChangedBy       = last_changed_by;
+      LocalLastChangedAt  = local_last_changed_at;
+    }
+}
+
+
+define behavior for ZPRA_MF_R_VISIT alias Visits
+implementation in class ZBP_PRA_MF_R_Visits unique
+persistent table zpra_mf_a_vst
+draft table zpra_mf_d_vst
+lock dependent by _MusicFestival
+authorization dependent by _MusicFestival
+etag master LocalLastChangedAt
+{
+  update;
+  delete ( features : instance );
+
+  field ( numbering : managed )
+  Uuid;
+
+  field ( readonly )
+  Uuid,
+  ParentUuid,
+  Status,
+  LocalLastChangedAt;
+
+  association _MusicFestival { with draft; }
+  association _Visitor;
+
+  determination determineStatus on modify { create; }
+  determination determineAvailableSeats on modify { field Status; }
+
+  action ( features : instance ) book result [1] $self;
+  action ( features : instance ) cancel result [1] $self;
+
+  side effects
+  {
+    action book affects field _MusicFestival.( FreeVisitorSeats, Status );
+    action cancel affects field _MusicFestival.( FreeVisitorSeats, Status );
+  }
+
+  mapping for zpra_mf_a_vst
+    {
+      Uuid               = uuid;
+      ParentUuid         = parent_uuid;
+      VisitorUuid        = visitor_uuid;
+      ArtistIndicator    = artist_indicator;
+      Status             = status;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}

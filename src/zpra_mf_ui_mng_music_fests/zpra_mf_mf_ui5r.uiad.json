@@ -1,0 +1,35 @@
+{
+  "formatVersion": "2",
+  "header": {
+    "description": "Application to create and manage music festivals",
+    "originalLanguage": "en",
+    "abapLanguageVersion": "cloudDevelopment"
+  },
+  "generalInformation": {
+    "appType": "ui5",
+    "catalogId": "SAP_TC_UI5_REPO_UIAD",
+    "targetMappingTitle": "Manage Music Festivals"
+  },
+  "ui5AppDetails": {
+    "appId": "musicfestivals"
+  },
+  "navigation": {
+    "targetMappingId": "UI5R_E9B2758B7EAB8D802952AD56B903A35E0BE5ED36_TM",
+    "semanticObject": "ZPRA_MF_MF",
+    "action": "display",
+    "desktop": true,
+    "tablet": true,
+    "phone": true
+  },
+  "tiles": [
+    {
+      "id": "UI5R_E9B2758B7EAB8D802952AD56B903A35E0BE5ED36_AL",
+      "tileType": "static",
+      "isDefault": true,
+      "standard": {
+        "title": "Manage Music Festivals",
+        "icon": "sap-icon://theater"
+      }
+    }
+  ]
+}

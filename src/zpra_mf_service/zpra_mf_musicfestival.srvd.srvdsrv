@@ -1,0 +1,14 @@
+@EndUserText: {
+  label: 'Music Festivals'
+}
+@ObjectModel: {
+  leadingEntity: {
+    name: 'ZPRA_MF_C_MusicFestivalTP'
+  }
+}
+define service ZPRA_MF_MusicFestival
+  provider contracts odata_v4_ui {
+  expose ZPRA_MF_C_MusicFestivalTP as MusicFestival;
+  expose ZPRA_MF_C_VISITTP         as Visits;
+  expose ZPRA_MF_AE_REMOTE_PROJ    as Project;
+}

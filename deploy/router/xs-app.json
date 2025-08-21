@@ -1,0 +1,26 @@
+{
+	"authenticationMethod": "route",
+	"welcomeFile": "/ui",
+	"logout": {
+		"logoutEndpoint": "/sap/public/bc/icf/logoff",
+    		"logoutPage": "/ui"
+	},
+  	"routes": [
+		{
+			"source": "^/sap/(.*)$",
+			"target": "/sap/$1",
+			"authenticationType": "xsuaa",
+			"service": "com.sap.cloud.abap.solution",
+			"csrfProtection": false,
+			"endpoint": "abap"
+		},
+		{
+			"source": "^/ui(.*)$",
+			"target": "/ui$1",
+			"authenticationType": "xsuaa",
+			"service": "com.sap.cloud.abap.solution",
+			"csrfProtection": false,
+			"endpoint": "abap"
+		}
+	]
+}

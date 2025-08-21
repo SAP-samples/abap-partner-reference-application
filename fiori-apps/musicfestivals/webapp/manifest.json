@@ -1,0 +1,201 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "musicfestivals",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.17.5",
+      "toolsId": "362552d7-5ecc-4fa9-8f2f-083c12e8ce4a"
+    },
+    "dataSources": {
+      "annotation": {
+        "type": "ODataAnnotation",
+        "uri": "annotations/annotation.xml",
+        "settings": {
+          "localUri": "annotations/annotation.xml"
+        }
+      },
+      "mainService": {
+        "uri": "/sap/opu/odata4/sap/zpra_mf_ui_musicfestival_o4/srvd/sap/zpra_mf_musicfestival/0001/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "annotation"
+          ],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "4.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "ZPRA_MF_MF-display": {
+          "semanticObject": "ZPRA_MF_MF",
+          "action": "display",
+          "title": "{{ZPRA_MF_MF-display.flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "sap-icon://theater",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.136.2",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "musicfestivals.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "MusicFestivalList",
+          "target": "MusicFestivalList"
+        },
+        {
+          "pattern": "MusicFestival({key}):?query:",
+          "name": "MusicFestivalObjectPage",
+          "target": "MusicFestivalObjectPage"
+        },
+        {
+          "pattern": "MusicFestival({key})/_Visits({key2}):?query:",
+          "name": "VisitsObjectPage",
+          "target": "VisitsObjectPage"
+        }
+      ],
+      "targets": {
+        "MusicFestivalList": {
+          "type": "Component",
+          "id": "MusicFestivalList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/MusicFestival",
+              "variantManagement": "Page",
+              "navigation": {
+                "MusicFestival": {
+                  "detail": {
+                    "route": "MusicFestivalObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "selectAll": true
+                  }
+                }
+              },
+              "initialLoad": "Enabled"
+            }
+          }
+        },
+        "MusicFestivalObjectPage": {
+          "type": "Component",
+          "id": "MusicFestivalObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/MusicFestival",
+              "navigation": {
+                "_Visits": {
+                  "detail": {
+                    "route": "VisitsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "_Visits/@com.sap.vocabularies.UI.v1.LineItem#MaintainVisits": {
+                  "tableSettings": {
+                    "selectAll": true,
+                    "creationMode": {
+                      "createAtEnd": true,
+                      "inlineCreationRowsHiddenInEditMode": true,
+                      "name": "InlineCreationRows"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "VisitsObjectPage": {
+          "type": "Component",
+          "id": "VisitsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/MusicFestival/_Visits"
+            }
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}

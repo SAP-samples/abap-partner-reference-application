@@ -1,0 +1,140 @@
+@Metadata.layer: #CORE
+@UI: {
+  headerInfo: {
+    typeName: 'Visit',
+    typeNamePlural: 'Visits',
+    title: {
+      type: #STANDARD,
+      value: 'Uuid'
+      }
+     }
+    }
+
+annotate entity ZPRA_MF_C_VISITTP with
+{
+
+  @UI.facet: [{
+    id: 'Visits',
+    purpose: #STANDARD,
+    type: #IDENTIFICATION_REFERENCE,
+    position: 10,
+    label: 'Visitors'
+    }]
+  @UI: {
+    lineItem: [{
+      qualifier: 'MaintainVisits',
+      type: #STANDARD,
+      importance: #HIGH,
+      inline: true,
+      position: 10
+     },
+     {
+      qualifier: 'MaintainVisits',
+      type: #FOR_ACTION,
+      dataAction: 'Book' ,
+      position: 10,
+      label: 'Book'
+     },
+     {
+      qualifier: 'MaintainVisits',
+      type: #FOR_ACTION,
+      dataAction: 'Cancel',
+      position: 20,
+      label: 'Cancel'
+      }],
+    identification: [{
+      position: 10 ,
+      label: 'Name'
+      },
+      {
+       type: #FOR_ACTION,
+       dataAction: 'Book' ,
+       position: 10,
+       label: 'Book'
+      },
+      {
+       type: #FOR_ACTION,
+       dataAction: 'Cancel',
+       position: 20,
+       label: 'Cancel'
+      }],
+    textArrangement: #TEXT_ONLY
+    }
+  @EndUserText.label: 'Name'
+  VisitorUuid;
+
+  @UI.hidden: true
+  Uuid;
+
+  @UI.hidden: true
+  ParentUuid;
+
+  @UI: {
+   lineItem: [{
+     qualifier: 'VisitorMusicFestivals',
+     importance: #HIGH,
+     position: 10
+     }]
+    }
+  MusicFestivalTitle;
+
+  @UI: {
+   lineItem: [{
+     qualifier: 'VisitorMusicFestivals',
+     importance: #HIGH,
+     position: 20
+     }]
+    }
+  MusicFestivalEventDateTime;
+
+  @UI: {
+    lineItem: [{
+      qualifier: 'MaintainVisits',
+      importance: #HIGH,
+      position: 20
+      }],
+    identification: [{
+      position: 20
+      }]
+     }
+  VisitorEmail;
+
+  @UI: {
+    lineItem: [{
+      qualifier: 'MaintainVisits',
+      importance: #HIGH,
+      position: 30
+      },
+      {
+      qualifier: 'VisitorMusicFestivals',
+      importance: #HIGH,
+      position: 30
+      }],
+    identification: [{
+      position: 30
+      }]
+     }
+  ArtistIndicator;
+
+  @UI: {
+    lineItem: [{
+      qualifier: 'MaintainVisits',
+      importance: #HIGH,
+      position: 40
+      }],
+    identification: [ {
+      criticality: 'StatusCriticality',
+      criticalityRepresentation: #WITH_ICON,
+      position: 40
+      }],
+    textArrangement: #TEXT_ONLY
+    }
+  Status;
+
+  @UI.hidden: true
+  StatusCriticality;
+
+  @UI.hidden: false
+  _MusicFestival;
+
+}

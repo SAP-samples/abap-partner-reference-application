@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SIAD" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <SIAD>
+    <BRT_FIORI_SPACE_ID>ZPRA_MF_UPD_BRT_SPT</BRT_FIORI_SPACE_ID>
+    <BRT_ID>ZPRA_MF_UPD_BRT</BRT_ID>
+    <FIORI_SPACE_ID>ZPRA_MF_LST</FIORI_SPACE_ID>
+    <ABAP_LANGUAGE_VERSION>5</ABAP_LANGUAGE_VERSION>
+    <DESCRIPTION>Assignment of space template to ZPRA_MF_UPD_BRT</DESCRIPTION>
+    <MASTER_LANGUAGE>EN</MASTER_LANGUAGE>
+   </SIAD>
+  </asx:values>
+ </asx:abap>
+</abapGit>

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_MSAG" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <T100A>
+    <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+    <MASTERLANG>E</MASTERLANG>
+    <STEXT>Message class for music festivals</STEXT>
+   </T100A>
+   <T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>001</MSGNR>
+     <TEXT>Maximum visitors must be greater than zero.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>002</MSGNR>
+     <TEXT>Maximum visitors must be equal to or greater than booked visitors.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>003</MSGNR>
+     <TEXT>Event date and time must be in the future.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>004</MSGNR>
+     <TEXT>Fill in all mandatory fields to proceed.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>005</MSGNR>
+     <TEXT>The festival &apos;&amp;1&apos; has already been published.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>009</MSGNR>
+     <TEXT>Connection Error</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>010</MSGNR>
+     <TEXT>Error in Project Creation</TEXT>
+    </T100>
+   </T100>
+  </asx:values>
+ </asx:abap>
+</abapGit>

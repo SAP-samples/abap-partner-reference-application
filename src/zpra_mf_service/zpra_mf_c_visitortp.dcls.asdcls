@@ -1,0 +1,11 @@
+@EndUserText.label: 'Access Control for ZPRA_MF_C_VISITORTP'
+@MappingRole: true
+define role ZPRA_MF_C_VISITORTP {
+    grant 
+        select
+            on
+                ZPRA_MF_C_VISITORTP
+                    where
+                        inheriting conditions from entity ZPRA_MF_R_VISITOR;
+                        
+}

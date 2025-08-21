@@ -1,0 +1,33 @@
+{
+  "formatVersion": "1",
+  "header": {
+    "description": "Page for Music Festival Application",
+    "originalLanguage": "en",
+    "abapLanguageVersion": "cloudDevelopment"
+  },
+  "generalInformation": {
+    "title": "Music Festivals"
+  },
+  "sections": [
+    {
+      "id": "ZPRA_MF_SECTION_MF",
+      "title": "Music Festivals",
+      "visualizations": [
+        {
+          "id": "ZPRA_MF_SECTION_MF_VIZ",
+          "ladiAssignment": {
+            "ladiId": "ZPRA_MF_MF_UI5R",
+            "tileId": "UI5R_E9B2758B7EAB8D802952AD56B903A35E0BE5ED36_AL"
+          }
+        },
+        {
+          "id": "ZPRA_MF_SECTION_VSTR_VIZ",
+          "ladiAssignment": {
+            "ladiId": "ZPRA_MF_VSTR_UI5R",
+            "tileId": "UI5R_CB37234BF5B3368F9127D8A88A9764E91030B4C3_AL"
+          }
+        }
+      ]
+    }
+  ]
+}

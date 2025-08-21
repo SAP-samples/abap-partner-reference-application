@@ -1,0 +1,11 @@
+{
+  "formatVersion": "1",
+  "header": {
+    "description": "SAP Object Node Type ZPRA_MF_A_VSTR",
+    "originalLanguage": "en",
+    "abapLanguageVersion": "cloudDevelopment"
+  },
+  "name": "ZPRA_MF_A_VSTR",
+  "sapObjectType": "ZPRA_MF_A_VSTR",
+  "rootNode": true
+}

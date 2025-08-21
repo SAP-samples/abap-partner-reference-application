@@ -1,0 +1,11 @@
+@EndUserText.label: 'Access Control for ZPRA_MF_R_VISITOR'
+@MappingRole: true
+define role ZPRA_MF_R_VISITOR {
+    grant 
+        select
+            on
+                ZPRA_MF_R_VISITOR
+                    where
+                        ( ) = aspect pfcg_auth ( ZPRA_MF_AO, actvt = '03');
+                        
+}

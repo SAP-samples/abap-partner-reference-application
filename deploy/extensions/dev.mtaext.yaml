@@ -1,0 +1,41 @@
+# - Check if there are ongoing operations: cf mta-ops
+# - Full Build and Deploy:
+#     1. mbt build
+#     2. cf deploy mta_archives/pra-mf_1.0.0.mtar -e extensions/dev.mtaext.yaml
+
+_schema-version: '3.1'
+ID: pra-mf-dev
+extends: pra-mf
+
+parameters:
+  appname: pra-mf
+  # add-on product name must be left empty for gCTS transport-based delivery
+  addon-product-name: ""
+  provider-admin-email: <email-of-admin>
+  saas-display-name: "Music Festival Manager"
+  saas-description: "Music Festival Manager - ABAP Partner Reference Application"
+  plan-name: "default"
+  app-domain: ${default-domain}
+  route-prefix: -${appname}
+  addon-product-version: ""
+  tenant-mode: multi
+  enable-parallel-deployments: true
+  usage-mode: test
+  size-of-runtime: 1
+  size-of-persistence: 2
+  consumer-id-pattern: ([^-]*).*
+  application-log-level: debug
+  abap-endpoint-timeout: 60000
+  send-x-frame-options: true
+  consumer-tenant-limit: 100
+  sap-system-name: ""
+
+modules:
+  - name: approuter
+    parameters:
+      routes:
+        - route: cis${route-prefix}.${app-domain}
+        # add further routes for subscriber subaccounts by replacing subdomain placeholder with actual subaccount subdomain
+        # - route: <subscriber1-subaccount-subdomain>${route-prefix}.${app-domain}
+        # - route: <subscriber2-subaccount-subdomain>${route-prefix}.${app-domain}
+

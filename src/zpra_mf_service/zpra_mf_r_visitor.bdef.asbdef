@@ -1,0 +1,53 @@
+managed implementation in class ZBP_PRA_MF_R_Visitor unique;
+strict ( 2 );
+with draft;
+extensible;
+define own authorization context
+{
+  'ZPRA_MF_AO';
+}
+define behavior for ZPRA_MF_R_Visitor alias Visitor
+persistent table zpra_mf_a_vstr
+extensible
+draft table zpra_mf_d_vstr
+etag master LocalLastChangedAt
+lock master
+total etag LastChangedAt
+authorization master ( global, instance )
+
+{
+  field ( numbering : managed ) Uuid;
+
+  field ( mandatory ) Name;
+
+  field ( readonly )
+  Uuid,
+  CreatedBy,
+  CreatedAt,
+  LastChangedBy,
+  LastChangedAt,
+  LocalLastChangedAt;
+
+  create;
+  update;
+  delete;
+
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+
+  mapping for zpra_mf_a_vstr corresponding extensible
+    {
+      Uuid               = uuid;
+      Name               = name;
+      Email              = email;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedAt      = last_changed_at;
+      LastChangedBy      = last_changed_by;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+
+}

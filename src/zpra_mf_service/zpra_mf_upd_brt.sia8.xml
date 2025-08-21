@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SIA8" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <SIA8>
+    <BRT_ID>ZPRA_MF_UPD_BRT</BRT_ID>
+    <ABAP_LANGUAGE_VERSION>5</ABAP_LANGUAGE_VERSION>
+    <NAME>ZPRA_MF_UPD_BRT</NAME>
+    <TYPE>SIA8</TYPE>
+    <DESCRIPTION>Business Role Template for Change Access</DESCRIPTION>
+    <ABAP_LANGU_VERSION>5</ABAP_LANGU_VERSION>
+    <FIORI_SPACES>
+     <item>
+      <BRT_FIORI_SPACE_ID>ZPRA_MF_UPD_BRT_SPT</BRT_FIORI_SPACE_ID>
+      <BRT_ID>ZPRA_MF_UPD_BRT</BRT_ID>
+      <FIORI_SPACE_ID>ZPRA_MF_LST</FIORI_SPACE_ID>
+      <ABAP_LANGUAGE_VERSION>5</ABAP_LANGUAGE_VERSION>
+      <CREATE_USER>CB9980000031</CREATE_USER>
+      <CREATE_TIMESTAMP>20250731081900</CREATE_TIMESTAMP>
+      <CHANGE_USER>CB9980000031</CHANGE_USER>
+      <CHANGE_TIMESTAMP>20250731081900</CHANGE_TIMESTAMP>
+      <TEXT>Music Festival Manager</TEXT>
+     </item>
+    </FIORI_SPACES>
+   </SIA8>
+  </asx:values>
+ </asx:abap>
+</abapGit>
