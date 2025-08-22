@@ -129,7 +129,7 @@ Let's take a look at one of the behavior definitions in detail.
 
 #### Behavior Definition for View Entity `ZPRA_MF_R_MusicFestival`
 
-The [behavior defintion for Music Festival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) declares all validations, determinations, action, and attributes required for any application.
+The [behavior definition for Music Festival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) declares all validations, determinations, action, and attributes required for any application.
 
 **RAP Behavior Definition Structure** -
 

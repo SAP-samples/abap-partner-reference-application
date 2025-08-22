@@ -97,7 +97,7 @@ A software component contains all coding and development objects for at least on
 To create a software component, follow these steps:
 
 1. Navigate to your SAP BTP subaccount where the ABAP instance is created.
-2. Select the ABAP Envirnment Service Instance name under **Instances** on the **Instances and Subscriptions** tab in your subaccount. The ABAP landscape opens in new tab.
+2. Select the ABAP Environment Service Instance name under **Instances** on the **Instances and Subscriptions** tab in your subaccount. The ABAP landscape opens in new tab.
 3. Search for the **Manage Software Components** app and choose **Create**.
    <img src="./images/12_Search_SW_Component_In_Launchpad.png"/>
 4. Enter the following sample information:
@@ -432,8 +432,8 @@ You also need to create manual artifacts for the **Visit** entity. In the table 
   |                    |                             |                              |
   | Calculation class Annotation |  Data Definition            | Adjustment needed to add calculated class in Data Definition [ZPRA_MF_C_MusicFestivalTP](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddls.asddls#L28)                                |
   |  Calculation class Implementation  |   Source Code Library                        |     [zcl_pra_mf_calc_visit_elements](../src/zpra_mf_service/zcl_pra_mf_calc_visit_elements.clas.abap)                                                           |
-  |                    | Behaviour defintion                  | Adjustment needed to add Visit in Music Behaviour defintion [ZPRA_MF_R_MusicFestival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef#L103)                         |
-  |                    |   Behaviour defintion                         |  Draft table generation using Quick Assist view in [ZPRA_MF_R_MusicFestival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef#L103)<br> Adjustments in Music Projection Behaviour View  [ZPRA_MF_C_MusicFestivalTP](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.bdef.asbdef#L35)                         |
+  |                    | Behaviour definition                  | Adjustment needed to add Visit in Music Behaviour definition [ZPRA_MF_R_MusicFestival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef#L103)                         |
+  |                    |   Behaviour definition                         |  Draft table generation using Quick Assist view in [ZPRA_MF_R_MusicFestival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef#L103)<br> Adjustments in Music Projection Behaviour View  [ZPRA_MF_C_MusicFestivalTP](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.bdef.asbdef#L35)                         |
   | Business Service   |                             |                                                                |
   |                    | Service Definition          | Adjustment in Service Definition [ZPRA_MF_MusicFestival](../src/zpra_mf_service/zpra_mf_musicfestival.srvd.srvdsrv)<br> [ZPRA_MF_VISITOR](../src/zpra_mf_service/zpra_mf_visitor.srvd.srvdsrv)                       |
 

@@ -3,7 +3,7 @@
 - [Introduction](#introduction)
 - [Consume SAP S/4HANA Cloud Public Edition OData APIs](#consume-sap-s4hana-cloud-public-edition-odata-apis)
 - [Outbound Communication Setup in SAP BTP Application](#outbound-communication-setup-in-sap-btp-application)
-- [Inbound Communicaton Setup in SAP S/4HANA Cloud Public Edition](#inbound-communicaton-setup-in-sap-s4hana-cloud-public-edition)
+- [Inbound Communication Setup in SAP S/4HANA Cloud Public Edition](#inbound-communication-setup-in-sap-s4hana-cloud-public-edition)
 - [Enhance the Business Logic to Operate on SAP S/4HANA Cloud Public Edition Data](#enhance-the-business-logic-to-operate-on-sap-s4hana-cloud-public-edition-data)
 - [Enhance the Web App to Display SAP S/4HANA Cloud Public Edition Data](#enhance-the-web-app-to-display-sap-s4hana-cloud-public-edition-data)
 
@@ -20,23 +20,23 @@ This section guides you through the navigation from SAP BTP ABAP environment Par
 Set up the trust relationship between the SAP BTP subaccount and the Identity Authentication service using SAML 2.0. For more information, refer to [SAP Cloud Identity Services](https://help.sap.com/docs/identity-authentication/identity-authentication/saml-2-0). The SAML2 usage applies only if the OpenID Connect configuration isn't possible. This occurs when the SAP BTP subscriber subaccount and the Identity Authentication service tenant aren't assigned to the same customer ID. This setup comes with limitations regarding remote access to the OData services of the SAP BTP application with principal propagation.
 
 1. In the SAP BTP consumer subaccount, download the **SAML** metadata file of the subaccount.
-	1. Open **Security** in the menu and go to **Trust Configuration**.
-	2. Choose **Download SAML Metadata**.
+    1. Open **Security** in the menu and go to **Trust Configuration**.
+    2. Choose **Download SAML Metadata**.
 
 2. On the Identity Authentication admin UI, go to **Applications and Resources > Applications** and create a new application of the type *SAP BTP Solution*.
-	1. Enter the required information, such as application display name, home URL, and so on. 
+    1. Enter the required information, such as application display name, home URL, and so on. 
     The display name appears on the user login screen. The login applies to all applications linked to the Identity Authentication service tenant, following the single sign-on principle.
-	2. Go to **SAML 2.0 Configuration** and upload the **SAML** metadata file from the SAP BTP subaccount you've downloaded in the previous step.
-	3. As **Subject Name Identifier**, select *E-Mail* as the primary attribute.
-	4. As **Default Name ID Format**, select *E-Mail*.
-  	5. Go to **Attributes** and add the **Groups** user attribute with the **Groups** value from the **Identity Directory** source.
+    2. Go to **SAML 2.0 Configuration** and upload the **SAML** metadata file from the SAP BTP subaccount you've downloaded in the previous step.
+    3. As **Subject Name Identifier**, select *E-Mail* as the primary attribute.
+    4. As **Default Name ID Format**, select *E-Mail*.
+    5. Go to **Attributes** and add the **Groups** user attribute with the **Groups** value from the **Identity Directory** source.
         > Note: The **Groups** assertion attribute is used to process authorization checks in the consumer subaccount based on user groups. The **Groups** value of the assertion attribute must be written with a **capital G** for SAP BTP subaccounts.
 
 3. To download the **SAML** metadata file of the IdP, go to **Applications and Resources > Tenant Settings > SAML 2.0 Configuration** and choose *Download Metadata File*.
 
 4. In the SAP BTP consumer subaccount, go to **Security > Trust Configuration**. 
-	1. Choose **New SAML Trust Configuration**. 
-	2. Upload the **SAML** metadata file of the IdP that you've just downloaded and enter a meaningful name and description for the IdP, for example ``Corporate IdP``.
+    1. Choose **New SAML Trust Configuration**. 
+    2. Upload the **SAML** metadata file of the IdP that you've just downloaded and enter a meaningful name and description for the IdP, for example ``Corporate IdP``.
 
 Looking for more information on the SAP Authorization and Trust Management service? Go to [Building Side-By-Side Extensions Using SAP BTP](https://learning.sap.com/learning-journeys/build-side-by-side-extensions-on-sap-btp/describing-authorization-and-trust-management-xsuaa-_cbf0d0c5-29ec-4685-9cf4-487156b41284).
 
@@ -85,14 +85,14 @@ In the SAP BTP ABAP environment, set up a service consumption model that imports
     3.	In the **Outbound** section, choose **Add** to add the outbound service you've just created.
     4.	Save and ativate your changes.
 
-  	   <img src="./images/51_Outbound_CS.png" width="75%">
+       <img src="./images/51_Outbound_CS.png" width="75%">
        <img src="./images/51_Outbound_CS_1.png" width="75%">
        
 2.	##### Use the **Maintain Communication User** application to create a new communication user.
-   	Enter a user name, description, and password. Choose **Save**.
+    Enter a user name, description, and password. Choose **Save**.
 
-  	   <img src="./images/51_O_Comm_User.png" width="75%">
-  	
+       <img src="./images/51_O_Comm_User.png" width="75%">
+    
 3.	##### Create a communication system using the **Communication Systems** application.
     1.	Enter a system ID and system name of your choice and choose **Create**.
     2.	Under **Technical Data**, enter a destination system as host name. For example: ***.sap.
@@ -116,10 +116,10 @@ In the SAP BTP ABAP environment, set up a service consumption model that imports
 
        <img src="./images/51_O_Comm_Arran.png" width="75%">
 
-#### Inbound Communicaton Setup in SAP S/4HANA Cloud Public Edition
+#### Inbound Communication Setup in SAP S/4HANA Cloud Public Edition
 
 1.	##### Create a communication user for inbound communication using the **Maintain Communication Users** application.
-   	Enter a user name, description, and password. Choose **Save**.
+    Enter a user name, description, and password. Choose **Save**.
 
        <img src="./images/51_I_Comm_User.png" width="75%">
 
@@ -175,12 +175,9 @@ The behavior definition is adjusted to add a button in the web application, whil
     3.	You can have a look at the [reference code](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap).
 2. Create a custom entity for fetching the project. Refer to the code [here](../src/zpra_mf_service/zpra_mf_ae_remote_proj.ddls.asddls).
 3. There's a class in the custom entity where the code to fetch the project is implemented. Refer to the code [here](../src/zpra_mf_service/zcl_pra_mf_fetch_proj.clas.abap).
-4. The custom entity is then assosiated with the projection view to the fetched project. Refer to the code [here](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddls.asddls).
+4. The custom entity is then associated with the projection view to the fetched project. Refer to the code [here](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddls.asddls).
 5. Expose the custom entity in the service definition.
 6. The images below show a preview of the application UI.
 
-  	<img src="./images/51_Musical_Fest_Application.png" width="75%">
-  	<img src="./images/51_Musical_Fest_PI.png" width="75%">
-
-
-
+    <img src="./images/51_Musical_Fest_Application.png" width="75%">
+    <img src="./images/51_Musical_Fest_PI.png" width="75%">

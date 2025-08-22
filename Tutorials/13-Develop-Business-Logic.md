@@ -35,7 +35,7 @@ A complete set of [actions](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.cl
 See [Behavior Definition for Music Festival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) for more information.
 
 Let's create an action:
-1. Navigate to the behaviour defintion of Music Festival, for example **ZPRA_MF_R_MusicFestival**.
+1. Navigate to the behaviour definition of Music Festival, for example **ZPRA_MF_R_MusicFestival**.
 2. Add the action name and trigger point to the behavior definition:
     ```abap
         action ( features : instance ) publish result [1] $self;
@@ -114,7 +114,7 @@ In our application, we define different kinds of validations to handle various s
 A complete set of validations can be found in the behavior definitions of the respective business objects.
 
 Let's create one validation:
-1. Navigate to the behaviour defintion of the Music Festival, for example **ZPRA_MF_R_MusicFestival**.
+1. Navigate to the behaviour definition of the Music Festival, for example **ZPRA_MF_R_MusicFestival**.
 2. Add a validation name and trigger point to the behavior definition:
     ```abap
         validation validateMandatoryValue on save { create; update; }
@@ -179,7 +179,7 @@ A complete set of determinations can be found in the [behavior definitions](../s
 
 
 For reference, let's create one determination:
-1. Navigate to the behaviour defintion of Music Festival, for example **ZPRA_mf_R_MusicFestival**.
+1. Navigate to the behaviour definition of Music Festival, for example **ZPRA_mf_R_MusicFestival**.
 2. Add a validation name and trigger point to the behavior definition:
     ```abap
        determination determineStatus on modify { create; field Status; }
