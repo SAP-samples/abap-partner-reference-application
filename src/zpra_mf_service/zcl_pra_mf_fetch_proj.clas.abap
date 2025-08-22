@@ -56,6 +56,8 @@ CLASS zcl_pra_mf_fetch_proj IMPLEMENTATION.
     et_com_arrangement = DATA(lt_ca) ).
 
     IF lt_ca IS INITIAL.
+      io_response->set_data( it_data = lt_data1 ).
+      io_response->set_total_number_of_records( 0 ).
       EXIT.
     ELSE.
       READ TABLE lt_ca ASSIGNING FIELD-SYMBOL(<fs_ca>) INDEX 1.
