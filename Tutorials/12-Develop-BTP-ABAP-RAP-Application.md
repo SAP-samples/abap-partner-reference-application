@@ -102,7 +102,7 @@ To create a software component, follow these steps:
    <img src="./images/12_Search_SW_Component_In_Launchpad.png"/>
 4. Enter the following sample information:
    - **Namespace**: Z
-   - **Name**: PRA_MF 
+   - **Name**: PRA_MUSIC_FESTIVAL_MGR 
    - **Description**: Music Festivals 
    - **Type**: Development
    
