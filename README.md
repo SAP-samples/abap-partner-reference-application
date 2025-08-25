@@ -1,5 +1,7 @@
 # Partner Reference Application *Music Festival Manager*
 
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/abap-partner-reference-application)](https://api.reuse.software/info/github.com/SAP-samples/abap-partner-reference-application)
+
 ## Description
 
 This Partner Reference Application repository provides you with a “golden path” for becoming a SaaS provider of multi-tenant applications. It is based on the SAP Business Technology Platform (SAP BTP) ABAP environment and extends SAP S/4HANA Cloud.
