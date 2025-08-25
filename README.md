@@ -45,6 +45,7 @@ Upcoming versions of the sample application may include additional features prov
 ### Features and Values
 
 Features of the Music Festival Manager include:
+
 - Create, change, publish, and cancel music festival events
 - Maintain, add, and remove visitors
 - Cancel bookings
