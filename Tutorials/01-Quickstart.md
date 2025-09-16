@@ -22,13 +22,13 @@ If you prefer a quick start without further explanation and want to the applicat
 4. After creating the software component, you create an ABAP Cloud project in Eclipse. Then, you onboard the software component in Eclipse ADT.
 
     > **Note**: To create an ABAP Cloud project, follow the [Create ABAP Cloud Project](https://developers.sap.com/tutorials/abap-environment-create-abap-cloud-project.html) tutorial.
-    > Once done, you include the software component into the project. Right-click on *Favorite Packages* under your *project* and choose **Add package**. Select the software component created above, for example ZPRA_MUSIC_FESTIVAL_MGR. The software component is present in your local system in ADT.
+    > Once done, you include the software component into the project. Right-click on *Favorite Packages* under your *project* and choose **Add package**. Select the software component created above, for example ZPRA_MF. The software component is present in your local system in ADT.
 
 5. You have to create the following packages manually under your generated package for software component.
 
-    1. **ZPRA_MF_SERVICE**
-    2. **ZPRA_MF_UI_MNG_MUSIC_FESTS**
-    3. **ZPRA_MF_UI_MNG_VISITORS**
+    1. **ZPRA_MF_SERVICE** - Description: Music Festivals - Data Model and Services)
+    2. **ZPRA_MF_UI_MNG_MUSIC_FESTS** - Description: Music Festivals - Fiori App - Manage Music Fests
+    3. **ZPRA_MF_UI_MNG_VISITORS** - Description: Music Festivals - Fiori App - Manage Visitors
 
     > **Note**: For detailed, step-by-step instructions on creating packages, refer to the [Package Creation](./12-Develop-BTP-ABAP-RAP-Application.md#package-creation) section.
 
@@ -37,13 +37,13 @@ If you prefer a quick start without further explanation and want to the applicat
     - **GitHub URL** - **https://github.com/SAP-samples/abap-partner-reference-application**
     - **Branch** - *main*
 
-7. Pull the repository by right-clicking on the `ZPRA_MUSIC_FESTIVAL_MGR` package name under the abapGit repositories window and choose **Pull**.
+7. Pull the repository by right-clicking on the `ZPRA_MF` package name under the abapGit repositories window and choose **Pull**.
 
     <img src="./images/02_abapgit.png" width="30%"/>
 
     > **Note**: The pull operation doesn't succeed initially because the SAP Fiori application hasn't been deployed yet. Consequently, the ABAP objects related to the SAP Fiori application aren't pulled.
 
-8. Choose **Activate inactive ABAP development objects** to activate all the objects that are pulled from the Git repository.
+8. Choose **Activate inactive ABAP development objects** ![icon for activate all](./images/01-icon-activate-all.png) (Shortcut - Windows: `Ctrl + Shift + F3`; Mac: `Cmd + Shift + F3`) to activate all the objects that are pulled from the Git repository.
 
     > **Note:**
     > - The activation process may fail for some objects due to dependencies or missing components.
@@ -93,31 +93,30 @@ If you prefer a quick start without further explanation and want to the applicat
 
         ii. **Destination** - Search for *<DESTINATION_NAME>* and replace it with your destination name to connect to your ABAP service.
 
-        iii. **Transport Request Number** - Update the transport number in the **ui5-deploy.yaml** file for both the Music Festival Manager and the Visitors applications.
+        iii. **Transport Request Number** - Search for <TRANSPORT_REQUEST> and replace it with your transport request number in the **ui5-deploy.yaml** file for both the Music Festival Manager and the Visitors applications.
 
         iv. **Authentication Type** - The `reentranceTicket` authentication type is mandatory when your SAP BAS and SAP BTP ABAP environment instances are in different SAP BTP subaccounts. If both instances are in the same SAP BTP subaccount, you can comment out this setting because it isn't required.
 
-    **Steps to Deploy the Music Festival Application:**
-    1. Navigate to the `musicfestivals` folder.
-    2. Run the following commands in sequence:
-        - `npm install` - Installs the required dependencies for the application.
-        - `npm run deploy` - Deploys the application to the SAP BTP ABAP environment.
+    4. **Steps to Deploy the Music Festival Application:**
+       1. Navigate to the `musicfestivals` folder.
+       2. Run the following commands in sequence:
+           - `npm install` - Installs the required dependencies for the application.
+           - `npm run deploy` - Deploys the application to the SAP BTP ABAP environment.
 
-    **Steps to Deploy the Visitors Application:**
-    1. Navigate to the `visitors` folder.
-    2. Run the following commands in sequence:
-        - `npm install` - Installs the required dependencies for the application.
-        - `npm run deploy` - Deploys the application to the SAP BTP ABAP environment.
+    5. **Steps to Deploy the Visitors Application:**
+       1. Navigate to the `visitors` folder.
+       2. Run the following commands in sequence:
+           - `npm install` - Installs the required dependencies for the application.
+           - `npm run deploy` - Deploys the application to the SAP BTP ABAP environment.
 
     > **Notes:**
     > - If the deployment fails on the first attempt, try to retrigger the deployment to resolve any transient issues.
-    > - If the deployment of UI applications from BAS fails with an error indicating that the packages ZPRA_MF_UI_MNG_MUSIC_FESTS and ZPRA_MF_UI_MNG_VISITORS are not available, manually create these two packages in ADT and then try deploying again.
     > - If you encounter an error stating "duplicate ID in SAP UI5 repository" during deployment, open your manifest.json file and update the id field under the "sap.app" section to a unique value. Then, try deploying again.
     > - Ensure that the deployment processes for both applications complete successfully before proceeding to the next steps.
 
 11. After successfully deploying the SAP Fiori applications, return to the abapGit repositories window in ADT and perform the pull operation again to fetch the remaining ABAP objects related to SAP Fiori applications.
 
-    - Right-click on the `ZPRA_MUSIC_FESTIVAL_MGR` package name under the abapGit repositories window and choose **Pull**.
+    - Right-click on the `ZPRA_MF` package name under the abapGit repositories window and choose **Pull**.
 
     > **Notes:**
     > - During the pull operation, verify and keep the following objects **unchecked**:
@@ -136,15 +135,16 @@ If you prefer a quick start without further explanation and want to the applicat
 13. Follow the steps below to publish the business role templates in ADT to enable the necessary roles for the application:
 
     1. Open the ADT in Eclipse.
-    2. Use the search functionality to locate the following business role templates and communication arrangements:
-        - `ZPRA_MF_DISP_BRT`
-        - `ZPRA_MF_UPD_BRT`
-        - `ZPRA_MF_CS_ENT_PROJ`
+    2. Use the search functionality to open the following objects:
+        - Business role template `ZPRA_MF_DISP_BRT`
+        - Business role template `ZPRA_MF_UPD_BRT`
+        - Communication scenario `ZPRA_MF_CS_ENT_PROJ`
     3. Select each and choose **Publish Locally**.
 
-14. The Service Consumption Model as explained in [Integration with SAP S/4HANA Cloud Public Edition](./40_Integration-with-S4-Public-Cloud.md#set-up-a-service-consumption-model) guide needs to be created as this is not imported by abapGit. To do this, please follow steps 1 and 2 of section [Import SAP S/4HANA Cloud Public Edition OData Services](./40_Integration-with-S4-Public-Cloud.md#import-sap-s4hana-cloud-public-edition-odata-services) and then continue with step 15 here.
+14. The Service Consumption Model as explained in [Integration with SAP S/4HANA Cloud Public Edition](./40_Integration-with-S4-Public-Cloud.md#set-up-a-service-consumption-model) guide needs to be created as this is not imported by abapGit.
+    1. First, delete the imported class `ZCL_PRA_MF_SCM_ENT_PROJ` as this will be generated in the next step.
+    2. Please follow steps 1 and 2 of section [Import SAP S/4HANA Cloud Public Edition OData Services](./40_Integration-with-S4-Public-Cloud.md#import-sap-s4hana-cloud-public-edition-odata-services) and then continue with step 15 here.
 15. Scope in the launchpad page and space templates to enable navigation and role-based access.
-
     1. Open the ADT in Eclipse.
     2. Use the search functionality to locate the following class:
         - `ZCL_PRA_MF_SCOPE_PG_SP_TMPLT`
