@@ -1,4 +1,4 @@
-# Partner Reference Application *Music Festival Manager*
+# Partner Reference Application 'Music Festival Manager'
 
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/abap-partner-reference-application)](https://api.reuse.software/info/github.com/SAP-samples/abap-partner-reference-application)
 
