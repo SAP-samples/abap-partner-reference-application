@@ -79,6 +79,8 @@ For a detailed list of required entitlements, the proposed structure of subaccou
 
 If you prefer a quick start with a deployment of the music festival manager application including all features without further explanation, follow the [quick start guide](./Tutorials/01-Quickstart.md).
 
+> 💡 **Try out the application in trial systems:** This reference application is automatically available in the SAP BTP ABAP environment shared trial systems. Experience the features and explore the code directly — no setup required! See [It's Trial Time for ABAP in SAP Business Technology Platform](https://community.sap.com/t5/technology-blog-posts-by-sap/it-s-trial-time-for-abap-in-sap-business-technology-platform/ba-p/13416047) for details on accessing a trial system.
+
 ## Tutorials
 
 1. Develop the core application focusing on business models, business logic, and UI:
