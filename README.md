@@ -4,7 +4,7 @@
 
 ## Description
 
-This Partner Reference Application repository provides you with a “golden path” for becoming a SaaS provider of multi-tenant applications. It is based on the SAP Business Technology Platform (SAP BTP) ABAP environment and extends SAP S/4HANA Cloud.
+Partner Reference Application is a reference application which provides the guidelines to a “golden path” for becoming a SaaS provider of multi-tenant applications. It is based on the SAP Business Technology Platform (SAP BTP) ABAP environment and extends SAP S/4HANA Cloud.
 
 The guidance covers building, running, and integrating scalable applications using ABAP RESTful Application Programming Model (RAP). It features a design that let's you to deliver your application as a side-by-side extension for consumers using SAP S/4HANA Cloud. This ensures seamless integration and scalability. Such side-by-side extensions can also be integrated with other SAP solutions or non-SAP solutions.
 
