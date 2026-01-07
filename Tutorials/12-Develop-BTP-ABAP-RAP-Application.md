@@ -38,6 +38,7 @@ You can develop applications using SAP BTP ABAP in just a few steps. The high-le
                                                     [SAP Fiori Elements UI]
 
 
+
 To create an ABAP RAP application on SAP BTP, you need to create several artifacts to achieve development object creation. These include:
 
 1. Software Component

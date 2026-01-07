@@ -1,6 +1,6 @@
 # Building a Fiori-Based Web Application using ABAP RAP
 
-You’ve built and exposed the OData service in ABAP RAP. In this tutorial, you're creating a SAP Fiori UI for the Music Festivals OData service to efficiently manage music festival events.
+In this tutorial, you're creating a SAP Fiori UI for the Music Festivals OData service to efficiently manage music festival events.
 
 ## Prerequisites
 

@@ -4,7 +4,7 @@
 
 ## Description
 
-This Partner Reference Application repository provides you with a “golden path” for becoming a SaaS provider of multi-tenant applications. It is based on the SAP Business Technology Platform (SAP BTP) ABAP environment and extends SAP S/4HANA Cloud.
+Partner Reference Application is a reference application which provides the guidelines to a “golden path” for becoming a SaaS provider of multi-tenant applications. It is based on the SAP Business Technology Platform (SAP BTP) ABAP environment and extends SAP S/4HANA Cloud.
 
 The guidance covers building, running, and integrating scalable applications using ABAP RESTful Application Programming Model (RAP). It features a design that let's you to deliver your application as a side-by-side extension for consumers using SAP S/4HANA Cloud. This ensures seamless integration and scalability. Such side-by-side extensions can also be integrated with other SAP solutions or non-SAP solutions.
 
@@ -16,7 +16,7 @@ By leveraging the SAP BTP ABAP environment and the ABAP RAP model, your applicat
 
 The repository includes the **Music Festival Manager** application as a ready-to-run example. It also provides step-by-step tutorials to build, run, and deploy the application from scratch using an incremental development approach.
 
-Based on this sample application, you will find the bill of materials and a sizing example. This addresses the question: "Which SAP BTP resources do I need to subscribe to and in what quantities?" It serves as a basis for cost calculation.
+Based on this sample application, you will find the bill of materials and a sizing example.This addresses the question: "Which SAP BTP resources do I need to subscribe to and in what quantities?" It serves as a basis for cost calculation.
 
 <p align="center">
     <img src="./Tutorials/images/00_Partner-Persona.png" width="40%">
