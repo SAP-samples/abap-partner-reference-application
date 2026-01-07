@@ -16,7 +16,7 @@ By leveraging the SAP BTP ABAP environment and the ABAP RAP model, your applicat
 
 The repository includes the **Music Festival Manager** application as a ready-to-run example. It also provides step-by-step tutorials to build, run, and deploy the application from scratch using an incremental development approach.
 
-Based on this sample application, you will find the bill of materials and a sizing example. This addresses the question: "Which SAP BTP resources do I need to subscribe to and in what quantities?" It serves as a basis for cost calculation.
+Based on this sample application, you will find the bill of materials and a sizing example.This addresses the question: "Which SAP BTP resources do I need to subscribe to and in what quantities?" It serves as a basis for cost calculation.
 
 <p align="center">
     <img src="./Tutorials/images/00_Partner-Persona.png" width="40%">
