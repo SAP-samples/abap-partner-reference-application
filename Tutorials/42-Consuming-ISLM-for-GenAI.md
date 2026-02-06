@@ -9,7 +9,7 @@ The Music Festival Manager application supports this persona-driven scenario. An
 SAP has introduced a [certification program](https://community.sap.com/t5/technology-blogs-by-sap/certification-for-partner-ai-apps-on-sap-btp-ensuring-reliability/ba-p/13751165) for partner applications developed on SAP Business Technology Platform (BTP) using [SAP Generative AI Hub](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/generative-ai-hub-in-sap-ai-core-7db524ee75e74bf8b50c167951fe34a5) that includes checks for Responsible AI compliance. The certification program enables partners to offer trusted, compliant, and enterprise-ready applications powered by AI services, leveraging SAP’s expertise in business data insights. Additionally, SAP Generative AI Hub provides capabilities like [Data Masking](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/data-masking-d9a54d9ca54b40beacbd24e1663ec3b4) to support Data Protection and Privacy implementation.
 
 > [!NOTE]
-> For more information refer to [AI Ethics Handbook](https://www.sap.com/india/documents/2023/03/7211ee96-647e-0010-bca6-c68f7e60039b.html).
+> For more information refer to [AI Ethics Policy](https://www.sap.com/documents/2022/01/a8431b91-117e-0010-bca6-c68f7e60039b.html) and [AI Ethics Handbook](https://www.sap.com/india/documents/2023/03/7211ee96-647e-0010-bca6-c68f7e60039b.html).
 
 ## Overview
 
