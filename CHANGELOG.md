@@ -1,5 +1,21 @@
 # Changes
 
+## Current Version - February 2026
+
+The tutorials and sample application code are available in the main branch.
+
+The current version includes:
+
+- [ABAP AI](./Tutorials/42-Consuming-ISLM-for-GenAI.md): Event creation with a title and description based on user-provided tags, optional rhymes, and the target language.
+- [Adobe Forms](./Tutorials/41-Forms-Feature.md): Generate PDF file of a music festival event containing all event data using Adobe Forms service.
+- Authentication Method Change: Communication from ABAP PRA to SAP S/4HANA Cloud Public Edition is changed from basic authentication to OAuth Client Credentials.
+- SSO Support: The front-end navigation from the Music Festival App to SAP S/4HANA Cloud Public Enterprise Project now supports SSO.
+- Other tutorials :
+    - [Message Handling](./Tutorials/91-Message-Handling.md)
+    - [Bill Of Materials](./Tutorials/00-BillOfMaterials.md)
+  
+- Tag: release-2602
+  
 ## August 2025 (Initial Version)
 
 The tutorials and sample reference application code are available in the main branch.

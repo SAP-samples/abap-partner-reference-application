@@ -16,7 +16,7 @@ By leveraging the SAP BTP ABAP environment and the ABAP RAP model, your applicat
 
 The repository includes the **Music Festival Manager** application as a ready-to-run example. It also provides step-by-step tutorials to build, run, and deploy the application from scratch using an incremental development approach.
 
-Based on this sample application, you will find the bill of materials and a sizing example.This addresses the question: "Which SAP BTP resources do I need to subscribe to and in what quantities?" It serves as a basis for cost calculation.
+Based on this sample application, you will find the bill of materials and a sizing example. This addresses the question: "Which SAP BTP resources do I need to subscribe to and in what quantities?" It serves as a basis for cost calculation.
 
 <p align="center">
     <img src="./Tutorials/images/00_Partner-Persona.png" width="40%">
@@ -47,7 +47,6 @@ Upcoming versions of the sample application may include additional features prov
 ### Features and Values
 
 Features of the Music Festival Manager include:
-
 - Create, change, publish, and cancel music festival events
 - Maintain, add, and remove visitors
 - Cancel bookings
@@ -73,7 +72,7 @@ The application is based on SAP BTP ABAP environment and SAP S/4HANA Cloud Publi
 - **GitHub Repository** – Use this repository to manage source code versioning, collaboration, and CI/CD pipelines.
 - **SAP S/4HANA Cloud Public Edition** – This acts as the digital core, providing business processes and data integration.
 
-For a detailed list of required entitlements, the proposed structure of subaccounts for the deployed Partner Reference Application, and the scaling effects of the multi-tenant solution: visit the [Bill of Materials](./Tutorials/60-BillOfMaterials.md).
+For a detailed list of required entitlements, the proposed structure of subaccounts for the deployed Partner Reference Application, and the scaling effects of the multi-tenant solution: visit the [Bill of Materials](./Tutorials/00-BillOfMaterials.md).
 
 ## Overview
 
@@ -90,10 +89,16 @@ If you prefer a quick start with a deployment of the music festival manager appl
     4. [Building a Fiori-Based Web Application using ABAP RAP](./Tutorials/14-Develop-Web-Application.md)
     5. [Add authentication and role-based authorization](./Tutorials/21-AuthorizationObject-IAM-Roles.md)
     6. [Integrating your SAP Fiori application into the launchpad](./Tutorials/22-Integration%20Application%20into%20Launchpad.md)
+    7. [Core Data Services](./Tutorials/90-Core-Data-Services.md)
+    8. [Message Handling](./Tutorials/91-Message-Handling.md)
 2. Multitenancy and IAM
     1. [Learn about multitenancy, and how to build, deploy, and provision your application to consumers](./Tutorials/30-Multi-Tenancy-Build-Deploy-Provision.md)
 3. Integrate the application with SAP S/4HANA Cloud
-    1. [Integrate the application with SAP S/4HANA Cloud Public Edition](./Tutorials/40_Integration-with-S4-Public-Cloud.md)
+    1. [Integrate the application with SAP S/4HANA Cloud Public Edition](./Tutorials/40-Integration-with-S4-Public-Cloud.md)
+4. Additional features and capabilities
+    1. Add capabilities for output management to your application
+       1. [Manage Forms](./Tutorials/41-Forms-Feature.md)
+    2. [Consuming ISLM for Generative AI capabilities](./Tutorials/42-Consuming-ISLM-for-GenAI.md)
 
 ## More Information
 
@@ -102,6 +107,7 @@ If you prefer a quick start with a deployment of the music festival manager appl
 - [SAP Community - ABAP RESTful Application Programming Model (RAP)](https://pages.community.sap.com/topics/abap/rap)
 - [SAP Discovery Center](https://discovery-center.cloud.sap/missionssearch)
 - [What's New for SAP BTP ABAP environment](https://help.sap.com/whats-new/7a822d3bcaa74f31b98fa315601e9c96?locale=en-US)
+- [The Secure Software Development and Operations Lifecycle (secure SDOL) at SAP](https://www.sap.com/documents/2016/03/a248a699-627c-0010-82c7-eda71af511fa.html)
 
 ## Known Issues
 
@@ -113,7 +119,7 @@ This repository is provided "as-is", we don't offer support. For questions and c
 
 ## License
 
-Copyright (c) 2025 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](./LICENSE) file.
+Copyright (c) 2026 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](./LICENSE) file.
 
 ## Disclaimer
 

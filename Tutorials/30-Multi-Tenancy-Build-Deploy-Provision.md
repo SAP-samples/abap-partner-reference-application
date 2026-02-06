@@ -1,10 +1,11 @@
 # Multitenancy - How to Build, Deploy, and Provision the Application
 
-Now that you have [developed](./11-Prepare-BTP-Account-ADT-For-Dev.md) and tested the **Music Festival Manager** application, you are ready to deploy it as a multi-tenant application on SAP BTP in the ABAP environment. Multitenancy refers to the ability to host multiple customers, known as tenants, on a single shared computing infrastructure. This approach optimizes administration and significantly reduces total cost of ownership (TCO).
+Now that you have [developed](./11-Prepare-BTP-Account-ADT-For-Dev.md) and [tested](TODO:link) the **Music Festival Manager** application, you are ready to deploy it as a multi-tenant application on SAP BTP in the ABAP environment. Multitenancy refers to the ability to host multiple customers, known as tenants, on a single shared computing infrastructure. This approach optimizes administration and significantly reduces total cost of ownership (TCO).
 
 Multitenancy in the ABAP environment enables application providers to develop and operate ABAP solutions as software as a service (SaaS), leveraging SAP BTP infrastructure. While the actual runtime of the application resides in the provider account, the subscriber accounts are used for the tenant-specific configuration, such as destinations or authorization and authentication.
 
-> **💡 Recommended Readings**
+> [!TIP]
+> **Recommended Readings**
 >
 > - SAP Help Portal provides a comprehensive overview of [SaaS Applications and Multitenancy](https://help.sap.com/docs/btp/sap-business-technology-platform/multitenancy-and-saas-applications?locale=en-US&version=Cloud) in the ABAP environment. The following sections in this tutorial will summarize the main steps and information provided in the documentation. However, it is recommended to read the [linked documentation](https://help.sap.com/docs/btp/sap-business-technology-platform/multitenancy-and-saas-applications?locale=en-US&version=Cloud) to get a complete understanding of the concepts and capabilities.
 > - To learn more about multitenancy in the ABAP environment, the multi-tenant application, tenant business types, and lifecycle, see the multitenancy development guidelines [Multitenancy in the ABAP Environment](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/multitenancy-and-saas-applications?version=Cloud).
@@ -32,9 +33,10 @@ Depending on the delivery option you choose, you can follow the steps below:
 
 This step is required to build the add-on product that contains the **Music Festival Manager** application.
 
+> [!NOTE]
 > Ensure that you have the required entitlements in the 03 Build/Assemble and 04 Build/Test subaccounts as described in [Set Up a Global Account for Development](https://help.sap.com/docs/btp/sap-business-technology-platform/prepare?locale=en-US#set-up-a-global-account-for-development).
 >
-> Note: For `hana_compute_unit`, you need to entitle a minimum quantity of 2.
+> For `hana_compute_unit`, you need to entitle a minimum quantity of 2.
 
 Follow the [build](https://help.sap.com/docs/btp/sap-business-technology-platform/build?locale=en-US&version=Cloud) documentation to configure and execute an add-on build pipeline. A successful build pipeline execution results in a new product version that can be installed.
 
@@ -42,9 +44,10 @@ Follow the [build](https://help.sap.com/docs/btp/sap-business-technology-platfor
 
 Deploy and offer your product as a SaaS solution. This allows customers to access the add-on through a subscription in the SAP BTP cockpit.
 
+> [!NOTE]
 > Ensure that you have the required entitlements in the 05 Provide subaccount as described in [Set Up a Global Account for Development](https://help.sap.com/docs/btp/sap-business-technology-platform/prepare?locale=en-US#set-up-a-global-account-for-development).
 >
-> Note: For `hana_compute_unit`, you need to entitle a minimum quantity of 2.
+> For `hana_compute_unit`, you need to entitle a minimum quantity of 2.
 
 Follow the [deploy](https://help.sap.com/docs/btp/sap-business-technology-platform/saas-apps-order-and-provide?locale=en-US&version=Cloud#deploy) documentation to deploy your solution. You have the following options:
 
@@ -56,10 +59,10 @@ For your add-on based delivery, after completing the steps in the build section,
 
 You can use this option if you want to finetune your solution beyond the options offered in the **Maintain Solution** app.
 
-> **Note**:
+> [!NOTE]
 >
-> You can find a reference solution at [sap-software/abap-saas-reference-solution on github.com](https://github.com/sap-software/abap-saas-reference-solution).
-> You can also initially configure your solution using the **Maintain Solution** app and then use the download functionality to obtain the application descriptor file.
+> - You can find a reference solution at [sap-software/abap-saas-reference-solution on github.com](https://github.com/sap-software/abap-saas-reference-solution).
+> - You can also initially configure your solution using the **Maintain Solution** app and then use the download functionality to obtain the application descriptor file.
 
 For more information, see the [Configure a Solution Manually](https://help.sap.com/docs/btp/sap-business-technology-platform/saas-apps-order-and-provide?locale=en-US#loioa4c7b148a9ab4341b876574fd54c0a18) section in the deploy documentation.
 
@@ -69,14 +72,16 @@ For more information, see the [Configure a Solution Manually](https://help.sap.c
 
 For gCTS transport-based delivery, there's no need to build an add-on product. You can directly deploy and offer your product as a SaaS solution. This allows customers to consume the add-on through a subscription in the SAP BTP cockpit.
 
+> [!NOTE]
 > Ensure that you have the required entitlements in the 05 Provide subaccount as described in [Set Up a Global Account for Development](https://help.sap.com/docs/btp/sap-business-technology-platform/prepare?locale=en-US#set-up-a-global-account-for-development).
 >
-> Note: For `hana_compute_unit`, you need to entitle a minimum quantity of 2.
+> For `hana_compute_unit`, you need to entitle a minimum quantity of 2.
 
 You have to configure the solution manually, as the **Maintain Solution** app currently doesn't support gCTS based delivery. You can use the [Configure a Solution Manually](https://help.sap.com/docs/btp/sap-business-technology-platform/saas-apps-order-and-provide?locale=en-US#loioa4c7b148a9ab4341b876574fd54c0a18) section in the deploy documentation to configure and deploy your solution.
 
 For the **Music Festival Manager** application, you can also have a look at the sample deployment and instructions available in the [deploy](../deploy) folder of this repository.
 
+> [!NOTE]
 > For more information, see the [Deploy](https://help.sap.com/docs/btp/sap-business-technology-platform/saas-apps-order-and-provide?locale=en-US&version=Cloud#deploy) documentation on SAP Help Portal.
 
 ## Subscribe
@@ -90,6 +95,7 @@ Follow the [subscribe](https://help.sap.com/docs/btp/sap-business-technology-pla
 3. Configure the consumer subaccount to use the SaaS solution.
 4. Onboard the initial user.
 
+> [!TIP]
 > **gCTS Transport-Based Delivery**
 >
 > When delivering using gCTS, you as a SaaS solution operator can use a separate test subscription that is not related to a customer to trigger the creation of the system before the actual customer subscription. Then, you can import the required software components into the system using the **Manage Software Components** app in the ABAP system client (100). The imported software components can then be used in the consumer subaccounts.
