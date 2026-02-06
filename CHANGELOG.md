@@ -39,3 +39,5 @@ The tutorials and sample reference application code are available in the main br
 - All tutorials are located in the [Tutorials](Tutorials/) directory.
 - Refer to the [README.md](README.md) for an overview and navigation help.
 - For deployment instructions, see [deploy/README.md](deploy/README.md).
+
+- Tag: [release-2508](https://github.com/SAP-samples/abap-partner-reference-application/releases/tag/release-2508)
