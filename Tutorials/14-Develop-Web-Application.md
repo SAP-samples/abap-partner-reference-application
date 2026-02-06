@@ -6,113 +6,104 @@ In this tutorial, you're creating a SAP Fiori UI for the Music Festivals OData s
 
 1. **SAP Business Application Studio (SAP BAS) is enabled**: Ensure SAP BAS is activated, and a Dev space is created for your development. For setup instructions, refer to [Enable SAP Business Application Studio](./11-Prepare-BTP-Account-ADT-For-Dev.md#enable-sap-business-application-studio).
 2. **Creating a service key for the ABAP system**: A service key is required for establishing a secure connection between SAP BAS and the ABAP system. You can create the service key through your BTP subaccount. For detailed instructions, refer to [Creating a Service Key for ABAP System](https://help.sap.com/docs/btp/sap-business-technology-platform/creating-service-key-for-abap-system).
-3. **Destination to ABAP system for SAP BAS is set up**: A destination to the ABAP system must be configured in your SAP BTP subaccount. 
-   -  If SAP BAS and ABAP environment are in the same subaccount, follow [Creating a Destination to the ABAP System for SAP Business Application Studio](https://help.sap.com/docs/btp/sap-business-technology-platform/creating-destination-to-abap-system-for-sap-business-application-studio). 
-   -  For different subaccounts, configure cross-subaccount communication by following
-      - **Subaccount with BAS**
-         -  [Create a Destination for Cross-Subaccount Communication](https://help.sap.com/docs/btp/sap-business-technology-platform/creating-destination-for-cross-subaccount-communication), while configuring the destination additionally add `abap_cloud` to `WebIDEEnabled` parameter.
-         - Download your subaccount-specific trust certificate by navigating to Connectivity -> Destinations -> Download Trust.
-      -  **Subaccount with ABAP Environment**
-         - In abap environment follow [Creating a Communication System for SAP Business Application Studio](https://help.sap.com/docs/btp/sap-business-technology-platform/creating-communication-system-for-sap-business-application-studio) using the trust certificate downloaded in previous step.
+3. **Destination to ABAP system for SAP BAS is set up**: A destination to the ABAP system must be configured in your SAP BTP subaccount.
+   - If SAP BAS and ABAP environment are in the same subaccount, follow [Creating a Destination to the ABAP System for SAP Business Application Studio](https://help.sap.com/docs/btp/sap-business-technology-platform/creating-destination-to-abap-system-for-sap-business-application-studio).
+   - For different subaccounts, configure cross-subaccount communication by following
+     - **Subaccount with BAS**
+       - [Create a Destination for Cross-Subaccount Communication](https://help.sap.com/docs/btp/sap-business-technology-platform/creating-destination-for-cross-subaccount-communication), while configuring the destination additionally add `abap_cloud` to `WebIDEEnabled` parameter.
+       - Download your subaccount-specific trust certificate by navigating to Connectivity -> Destinations -> Download Trust.
+     - **Subaccount with ABAP Environment**
+       - In abap environment follow [Creating a Communication System for SAP Business Application Studio](https://help.sap.com/docs/btp/sap-business-technology-platform/creating-communication-system-for-sap-business-application-studio) using the trust certificate downloaded in previous step.
 
 ## Add a Web Application with SAP Fiori Elements
 
 1. Open your Dev space in SAP BAS:
-
-   * In SAP BAS, open the menu on the left and choose **File > Open Folder** to set your workspace.
-   * Navigate to */home/user/projects/* and choose **OK**.
+   - In SAP BAS, open the menu on the left and choose **File > Open Folder** to set your workspace.
+   - Navigate to _/home/user/projects/_ and choose **OK**.
 
 2. Set up the Cloud Foundry organization and space:
-
-   * Choose **Settings** in SAP BAS and open the **Command Palette**.
-   * Search for *CF: Login to Cloud Foundry* and select it.
-   * Paste your **Cloud Foundry API endpoint**, enter your credentials, and choose **Sign In**.
-   * After logging in, set your Cloud Foundry target:
-      1. **Cloud Foundry Organization**: *Enter the org name*
-      2. **Cloud Foundry Space**: *Enter the space*
+   - Choose **Settings** in SAP BAS and open the **Command Palette**.
+   - Search for _CF: Login to Cloud Foundry_ and select it.
+   - Paste your **Cloud Foundry API endpoint**, enter your credentials, and choose **Sign In**.
+   - After logging in, set your Cloud Foundry target:
+     1. **Cloud Foundry Organization**: _Enter the org name_
+     2. **Cloud Foundry Space**: _Enter the space_
 
 > [!TIP]
 > You can find the Cloud Foundry API endpoint, organization name, and space on the **Overview** tab of your subaccount in the **SAP BTP cockpit**.
 
 3. Select a template:
-   
-   * Ensure that the target folder path is set to */home/user/projects*.
-   * Go to **Settings** in SAP BAS and open the **Command Palette**.
-   * Search for *Fiori: Open Application Generator* and select it.
-   * Choose **List Report Page** and then **Next**.
+   - Ensure that the target folder path is set to _/home/user/projects_.
+   - Go to **Settings** in SAP BAS and open the **Command Palette**.
+   - Search for _Fiori: Open Application Generator_ and select it.
+   - Choose **List Report Page** and then **Next**.
 
 4. Enter the data source and select a service:
+   - **Data source**: _Connect to a System_
+   - **System**: _Enter the destination name_
+   - **Service**: _Enter the service name_.
 
-      * **Data source**: *Connect to a System*
-      * **System**: *Enter the destination name*
-      * **Service**: *Enter the service name*.
-        
    Choose **Next**.
 
 5. Select the entity:
-
-      * **Main Entity**: *MusicFestival*
-      * **Navigation Entity**: *_Visits*
-      * **Automatically add table columns to the list page and a section to the object page if none already exists?**: *Yes*
-      * **Table Type**: *Responsive*
+   - **Main Entity**: _MusicFestival_
+   - **Navigation Entity**: _\_Visits_
+   - **Automatically add table columns to the list page and a section to the object page if none already exists?**: _Yes_
+   - **Table Type**: _Responsive_
 
 6. Enter the project attributes:
+   - **Module Name**: _musicfestivals_
+   - **Application Title**: _Music Festival Manager_
+   - **Description**: _A Music Festival Manager application._
+   - **Project Folder Path**: _/home/user/projects_
+   - **Enable TypeScript**: _No_
+   - **Add Deployment Configuration**: _Yes_
+   - **Add FLP Configuration**: _Yes_
+   - **Use Virtual Endpoints for Local Preview**: _Yes_
+   - **Configure Advanced Options**: _No_
 
-      * **Module Name**: *musicfestivals*
-      * **Application Title**: *Music Festival Manager*
-      * **Description**: *A Music Festival Manager application.*
-      * **Project Folder Path**: */home/user/projects*
-      * **Enable TypeScript**: *No*
-      * **Add Deployment Configuration**: *Yes*
-      * **Add FLP Configuration**: *Yes*
-      * **Use Virtual Endpoints for Local Preview**: *Yes*
-      * **Configure Advanced Options**: *No*
-   
    Choose **Next**.
 
 7. Enter the deployment configuration information:
+   - **Please choose the target**: _ABAP_
+   - **Destination**: _Enter the destination name_
+   - **SAP UI5 ABAP Repository**: _ZPRA_MF_MF_
+   - **How do you want to enter the package?**: _Enter manually_
+   - **Package**: _ZPRA_MF_UI_MNG_MUSIC_FESTS_
+   - **How do you want to enter the transport request?**: _Create new_
 
-      * **Please choose the target**: *ABAP*
-      * **Destination**: *Enter the destination name*
-      * **SAP UI5 ABAP Repository**: *ZPRA_MF_MF*
-      * **How do you want to enter the package?**: *Enter manually*
-      * **Package**: *ZPRA_MF_UI_MNG_MUSIC_FESTS*
-      * **How do you want to enter the transport request?**: *Create new*
-   
    Choose **Next**.
 
 > [!TIP]
-> To find your **transport request**, open Eclipse, search for your package, and check the *Transport Organizer*. Select the transport request of the superior folder under *Modifiable*.
+> To find your **transport request**, open Eclipse, search for your package, and check the _Transport Organizer_. Select the transport request of the superior folder under _Modifiable_.
 
 8. Enter the SAP Fiori launchpad configuration:
+   - **Semantic Object**: _ZPRA_MF_MF_
+   - **Action**: _display_
+   - **Title**: _Manage Music Festival_
 
-   * **Semantic Object**: *ZPRA_MF_MF*
-   * **Action**: *display*
-   * **Title**: *Manage Music Festival*
-   
    Choose **Finish**.
 
 > [!NOTE]
-> The wizard creates the *musicfestivals* folder with all necessary UI files.
+> The wizard creates the _musicfestivals_ folder with all necessary UI files.
 
 9. Preview the application:
-
-   * Right-click on the **musicfestivals** folder and choose **Open Application Info**.
-   * Choose **Preview Application** to view it running in a new browser tab.
+   - Right-click on the **musicfestivals** folder and choose **Open Application Info**.
+   - Choose **Preview Application** to view it running in a new browser tab.
 
 10. Build and deploy the application:
 
-   * Navigate to the *musicfestivals* folder in your command prompt.
-   * Run the `npm run build` command to build the app.
-   * Once the build is complete, run the `npm run deploy` command to deploy the app.
+- Navigate to the _musicfestivals_ folder in your command prompt.
+- Run the `npm run build` command to build the app.
+- Once the build is complete, run the `npm run deploy` command to deploy the app.
 
 > [!NOTE]
-> After deployment, you see the **BSP application** and the **Launchpad App Descriptor Items** under *Fiori User Interface* in your *ADT* within the *ZPRA_MF_UI_MNG_MUSIC_FESTS* package. These items are used for configuring the IAM apps.
+> After deployment, you see the **BSP application** and the **Launchpad App Descriptor Items** under _Fiori User Interface_ in your _ADT_ within the _ZPRA_MF_UI_MNG_MUSIC_FESTS_ package. These items are used for configuring the IAM apps.
 
 Similarly, you can create a web application for managing Visitors.
 
 > [!NOTE]
-> Looking for more information on using SAP Fiori tools? See the tutorial [Serving SAP Fiori UIs](https://help.sap.com/docs/SAP_FIORI_tools).
+> Looking for more information on using SAP Fiori tools? See the tutorial [SAP Fiori Tools](https://help.sap.com/docs/SAP_FIORI_tools).
 
 ## Fine-Tune the User Interface
 

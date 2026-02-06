@@ -3,13 +3,13 @@
 - [Developing BTP ABAP RAP Applications - Data Modeling and OData Service Generation](#developing-btp-abap-rap-applications---data-modeling-and-odata-service-generation)
   - [Software Component Creation](#software-component-creation)
     - [Software Component Availability in Eclipse ADT](#software-component-availability-in-eclipse-adt)
-    - [Create ABAP Cloud Project:](#create-abap-cloud-project)
+    - [Creating ABAP Cloud Project](#creating-abap-cloud-project)
   - [Package Creation](#package-creation)
   - [Database Table](#database-table)
     - [Domains](#domains)
       - [Create a Domain](#create-a-domain)
     - [Data Elements](#data-elements)
-      - [Create Data Elements](#create-data-elements)
+      - [Creating Data Elements](#creating-data-elements)
     - [Database Table Creation](#database-table-creation)
       - [Music Festival Table Creation](#music-festival-table-creation)
       - [Visitor Table Creation](#visitor-table-creation)
@@ -19,7 +19,6 @@
     - [Service Definition](#service-definition)
     - [Service Binding](#service-binding)
     - [Local Publishing and Testing](#local-publishing-and-testing)
-  - [Message Class](#message-class)
 
 You can develop applications using SAP BTP ABAP in just a few steps. The high-level diagram below illustrates the end-to-end development process in SAP BTP ABAP environment using the ABAP RESTful Application Programming Model (RAP). This process starts from defining the data model using CDS entities. It then moves through behavior and service exposure layers. Finally, it culminates in a SAP Fiori elements UI. This approach enables rapid, metadata-driven enterprise application development.
 
@@ -446,7 +445,6 @@ For more information, see [Service Binding](https://help.sap.com/docs/ABAP_PLATF
 ### Local Publishing and Testing
 
 1. Double-click on Service Binding and choose **Publish**.
-   > [!NOTE]
    > It will take some time to complete the publishing action.
 2. Once completed, select the entity set and choose **Preview** to view the UI and test the local changes.
 

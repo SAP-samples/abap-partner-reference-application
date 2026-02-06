@@ -125,7 +125,7 @@ This section explains the setup process for both Basic Authentication and OAuth 
    3. Add a user for outbound communication.
       1. Choose the plus icon.
       2. As **Authentication Method**, set _User Name and Password_.
-      3. As **User name/Client ID**, set the [communication user](#use-the-maintain-communication-user-application-to-create-a-new-communication-user) you've created.
+      3. As **User name/Client ID**, set the communication user you've created in previous steps.
       4. As **Password**, enter the password of the communication user.
       5. Choose **Create**.
 
@@ -135,9 +135,9 @@ This section explains the setup process for both Basic Authentication and OAuth 
 
 4. Create the communication arrangement for the communication scenario.
    1. Open the **Communication Arrangements** application and choose **New**.
-      1. Select the [communication scenario](#create-a-communication-scenario) you've created.
+      1. Select the communication scenario you've created in previous steps.
       2. Enter an **Arrangement Name** of your choice.
-      3. As **Communication System**, set the [communication system](#create-a-communication-system-using-the-communication-systems-application) you've created.
+      3. As **Communication System**, set the communication system you've created in previous steps.
       4. Save your changes.
 
          <img src="./images/51_O_Comm_Arran.png" width="75%">
@@ -158,7 +158,7 @@ This section explains the setup process for both Basic Authentication and OAuth 
    3. Add a user for inbound communication.
       1. Choose the plus icon.
       2. As **Authentication Method**, set _User Name and Password_.
-      3. As **User name/Client ID**, set the [communication user](#create-a-communication-user-for-inbound-communication-using-the-maintain-communication-users-application) you've created.
+      3. As **User name/Client ID**, set the communication user you've created in previous steps.
       4. As **Password**, enter the password of the communication user.
       5. Choose **Create**.
 
@@ -168,7 +168,7 @@ This section explains the setup process for both Basic Authentication and OAuth 
 3. Create a communication arrangement in the target SAP S/4HANA Cloud Public Edition system for the `SAP_COM_0308` communication scenario.
    1. Open the **Communication Arrangements** application and choose **New**.
       1. Enter an **Arrangement Name** of your choice.
-      2. As **Communication System**, set the [communication system](#create-a-communication-system-using-the-communication-systems-application-in-the-target-system) you've created.
+      2. As **Communication System**, set the communication system you've created in previous steps.
       3. Save your changes.
 
       <img src="./images/51_I_Comm_Arran.png" width="75%">
@@ -202,8 +202,8 @@ Adjust the **communication system** to support the OAuth 2.0 authentication meth
 5. Do the following in Users for **Outbound Communication** section:
    1. Choose +
    2. Choose Authentication Method OAuth 2.0
-   3. **Provide OAuth 2.0 Client ID**: Username of communication user created in Step **‘Create a Communication User’**[TEST_SAP_COM_0308_PRA_2](#use-the-maintain-communication-user-application-to-create-a-new-communication-user)
-   4. **Provide Client Secret**: Password of communication user created in Step **‘Create a Communication User’** [TEST_SAP_COM_0308_PRA_2](#use-the-maintain-communication-user-application-to-create-a-new-communication-user)
+   3. **Provide OAuth 2.0 Client ID**: Username of communication user created in previous step **‘Create a Communication User’**
+   4. **Provide Client Secret**: Password of communication user created in previous step **‘Create a Communication User’** 
    5. Choose Create
    6. Choose Save to save the communication system
       <img src="./images/40_outbound_comm_syst_oauth.png" width="75%">
@@ -296,15 +296,15 @@ To determine the business catalogs, which enable your S/4HANA Cloud business use
 
 1.  Prepare the client proxy for outbound communication.
     1. Use the **CL_HTTP_DESTINATION_PROVIDER=>CREATE_BY_COMM_ARRANGEMENT** method with the following parameters to obtain the destination object reference:
-       1. COMM_SCENARIO: Use the [communication scenario created in the outbound setup](#create-a-communication-scenario).
-       2. COMM_SYSTEM_ID: Use the [communication system from the outbound setup](#create-a-communication-system-using-the-communication-systems-application).
-       3. SERVICE_ID: Use the [outbound service](#create-an-outbound-service-with-the-http-service-service-type) you've created.
+       1. COMM_SCENARIO: Use the communication scenario created in the outbound setup.
+       2. COMM_SYSTEM_ID: Use the communication system from the outbound setup.
+       3. SERVICE_ID: Use the outbound service you've created.
     2. Pass the destination object reference obtained above to the **CL_WEB_HTTP_CLIENT_MANAGER=>CREATE_BY_HTTP_DESTINATION** method to instantiate an HTTP client object.
     3. Use the HTTP client object created in the previous step in the **/IWBEP/CL_CP_FACTORY_REMOTE=>CREATE_V2_REMOTE_PROXY** method along with:
        1. IS_PROXY_MODEL_KEY = VALUE #( REPOSITORY_ID = 'DEFAULT' PROXY_MODEL_ID = [service consumption model from step 2] PROXY_MODEL_VERSION = '001')
        1. IO_HTTP_CLIENT: HTTP client object from the previous step.
        1. IV_RELATIVE_SERVICE_ROOT = '/sap/opu/odata/sap/API_ENTERPRISE_PROJECT_SRV;v=0002/'.
-2.  The structure of an enterprise project can be crafted using the [generated class](#set-up-a-service-consumption-model).
+2.  The structure of an enterprise project can be crafted using the class generated during setting up the service consumption model in the [Import SAP S/4HANA Cloud Public Edition OData Services](#import-sap-s4hana-cloud-public-edition-odata-services) section.
 3.  Populate the enterprise project structure with values, then use the action method to perform the creation process.
 4.  Pass the `A_ENTERPRISE_PROJECT` entity to the `CREATE_RESOURCE_FOR_ENTITY_SET` method using the client proxy reference, and subsequently invoke the `CREATE_REQUEST_FOR_CREATE` method to instantiate the request object.
 5.  Use the `CREATE_DATA_DESCRIPTION_NODE` method on the request object created in the previous step to instantiate the data description node object.
