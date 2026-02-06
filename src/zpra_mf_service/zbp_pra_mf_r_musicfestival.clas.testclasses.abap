@@ -2,7 +2,6 @@
 **************************************************************
 *  Local class to test validations in behavior implementations         *
 **************************************************************
-"! @testing BDEF:ZPRA_MF_R_MUSICFESTIVAL
 CLASS ltc_validation_methods DEFINITION FINAL FOR TESTING
   DURATION SHORT
   RISK LEVEL HARMLESS.
@@ -10,8 +9,7 @@ CLASS ltc_validation_methods DEFINITION FINAL FOR TESTING
   PRIVATE SECTION.
     CLASS-DATA:
       class_under_test     TYPE REF TO lhc_zpra_mf_r_musicfestival,               " the class to be tested
-      cds_test_environment TYPE REF TO if_cds_test_environment,  " cds test double framework
-      sql_test_environment TYPE REF TO if_osql_test_environment. " abap sql test double framework
+      cds_test_environment TYPE REF TO if_cds_test_environment.  " cds test double framework
 
     CLASS-METHODS:
       " setup test double framework
@@ -46,22 +44,16 @@ CLASS ltc_validation_methods IMPLEMENTATION.
         ( i_for_entity = 'ZPRA_MF_R_VISITOR' )
         ( i_for_entity = 'ZPRA_MF_R_VISIT' ) ) ).
     cds_test_environment->enable_double_redirection( ).
-    sql_test_environment = cl_osql_test_environment=>create( i_dependency_list = VALUE #(
-        ( 'zpra_mf_d_mf' )
-        ( 'zpra_mf_d_vst' )
-        ( 'zpra_mf_d_vstr' ) ) ).
   ENDMETHOD.
 
   METHOD class_teardown.
     " stop mocking
     cds_test_environment->destroy( ).
-    sql_test_environment->destroy( ).
   ENDMETHOD.
 
   METHOD setup.
     " clear the content of the test double per test
     cds_test_environment->clear_doubles( ).
-    sql_test_environment->clear_doubles( ).
   ENDMETHOD.
 
   METHOD teardown.
@@ -98,9 +90,9 @@ CLASS ltc_validation_methods IMPLEMENTATION.
     ).
 
     " Expect no failures and messages for the valid event date
-    cl_abap_unit_assert=>assert_initial( msg = 'failed' act = failed ).
+    cl_abap_unit_assert=>assert_initial( act = failed ).
     " As it a valid future date, expect the event to be returned
-    cl_abap_unit_assert=>assert_not_initial( msg = 'reported' act = reported ).
+    cl_abap_unit_assert=>assert_not_initial( act = reported ).
 
     CLEAR entity_keys.
 
@@ -118,8 +110,8 @@ CLASS ltc_validation_methods IMPLEMENTATION.
     ).
 
     " Check the validation message for past event date
-    cl_abap_unit_assert=>assert_not_initial( msg = 'Failed' act = failed ).
-    cl_abap_unit_assert=>assert_equals( msg = 'Failed Uuid' act = failed-musicfestival[ 1 ]-Uuid exp = 'DEC190889AC21FE08191A45962D04217' ).
+    cl_abap_unit_assert=>assert_not_initial( act = failed ).
+    cl_abap_unit_assert=>assert_equals( act = failed-musicfestival[ 1 ]-Uuid exp = 'DEC190889AC21FE08191A45962D04217' ).
     cl_abap_unit_assert=>assert_equals( act = reported-musicfestival[ 3 ]-%msg->if_t100_message~t100key
                                         exp = zcm_pra_mf_messages=>event_datetime_invalid ).
 
@@ -157,8 +149,8 @@ CLASS ltc_validation_methods IMPLEMENTATION.
     ).
 
     " Expect no failures and messages
-    cl_abap_unit_assert=>assert_initial( msg = 'failed' act = failed ).
-    cl_abap_unit_assert=>assert_not_initial( msg = 'reported' act = reported ).
+    cl_abap_unit_assert=>assert_initial( act = failed ).
+    cl_abap_unit_assert=>assert_not_initial( act = reported ).
 
     CLEAR entity_keys.
 
@@ -232,8 +224,8 @@ CLASS ltc_validation_methods IMPLEMENTATION.
     ).
 
     " Expect no failures and messages
-    cl_abap_unit_assert=>assert_initial( msg = 'failed' act = failed ).
-    cl_abap_unit_assert=>assert_not_initial( msg = 'reported' act = reported ).
+    cl_abap_unit_assert=>assert_initial( act = failed ).
+    cl_abap_unit_assert=>assert_not_initial( act = reported ).
 
     CLEAR entity_keys.
 
@@ -250,8 +242,8 @@ CLASS ltc_validation_methods IMPLEMENTATION.
         reported = reported
     ).
     " Check the validation message for maximum number of visitors
-    cl_abap_unit_assert=>assert_not_initial( msg = 'failed' act = failed ).
-    cl_abap_unit_assert=>assert_equals( msg = 'Failed Uuid' act = failed-musicfestival[ 1 ]-Uuid exp = 'DEC190889AC21FE08191A45962D04218' ).
+    cl_abap_unit_assert=>assert_not_initial( act = failed ).
+    cl_abap_unit_assert=>assert_equals( act = failed-musicfestival[ 1 ]-Uuid exp = 'DEC190889AC21FE08191A45962D04218' ).
     cl_abap_unit_assert=>assert_equals( act = reported-musicfestival[ 3 ]-%msg->if_t100_message~t100key
                                         exp = zcm_pra_mf_messages=>max_visitors_less_than_booked ).
 
@@ -285,7 +277,6 @@ ENDCLASS.
 **************************************************************
 *  Local class to test actions in behavior implementations   *
 **************************************************************
-"! @testing BDEF:ZPRA_MF_R_MUSICFESTIVAL
 CLASS ltc_action_methods DEFINITION FINAL FOR TESTING
   DURATION SHORT
   RISK LEVEL HARMLESS.
@@ -307,9 +298,12 @@ CLASS ltc_action_methods DEFINITION FINAL FOR TESTING
       " rollback any changes
       teardown,
 
-      publish        FOR TESTING RAISING cx_static_check,
-      cancel         FOR TESTING RAISING cx_static_check,
-      generate_data  FOR TESTING RAISING cx_static_check.
+      publish                       FOR TESTING RAISING cx_static_check,
+      cancel                        FOR TESTING RAISING cx_static_check,
+      create_proj                   FOR TESTING RAISING cx_static_check,
+      create_proj_pos_case1         FOR TESTING RAISING cx_static_check,
+      generate_data                 FOR TESTING RAISING cx_static_check,
+      createWithAIMockAIService     FOR TESTING RAISING cx_static_check.
 
 ENDCLASS.
 
@@ -396,7 +390,7 @@ CLASS ltc_action_methods IMPLEMENTATION.
                                 EXCEPT * )
                             EXCEPT * ).
 
-    cl_abap_unit_assert=>assert_equals( msg = 'Action Publish - Status - Fully Booked' exp = exp act = act_fb ).
+    cl_abap_unit_assert=>assert_equals( exp = exp act = act_fb ).
 
     " additionally check by reading entity state
     READ ENTITY zpra_mf_r_musicfestival
@@ -406,7 +400,7 @@ CLASS ltc_action_methods IMPLEMENTATION.
     act_fb = VALUE #( FOR t IN read_result ( Uuid          = t-Uuid
                                              %param-Status = t-Status ) ).
 
-    cl_abap_unit_assert=>assert_equals( msg = 'Action Publish - Status - Fully Booked - Read result' exp = exp act = act_fb ).
+    cl_abap_unit_assert=>assert_equals( exp = exp act = act_fb ).
 
     CLEAR entity_keys.
 
@@ -437,7 +431,7 @@ CLASS ltc_action_methods IMPLEMENTATION.
                                 EXCEPT * )
                             EXCEPT * ).
 
-    cl_abap_unit_assert=>assert_equals( msg = 'Action Publish - Status - Published' exp = exp_publish act = act_publish ).
+    cl_abap_unit_assert=>assert_equals( exp = exp_publish act = act_publish ).
 
     " additionally check by reading entity state
     READ ENTITY zpra_mf_r_musicfestival
@@ -447,8 +441,106 @@ CLASS ltc_action_methods IMPLEMENTATION.
     act_publish = VALUE #( FOR t IN read_result_publish ( Uuid          = t-Uuid
                                                           %param-Status = t-Status ) ).
 
-    cl_abap_unit_assert=>assert_equals( msg = 'Action Publish - Status - Published - Read result' exp = exp_publish act = act_publish ).
+    cl_abap_unit_assert=>assert_equals( exp = exp_publish act = act_publish ).
 
+
+  ENDMETHOD.
+
+  METHOD create_proj.
+
+    TEST-INJECTION create_project.
+      proj_message = VALUE #( ( type = 'E' id = 'ZPRA_MF_MSG_CLS' number = '009' ) ).
+    END-TEST-INJECTION.
+
+    DATA mock_project TYPE STANDARD TABLE OF zpra_mf_a_mf.
+
+    mock_project = VALUE #( ( uuid = 'DEC190889AC21FE08191A45962D04211' title = 'Event 1' max_visitors_number = 2 free_visitor_seats = 0 status = 'I' )
+                            ( uuid = 'DEC190889AC21FE08191A45962D04212' title = 'Event 2' max_visitors_number = 2 free_visitor_seats = 1 status = 'I' )
+                            ( uuid = 'DEC190889AC21FE08191A45962D04213' title = 'Event 3' max_visitors_number = 4 free_visitor_seats = 0 status = 'F' ) ).
+
+    " insert test data into the cds test doubles
+    cds_test_environment->insert_test_data( i_data = mock_project ).
+
+    " call the method to be tested
+    TYPES: BEGIN OF ty_entity_key,
+             uuid TYPE sysuuid_x16,
+           END OF ty_entity_key.
+
+
+    DATA: result      TYPE TABLE    FOR ACTION RESULT zpra_mf_r_musicfestival\\MusicFestival~CrProj,
+          mapped      TYPE RESPONSE FOR MAPPED EARLY zpra_mf_r_musicfestival,
+          failed      TYPE RESPONSE FOR FAILED EARLY zpra_mf_r_musicfestival,
+          reported    TYPE RESPONSE FOR REPORTED EARLY zpra_mf_r_musicfestival,
+          entity_keys TYPE STANDARD TABLE OF ty_entity_key.
+
+    " specify test entity keys
+    entity_keys = VALUE #( ( uuid = 'DEC190889AC21FE08191A45962D04211' ) ).
+
+    " execute the action
+    class_under_test->createproject(
+      EXPORTING
+        keys     = CORRESPONDING #( entity_keys )
+      CHANGING
+        result   = result
+        mapped   = mapped
+        failed   = failed
+        reported = reported
+    ).
+
+    cl_abap_unit_assert=>assert_not_initial( act = reported ).
+
+  ENDMETHOD.
+
+  METHOD create_proj_pos_case1.
+
+    TEST-INJECTION create_project.
+      project_details-project = 'EVENT1'.
+    END-TEST-INJECTION.
+
+    DATA mock_project TYPE STANDARD TABLE OF zpra_mf_a_mf.
+
+    mock_project = VALUE #( ( uuid = 'DEC190889AC21FE08191A45962D04211' title = 'Event 1' max_visitors_number = 2 free_visitor_seats = 0 status = 'I' )
+                            ( uuid = 'DEC190889AC21FE08191A45962D04212' title = 'Event 2' max_visitors_number = 2 free_visitor_seats = 1 status = 'I' )
+                            ( uuid = 'DEC190889AC21FE08191A45962D04213' title = 'Event 3' max_visitors_number = 4 free_visitor_seats = 0 status = 'F' ) ).
+
+    " insert test data into the cds test doubles
+    cds_test_environment->insert_test_data( i_data = mock_project ).
+
+    " call the method to be tested
+    TYPES: BEGIN OF ty_entity_key,
+             uuid TYPE sysuuid_x16,
+           END OF ty_entity_key.
+
+    DATA: result      TYPE TABLE    FOR ACTION RESULT zpra_mf_r_musicfestival\\MusicFestival~CrProj,
+          mapped      TYPE RESPONSE FOR MAPPED EARLY zpra_mf_r_musicfestival,
+          failed      TYPE RESPONSE FOR FAILED EARLY zpra_mf_r_musicfestival,
+          reported    TYPE RESPONSE FOR REPORTED EARLY zpra_mf_r_musicfestival,
+          entity_keys TYPE STANDARD TABLE OF ty_entity_key.
+
+    CLEAR entity_keys.
+
+    " specify test entity keys
+    entity_keys = VALUE #( (  uuid = 'DEC190889AC21FE08191A45962D04212' ) ).
+
+    " execute the action
+    class_under_test->createproject(
+      EXPORTING
+        keys     = CORRESPONDING #( entity_keys )
+      CHANGING
+        result   = result
+        mapped   = mapped
+        failed   = failed
+        reported = reported
+    ).
+
+    cl_abap_unit_assert=>assert_initial( act = reported ).
+
+    READ ENTITY zpra_mf_r_musicfestival
+    FIELDS ( project_id ) WITH CORRESPONDING #( entity_keys )
+    RESULT DATA(read_result).
+
+    CHECK read_result IS NOT INITIAL.
+    cl_abap_unit_assert=>assert_equals( exp = 'MF_EVENT1' act = read_result[ 1 ]-project_id ).
 
   ENDMETHOD.
 
@@ -501,7 +593,7 @@ CLASS ltc_action_methods IMPLEMENTATION.
                                 EXCEPT * )
                             EXCEPT * ).
 
-    cl_abap_unit_assert=>assert_equals( msg = 'Action Cancel - Status - Cancel' exp = exp act = act ).
+    cl_abap_unit_assert=>assert_equals( exp = exp act = act ).
 
     " additionally check by reading entity state
     READ ENTITY zpra_mf_r_musicfestival
@@ -511,36 +603,89 @@ CLASS ltc_action_methods IMPLEMENTATION.
     act = VALUE #( FOR t IN read_result ( Uuid          = t-Uuid
                                           %param-Status = t-Status ) ).
 
-    cl_abap_unit_assert=>assert_equals( msg = 'Action Cancel - Status - Cancel - Read result' exp = exp act = act ).
+    cl_abap_unit_assert=>assert_equals( exp = exp act = act ).
 
   ENDMETHOD.
 
   METHOD generate_data.
 
- TYPES: BEGIN OF ty_entity_key,
+    TYPES: BEGIN OF ty_entity_key,
              uuid TYPE sysuuid_x16,
            END OF ty_entity_key.
 
 
-    DATA: entity_keys TYPE STANDARD TABLE OF ty_entity_key,
-          lt_action  TYPE TABLE FOR ACTION IMPORT ZPRA_MF_R_MusicFestival~generateSampleData.
+    DATA: entity_keys                 TYPE STANDARD TABLE OF ty_entity_key,
+          generate_sample_data_action TYPE TABLE FOR ACTION IMPORT ZPRA_MF_R_MusicFestival~generateSampleData.
 
-  lt_action = VALUE #( ( %cid = 'Root1' ) ).
-  entity_keys = VALUE #( (  uuid = 'DEC190889AC21FE08191A45962D04211' ) ).
-
-
-  MODIFY ENTITY zpra_mf_r_musicfestival
-    EXECUTE generatesampledata FROM lt_action
-    MAPPED   DATA(mapped_generate_sample_data)
-    FAILED   DATA(failed_generate_sample_data)
-    REPORTED DATA(reported_generate_sample_data).
+    generate_sample_data_action = VALUE #( ( %cid = 'Root1' ) ).
+    entity_keys = VALUE #( (  uuid = 'DEC190889AC21FE08191A45962D04211' ) ).
 
 
-    DATA(lv_visitor_count) = lines( mapped_generate_sample_data-visits ).
-    DATA(lv_music_fest_count) = lines( mapped_generate_sample_data-musicfestival ).
+    MODIFY ENTITY zpra_mf_r_musicfestival
+      EXECUTE generatesampledata FROM generate_sample_data_action
+      MAPPED   DATA(mapped_generate_sample_data)
+      FAILED   DATA(failed_generate_sample_data)
+      REPORTED DATA(reported_generate_sample_data).
+
+
+    DATA(visitor_count) = lines( mapped_generate_sample_data-visits ).
+    DATA(music_festival_count) = lines( mapped_generate_sample_data-musicfestival ).
 *
-    cl_abap_unit_assert=>assert_equals( msg = 'Action Generate Sample Data - Visitor count'  exp = 8  act = lv_visitor_count ).
-    cl_abap_unit_assert=>assert_equals( msg = 'Action Generate Sample Data - Music Festival count'  exp = 5  act = lv_music_fest_count ).
+    cl_abap_unit_assert=>assert_equals( exp = 8 act = visitor_count ).
+    cl_abap_unit_assert=>assert_equals( exp = 5 act = music_festival_count ).
+  ENDMETHOD.
+
+  METHOD createWithAIMockAIService.
+
+    DATA lo_gen_ai_util_double TYPE REF TO zif_pra_mf_gen_ai_util.
+
+    lo_gen_ai_util_double ?= cl_abap_testdouble=>create( 'zif_pra_mf_gen_ai_util' ).
+
+    cl_abap_testdouble=>configure_call( lo_gen_ai_util_double )->returning( VALUE zif_pra_mf_gen_ai_util=>llm_response_structure( title       = 'Tango Tales Buenos Aires'
+                                                                                                                                  description = 'Experience the passionate and intricate world of Argentine Tango.' )
+                                                              )->ignore_all_parameters(
+                                                              )->and_expect(  )->is_called_once(  ).
+
+    lo_gen_ai_util_double->generate_music_festival_data(
+      EXPORTING
+        language        = 'EN'
+        tags            = 'rock, outdoor'
+        rhyme_indicator = abap_true
+    ).
+
+    class_under_test->ai_service = lo_gen_ai_util_double.
+
+    DATA: keys     TYPE TABLE FOR ACTION IMPORT zpra_mf_r_musicfestival\\musicfestival~createwithai,
+          mapped   TYPE RESPONSE FOR MAPPED EARLY zpra_mf_r_musicfestival,
+          failed   TYPE RESPONSE FOR FAILED EARLY zpra_mf_r_musicfestival,
+          reported TYPE RESPONSE FOR REPORTED EARLY zpra_mf_r_musicfestival.
+
+    keys = VALUE #( ( %cid   = '%SADL_FACTORY_ACTION_INDEX_CID__1'
+                      %param = VALUE #( %is_draft = '01'
+                                        language  = 'EN'
+                                        tags      = 'rock, outdoor'
+                                        rhyme     = 'X'
+                                        %control  = VALUE #( language = '01'
+                                                             tags     = '01'
+                                                             rhyme    = '01' ) ) ) ).
+
+    class_under_test->createwithai(
+      EXPORTING
+        keys     = keys
+      CHANGING
+        mapped   = mapped
+        failed   = failed
+        reported = reported
+    ).
+
+    READ ENTITY zpra_mf_r_musicfestival
+        FIELDS ( Title Description ) WITH CORRESPONDING #( mapped-musicfestival )
+        RESULT DATA(music_festival_events).
+
+    cl_abap_unit_assert=>assert_equals( exp = |Tango Tales Buenos Aires|
+                                        act = music_festival_events[ 1 ]-title ).
+    cl_abap_unit_assert=>assert_true( act = xsdbool( music_festival_events[ 1 ]-description CS |Experience the passionate and intricate world of Argentine Tango.| ) ).
+
   ENDMETHOD.
 
 ENDCLASS.
@@ -548,7 +693,6 @@ ENDCLASS.
 **************************************************************
 *  Local class to test determinations in behavior implementations   *
 **************************************************************
-"! @testing BDEF:ZPRA_MF_R_MUSICFESTIVAL
 CLASS ltcl_determination_methods DEFINITION FINAL FOR TESTING
   DURATION SHORT
   RISK LEVEL HARMLESS.
@@ -556,8 +700,7 @@ CLASS ltcl_determination_methods DEFINITION FINAL FOR TESTING
   PRIVATE SECTION.
     CLASS-DATA:
       class_under_test     TYPE REF TO lhc_zpra_mf_r_musicfestival,               " the class to be tested
-      cds_test_environment TYPE REF TO if_cds_test_environment,  " cds test double framework
-      sql_test_environment TYPE REF TO if_osql_test_environment. " abap sql test double framework
+      cds_test_environment TYPE REF TO if_cds_test_environment.  " cds test double framework
 
     CLASS-METHODS:
       " setup test double framework
@@ -590,23 +733,16 @@ CLASS ltcl_determination_methods IMPLEMENTATION.
         ( i_for_entity = 'ZPRA_MF_R_VISITOR' )
         ( i_for_entity = 'ZPRA_MF_R_VISIT' ) ) ).
     cds_test_environment->enable_double_redirection( ).
-    sql_test_environment = cl_osql_test_environment=>create( i_dependency_list = VALUE #(
-        ( 'zpra_mf_d_mf' )
-        ( 'zpra_mf_d_vst' )
-        ( 'zpra_mf_d_vstr' ) ) ).
-
   ENDMETHOD.
 
   METHOD class_teardown.
     " stop mocking
     cds_test_environment->destroy( ).
-    sql_test_environment->destroy( ).
   ENDMETHOD.
 
   METHOD setup.
     " clear the content of the test double per test
     cds_test_environment->clear_doubles( ).
-    sql_test_environment->clear_doubles( ).
   ENDMETHOD.
 
   METHOD teardown.
@@ -645,27 +781,27 @@ CLASS ltcl_determination_methods IMPLEMENTATION.
         reported = reported
     ).
 
-    cl_abap_unit_assert=>assert_initial( msg = 'reported' act = reported ).
+    cl_abap_unit_assert=>assert_initial( act = reported ).
 
     " additionally check by reading entity state
     READ ENTITY zpra_mf_r_musicfestival
     FIELDS ( Uuid Status ) WITH CORRESPONDING #( entity_keys )
-    RESULT DATA(lt_read_status).
+    RESULT DATA(music_festival_status).
 
 
     " expect input keys and output keys to be same and Status
-    DATA exp_inprogress LIKE lt_read_status.
+    DATA exp_inprogress LIKE music_festival_status.
     exp_inprogress = VALUE #(  ( Uuid = 'DEC190889AC21FE08191A45962D04211' Status = 'I' ) ).
 
 
     " current result; copy only fields of interest - i.e. Uuid and Status
-    DATA act_inprogress LIKE lt_read_status.
+    DATA act_inprogress LIKE music_festival_status.
 
-    act_inprogress = CORRESPONDING #( lt_read_status MAPPING Uuid = Uuid
+    act_inprogress = CORRESPONDING #( music_festival_status MAPPING Uuid = Uuid
                                  Status      = Status
                                 EXCEPT * ).
 
-    cl_abap_unit_assert=>assert_equals( msg = 'Status Determination - Status - In Progress' exp = exp_inprogress act = act_inprogress ).
+    cl_abap_unit_assert=>assert_equals( exp = exp_inprogress act = act_inprogress ).
 
   ENDMETHOD.
 
@@ -675,11 +811,11 @@ CLASS ltcl_determination_methods IMPLEMENTATION.
              uuid TYPE sysuuid_x16,
            END OF ty_entity_key.
 
-    DATA: reported             TYPE RESPONSE FOR REPORTED  zpra_mf_r_musicfestival,
-          failed               TYPE RESPONSE FOR FAILED  zpra_mf_r_musicfestival,
-          mapped               TYPE RESPONSE FOR MAPPED  zpra_mf_r_musicfestival,
-          lt_music_festival TYPE TABLE FOR READ RESULT  zpra_mf_r_musicfestival,
-          entity_keys          TYPE STANDARD TABLE OF ty_entity_key.
+    DATA: reported        TYPE RESPONSE FOR REPORTED  zpra_mf_r_musicfestival,
+          failed          TYPE RESPONSE FOR FAILED  zpra_mf_r_musicfestival,
+          mapped          TYPE RESPONSE FOR MAPPED  zpra_mf_r_musicfestival,
+          music_festivals TYPE TABLE FOR READ RESULT  zpra_mf_r_musicfestival,
+          entity_keys     TYPE STANDARD TABLE OF ty_entity_key.
 
     MODIFY ENTITIES OF zpra_mf_r_musicfestival
      ENTITY MusicFestival
@@ -705,25 +841,24 @@ CLASS ltcl_determination_methods IMPLEMENTATION.
         REPORTED reported.
 
 
-    LOOP AT mapped-musicfestival ASSIGNING FIELD-SYMBOL(<fs_mapped>).
-      entity_keys = VALUE #( (  uuid =  <fs_mapped>-uuid ) ).
+    LOOP AT mapped-musicfestival ASSIGNING FIELD-SYMBOL(<music_festival_mapped>).
+      entity_keys = VALUE #( (  uuid =  <music_festival_mapped>-uuid ) ).
 
       READ ENTITIES OF zpra_mf_r_musicfestival IN LOCAL MODE
       ENTITY MusicFestival
       FIELDS ( FreeVisitorSeats )
       WITH CORRESPONDING #( entity_keys )
-      RESULT lt_music_festival.
+      RESULT music_festivals.
     ENDLOOP.
-    READ TABLE lt_music_festival ASSIGNING FIELD-SYMBOL(<ls_music_festival>) INDEX 1.
-    cl_abap_unit_assert=>assert_equals( msg = 'Free Seats calculated for an event' exp = 1 act = <ls_music_festival>-FreeVisitorSeats ).
+    READ TABLE music_festivals ASSIGNING FIELD-SYMBOL(<music_festival>) INDEX 1.
+    cl_abap_unit_assert=>assert_equals( exp = 1 act = <music_festival>-FreeVisitorSeats ).
   ENDMETHOD.
 
 
 ENDCLASS.
 **************************************************************
-*  Local class to test validations in behavior implementations         *
+*  Local class to test authorizations in behavior implementations         *
 **************************************************************
-"! @testing BDEF:ZPRA_MF_R_MUSICFESTIVAL
 CLASS ltc_authorization_methods DEFINITION FINAL FOR TESTING
   DURATION SHORT
   RISK LEVEL HARMLESS.
@@ -745,14 +880,14 @@ CLASS ltc_authorization_methods DEFINITION FINAL FOR TESTING
       setup,
       " roll back any changes
       teardown,
-      get_global_authorizations FOR TESTING,
+      get_global_authorizations   FOR TESTING,
       get_instance_authorizations FOR TESTING.
 
-    TYPES s_reported_early TYPE RESPONSE FOR REPORTED EARLY ZPRA_MF_R_MusicFestival.
-    TYPES s_failed_early TYPE RESPONSE FOR FAILED EARLY ZPRA_MF_R_MusicFestival.
+    TYPES reported_early TYPE RESPONSE FOR REPORTED EARLY ZPRA_MF_R_MusicFestival.
+    TYPES failed_early TYPE RESPONSE FOR FAILED EARLY ZPRA_MF_R_MusicFestival.
 
-    DATA : ms_reported_early TYPE s_reported_early.
-    DATA : ms_failed_early   TYPE s_failed_early.
+    DATA : ms_reported_early TYPE reported_early.
+    DATA : ms_failed_early   TYPE failed_early.
 ENDCLASS.
 
 
@@ -766,9 +901,15 @@ CLASS ltc_authorization_methods IMPLEMENTATION.
     " Create test doubles for database dependencies
     " The EML READ operation will then also access the test doubles
     cds_test_environment = cl_cds_test_environment=>create_for_multiple_cds( i_for_entities = VALUE #(
-        ( i_for_entity = 'ZPRA_MF_R_MUSICFESTIVAL' )
-        ( i_for_entity = 'ZPRA_MF_R_VISITOR' )
-        ( i_for_entity = 'ZPRA_MF_R_VISIT' ) ) ).
+        ( i_for_entity               = 'ZPRA_MF_R_MUSICFESTIVAL'
+          i_select_base_dependencies = abap_true
+          i_dependency_list          = VALUE #( ( 'ZPRA_MF_A_MF' ) ) )
+        ( i_for_entity               = 'ZPRA_MF_R_VISITOR'
+          i_select_base_dependencies = abap_true
+          i_dependency_list          = VALUE #( ( 'ZPRA_MF_A_VSTR' ) ) )
+        ( i_for_entity               = 'ZPRA_MF_R_VISIT'
+          i_select_base_dependencies = abap_true
+          i_dependency_list          = VALUE #( ( 'ZPRA_MF_A_VST' ) ) ) ) ).
     cds_test_environment->enable_double_redirection( ).
     sql_test_environment = cl_osql_test_environment=>create( i_dependency_list = VALUE #(
         ( 'zpra_mf_d_mf' )
@@ -794,41 +935,87 @@ CLASS ltc_authorization_methods IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD get_global_authorizations.
-    DATA ls_requested_authorizations TYPE STRUCTURE FOR GLOBAL AUTHORIZATION REQUEST ZPRA_MF_R_MusicFestival\\MusicFestival.
-    DATA lt_result TYPE STRUCTURE FOR GLOBAL AUTHORIZATION RESULT ZPRA_MF_R_MusicFestival\\MusicFestival.
+    DATA requested_authorizations TYPE STRUCTURE FOR GLOBAL AUTHORIZATION REQUEST ZPRA_MF_R_MusicFestival\\MusicFestival.
+    DATA result TYPE STRUCTURE FOR GLOBAL AUTHORIZATION RESULT ZPRA_MF_R_MusicFestival\\MusicFestival.
 
-    ls_requested_authorizations-%delete = if_abap_behv=>mk-on.
+    requested_authorizations-%delete = if_abap_behv=>mk-on.
 
     class_under_test->get_global_authorizations(
-        EXPORTING
-            requested_authorizations = ls_requested_authorizations
-        CHANGING
-            result   = lt_result
-            reported = ms_reported_early ).
+      EXPORTING
+        requested_authorizations = requested_authorizations
+      CHANGING
+        result                   = result
+        reported                 = ms_reported_early ).
+    cl_abap_unit_assert=>assert_equals( EXPORTING act = result-%delete
+                                                  exp = if_abap_behv=>auth-allowed ).
 
+    requested_authorizations-%create = if_abap_behv=>mk-on.
+
+    class_under_test->get_global_authorizations(
+      EXPORTING
+        requested_authorizations = requested_authorizations
+      CHANGING
+        result                   = result
+        reported                 = ms_reported_early ).
+    cl_abap_unit_assert=>assert_equals( EXPORTING act = result-%create
+                                                  exp = if_abap_behv=>auth-allowed ).
+
+    requested_authorizations-%update = if_abap_behv=>mk-on.
+
+    class_under_test->get_global_authorizations(
+      EXPORTING
+        requested_authorizations = requested_authorizations
+      CHANGING
+        result                   = result
+        reported                 = ms_reported_early ).
+    cl_abap_unit_assert=>assert_equals( EXPORTING act = result-%update
+                                                  exp = if_abap_behv=>auth-allowed ).
   ENDMETHOD.
 
   METHOD get_instance_authorizations.
 
 
-    DATA lt_entity_keys TYPE TABLE FOR AUTHORIZATION KEY ZPRA_MF_R_MusicFestival\\MusicFestival.
-    DATA ls_requested_authorizations TYPE STRUCTURE FOR AUTHORIZATION REQUEST ZPRA_MF_R_MusicFestival\\MusicFestival.
-    DATA lt_result TYPE TABLE FOR AUTHORIZATION RESULT ZPRA_MF_R_MusicFestival\\MusicFestival.
+    DATA entity_keys TYPE TABLE FOR AUTHORIZATION KEY ZPRA_MF_R_MusicFestival\\MusicFestival.
+    DATA requested_authorizations TYPE STRUCTURE FOR AUTHORIZATION REQUEST ZPRA_MF_R_MusicFestival\\MusicFestival.
+    DATA result TYPE TABLE FOR AUTHORIZATION RESULT ZPRA_MF_R_MusicFestival\\MusicFestival.
+    " Define mock visitor data with a known UUID
+    DATA mf_data      TYPE STANDARD TABLE OF zpra_mf_a_mf.
+    DATA visitor_data TYPE STANDARD TABLE OF zpra_mf_a_vstr.
 
-    " specify test entity keys
-    lt_entity_keys = VALUE #( (  uuid = 'DEC190889AC21FE08191A45962D04218' ) ).
+    DATA(mock_uuid) = '5E832E34B1891FE0A8D34000F0477ECB'.
+    APPEND VALUE #( uuid = mock_uuid ) TO mf_data.
+    cds_test_environment->insert_test_data( i_data = mf_data ).
 
-    lt_result = VALUE #( (  uuid = 'DEC190889AC21FE08191A45962D04218'  ) ).
+    entity_keys = VALUE #( (  uuid = mock_uuid ) ).
+
+    mock_uuid = '3A959FF37AC81FE0A3DF859190FA47DB'.
+    APPEND VALUE #( uuid = mock_uuid ) TO visitor_data.
+    cds_test_environment->insert_test_data( i_data = visitor_data ).
+
+    requested_authorizations-%update = if_abap_behv=>mk-on.
 
     class_under_test->get_instance_authorizations(
       EXPORTING
-        keys                     = lt_entity_keys
-        requested_authorizations = ls_requested_authorizations
+        keys                     = entity_keys
+        requested_authorizations = requested_authorizations
       CHANGING
-        result                   = lt_result
+        result                   = result
         failed                   = ms_failed_early
         reported                 = ms_reported_early
     ).
+    cl_abap_unit_assert=>assert_initial( result ).
+
+    requested_authorizations-%update = if_abap_behv=>mk-off.
+    class_under_test->get_instance_authorizations(
+      EXPORTING
+        keys                     = entity_keys
+        requested_authorizations = requested_authorizations
+      CHANGING
+        result                   = result
+        failed                   = ms_failed_early
+        reported                 = ms_reported_early
+    ).
+    cl_abap_unit_assert=>assert_initial( result ).
   ENDMETHOD.
 
 ENDCLASS.

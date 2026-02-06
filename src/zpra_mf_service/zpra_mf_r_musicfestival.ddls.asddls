@@ -3,7 +3,8 @@
 @EndUserText.label: '###GENERATED Core Data Service Entity'
 @ObjectModel.sapObjectNodeType.name: 'ZPRA_MF_A_MF'
 /*+[hideWarning] { "IDS" : [ "CARDINALITY_CHECK" ]  } */
-define root view entity ZPRA_MF_R_MusicFestival
+
+define root view entity ZPRA_MF_R_MUSICFESTIVAL
   as select from zpra_mf_a_mf as MusicFestival
   composition [0..*] of ZPRA_MF_R_VISIT                   as _Visits
   association [1..1] to ZPRA_MF_I_Music_Fest_Status_VH as _Status on $projection.Status = _Status.Value

@@ -1,4 +1,6 @@
-CLASS LHC_ZPRA_MF_R_VISITOR DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR_HANDLER.
+CLASS ltc_authorization_methods DEFINITION DEFERRED FOR TESTING.
+CLASS LHC_ZPRA_MF_R_VISITOR DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR_HANDLER
+FRIENDS ltc_authorization_methods.
   PRIVATE SECTION.
     METHODS:
       GET_GLOBAL_AUTHORIZATIONS FOR GLOBAL AUTHORIZATION
@@ -39,7 +41,7 @@ IF requested_authorizations-%create EQ if_abap_behv=>mk-on.
   METHOD get_instance_authorizations.
         DATA: update_requested TYPE abap_bool.
 
-        READ ENTITIES OF ZPRA_MF_R_Visitor  IN LOCAL MODE
+        READ ENTITIES OF ZPRA_MF_R_Visitor IN LOCAL MODE
         ENTITY Visitor
         FIELDS ( Uuid ) WITH CORRESPONDING #( keys )
         RESULT DATA(visits)

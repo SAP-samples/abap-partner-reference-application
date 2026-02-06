@@ -16,28 +16,30 @@ ENDCLASS.
 
 CLASS zcl_pra_mf_calc_visit_elements IMPLEMENTATION.
 
+
   METHOD if_sadl_exit_calc_element_read~calculate.
 
     DATA visits TYPE STANDARD TABLE OF zpra_mf_c_visittp WITH DEFAULT KEY.
     visits = CORRESPONDING #( it_original_data ).
 
-    LOOP AT it_requested_calc_elements REFERENCE INTO DATA(req_calc_elements).
+    LOOP AT visits REFERENCE INTO DATA(visit).
+      LOOP AT it_requested_calc_elements REFERENCE INTO DATA(req_calc_elements).
 
-      CASE req_calc_elements->*.
+        CASE req_calc_elements->*.
 
-        WHEN 'STATUSCRITICALITY'.
+          WHEN 'STATUSCRITICALITY'.
 
-          LOOP AT visits REFERENCE INTO DATA(visit).
             visit->StatusCriticality = zcl_pra_mf_calc_visit_elements=>calculate_status_criticality( visit->status ).
-          ENDLOOP.
 
-      ENDCASE.
 
+        ENDCASE.
+      ENDLOOP.
     ENDLOOP.
 
     ct_calculated_data = CORRESPONDING #( visits ).
 
   ENDMETHOD.
+
 
   METHOD if_sadl_exit_calc_element_read~get_calculation_info.
 
@@ -51,6 +53,7 @@ CLASS zcl_pra_mf_calc_visit_elements IMPLEMENTATION.
     ENDIF.
 
   ENDMETHOD.
+
 
   METHOD calculate_status_criticality.
 
@@ -66,5 +69,4 @@ CLASS zcl_pra_mf_calc_visit_elements IMPLEMENTATION.
     ENDCASE.
 
   ENDMETHOD.
-
 ENDCLASS.

@@ -1,15 +1,16 @@
-class ZBP_PRA_MF_R_MUSICFESTIVAL definition
-  public
-  abstract
-  final
-  for behavior of ZPRA_MF_R_MUSICFESTIVAL .
+CLASS zbp_pra_mf_r_musicfestival DEFINITION
+  PUBLIC
+  ABSTRACT
+  FINAL
+  FOR BEHAVIOR OF zpra_mf_r_musicfestival .
 
-public section.
-protected section.
-private section.
+  PUBLIC SECTION.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
 ENDCLASS.
 
 
 
 CLASS ZBP_PRA_MF_R_MUSICFESTIVAL IMPLEMENTATION.
+
 ENDCLASS.

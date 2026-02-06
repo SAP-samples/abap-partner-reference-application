@@ -17,7 +17,7 @@ CLASS zcl_pra_mf_fetch_proj IMPLEMENTATION.
 
   METHOD if_rap_query_provider~select.
 
-    TYPES : BEGIN OF lty_data,
+    TYPES : BEGIN OF project_details,
               Projectid   TYPE c LENGTH 24,
               ProjectName TYPE c LENGTH 40,
               StartDate   TYPE c LENGTH 8,
@@ -25,49 +25,49 @@ CLASS zcl_pra_mf_fetch_proj IMPLEMENTATION.
               CostCenter  TYPE c LENGTH 10,
               Status      TYPE c LENGTH 10,
               Nav         TYPE c LENGTH 120,
-            END OF lty_data.
+            END OF project_details.
 
-    TYPES : BEGIN OF lty_range,
+    TYPES : BEGIN OF range,
               sign   TYPE c LENGTH 1,
               option TYPE c LENGTH 2,
               low    TYPE c LENGTH 24,
               high   TYPE c LENGTH 24,
-            END OF lty_range,
-            ltt_range TYPE STANDARD TABLE OF lty_range WITH EMPTY KEY.
+            END OF range,
+            ranges TYPE STANDARD TABLE OF range WITH EMPTY KEY.
 
     DATA:
-      lo_http_client  TYPE REF TO if_web_http_client,
-      lo_client_proxy TYPE REF TO /iwbep/if_cp_client_proxy,
-      lt_data         TYPE TABLE OF zcl_pra_mf_scm_ent_proj=>tys_a_enterprise_project_type,
-      lt_data1        TYPE TABLE OF lty_data,
-      lo_request      TYPE REF TO /iwbep/if_cp_request_read_list,
-      lr_cscn         TYPE if_com_scenario_factory=>ty_query-cscn_id_range.
+      http_client        TYPE REF TO if_web_http_client,
+      client_proxy       TYPE REF TO /iwbep/if_cp_client_proxy,
+      s4_project_details TYPE TABLE OF zcl_pra_mf_scm_ent_proj=>tys_a_enterprise_project_type,
+      project_details    TYPE TABLE OF project_details,
+      request            TYPE REF TO /iwbep/if_cp_request_read_list,
+      ca_range           TYPE if_com_scenario_factory=>ty_query-cscn_id_range.
 
-    CONSTANTS : lc_project TYPE string VALUE 'ui#EnterpriseProject-planProject?EnterpriseProject='.
+    CONSTANTS : project_constant TYPE string VALUE 'ui#EnterpriseProject-planProject?EnterpriseProject='.
 
-    CLEAR : lr_cscn.
+    CLEAR : ca_range .
     " find Communication Arrangement by scenario ID
-    lr_cscn = VALUE #( ( sign = 'I' option = 'EQ' low = 'ZPRA_MF_CS_ENT_PROJ' ) ).
+    ca_range  = VALUE #( ( sign = 'I' option = 'EQ' low = 'ZPRA_MF_CS_ENT_PROJ' ) ).
 
-    DATA(lo_factory) = cl_com_arrangement_factory=>create_instance( ).lo_factory->query_ca(
+    DATA(factory) = cl_com_arrangement_factory=>create_instance( ).factory->query_ca(
   EXPORTING
-    is_query = VALUE #( cscn_id_range = lr_cscn )
+    is_query = VALUE #( cscn_id_range = ca_range  )
   IMPORTING
-    et_com_arrangement = DATA(lt_ca) ).
+    et_com_arrangement = DATA(comm_arrang) ).
 
-    IF lt_ca IS INITIAL.
-      io_response->set_data( it_data = lt_data1 ).
+    IF comm_arrang IS INITIAL.
+      io_response->set_data( it_data = project_details ).
       io_response->set_total_number_of_records( 0 ).
-      EXIT.
+      RETURN.
     ELSE.
-      READ TABLE lt_ca ASSIGNING FIELD-SYMBOL(<fs_ca>) INDEX 1.
+      READ TABLE comm_arrang ASSIGNING FIELD-SYMBOL(<fs_ca>) INDEX 1.
       IF sy-subrc EQ 0.
-        DATA(lt_inb_services)  = <fs_ca>->get_inbound_services( ).
-        DATA(lt_outb_services) = <fs_ca>->get_outbound_services( ).
+        DATA(inb_services)  = <fs_ca>->get_inbound_services( ).
+        DATA(outb_services) = <fs_ca>->get_outbound_services( ).
 
-        IF lt_outb_services IS NOT INITIAL.
-          DATA(lv_url) = lt_outb_services[ 1 ]-url.
-          lv_url = lv_url && lc_project.
+        IF outb_services IS NOT INITIAL.
+          DATA(url) = outb_services[ 1 ]-url.
+          url = url && project_constant.
         ENDIF.
       ENDIF.
 
@@ -75,67 +75,87 @@ CLASS zcl_pra_mf_fetch_proj IMPLEMENTATION.
 
     TRY.
         "  Get the destination of remote system; Create http client
-        DATA(lo_destination) = cl_http_destination_provider=>create_by_comm_arrangement(
+        DATA(destination) = cl_http_destination_provider=>create_by_comm_arrangement(
                                                     comm_scenario  = 'ZPRA_MF_CS_ENT_PROJ'
                                                     comm_system_id = 'TEST_SAP_COM_0308_PRA_2'
                                                      service_id     = 'ZPRA_MF_OUT_ENT_PROJ_REST'
     ).
-        lo_http_client = cl_web_http_client_manager=>create_by_http_destination( lo_destination ).
 
-        "create client proxy
-        lo_client_proxy = /iwbep/cl_cp_factory_remote=>create_v2_remote_proxy(
-          EXPORTING is_proxy_model_key       = VALUE #( repository_id       = 'DEFAULT'
-                                                        proxy_model_id      = 'ZCL_PRA_MF_SCM_ENT_PROJ'
-                                                        proxy_model_version = '001' )
-                    io_http_client             = lo_http_client
-                    iv_relative_service_root   = '/sap/opu/odata/sap/API_ENTERPRISE_PROJECT_SRV;v=0002/'  " = the service endpoint in the service binding in PRV' ).
-                    ).
 
-      CATCH cx_http_dest_provider_error INTO DATA(lx_prov_error).
-        MESSAGE e009(zpra_mf_msg_cls) INTO DATA(lv_msg).
-      CATCH /iwbep/cx_gateway INTO DATA(lx_cx_gateway).
-        MESSAGE e009(zpra_mf_msg_cls) INTO lv_msg.
-      CATCH cx_web_http_client_error INTO DATA(lx_http_client).
-        MESSAGE e009(zpra_mf_msg_cls) INTO lv_msg.
+        IF destination IS BOUND.
+
+          http_client = cl_web_http_client_manager=>create_by_http_destination( destination ).
+
+          IF http_client IS BOUND.
+            "create client proxy
+            client_proxy = /iwbep/cl_cp_factory_remote=>create_v2_remote_proxy(
+              EXPORTING is_proxy_model_key       = VALUE #( repository_id       = 'DEFAULT'
+                                                            proxy_model_id      = 'ZCL_PRA_MF_SCM_ENT_PROJ'
+                                                            proxy_model_version = '001' )
+                        io_http_client             = http_client
+                        iv_relative_service_root   = '/sap/opu/odata/sap/API_ENTERPRISE_PROJECT_SRV;v=0002/'  " = the service endpoint in the service binding in PRV' ).
+                        ).
+
+          ENDIF.
+        ENDIF.
+
+      CATCH cx_http_dest_provider_error INTO DATA(provider_error).
+        MESSAGE e009(zpra_mf_msg_cls) INTO DATA(message).
+      CATCH /iwbep/cx_gateway INTO DATA(gateway_error).
+        MESSAGE e009(zpra_mf_msg_cls) INTO message.
+      CATCH cx_web_http_client_error INTO DATA(http_client_error).
+        MESSAGE e009(zpra_mf_msg_cls) INTO message.
     ENDTRY.
 
     TRY.
-        lo_request = lo_client_proxy->create_resource_for_entity_set( 'A_ENTERPRISE_PROJECT' )->create_request_for_read( ).
+        IF client_proxy IS BOUND.
+          request = client_proxy->create_resource_for_entity_set( 'A_ENTERPRISE_PROJECT' )->create_request_for_read( ).
 
-        lo_request->set_filter(
-                  io_filter_node = lo_request->create_filter_factory( )->create_by_range(
-                    iv_property_path = 'PROJECT'
-                    it_range         = VALUE ltt_range( ( sign = 'I' option = 'CP' low = 'MF_*' high = '' ) )
-                  )
-                ).
+          DATA(filters) = io_request->get_filter(  ).
 
-        lo_request->execute( ).
+          IF filters IS NOT BOUND.
+            RETURN.
+          ENDIF.
 
+          TRY.
+              DATA(ranges) = filters->get_as_ranges(  ).
+            CATCH cx_rap_query_filter_no_range INTO DATA(range_error).
+              RETURN.
+          ENDTRY.
 
-        DATA(lo_response) = lo_request->get_response( ).
+          request->set_filter(
+                    io_filter_node = request->create_filter_factory( )->create_by_range(
+                      iv_property_path = 'PROJECT'
+                      it_range         = ranges[ 1 ]-range ) ).
 
-        lo_response->get_business_data( IMPORTING et_business_data = lt_data ).
+          TEST-SEAM execute_request.
+            request->execute( ).
 
-      CATCH /iwbep/cx_cp_remote INTO DATA(lx_remote).
-        MESSAGE e009(zpra_mf_msg_cls) INTO lv_msg.
-      CATCH /iwbep/cx_gateway INTO DATA(lo_exception).
-        MESSAGE e009(zpra_mf_msg_cls) INTO lv_msg.
+            DATA(response) = request->get_response( ).
+
+            response->get_business_data( IMPORTING et_business_data = s4_project_details ).
+          END-TEST-SEAM.
+
+        ENDIF.
+      CATCH /iwbep/cx_cp_remote INTO DATA(remote_error).
+        MESSAGE e009(zpra_mf_msg_cls) INTO message.
+      CATCH /iwbep/cx_gateway INTO gateway_error.
+        MESSAGE e009(zpra_mf_msg_cls) INTO message.
     ENDTRY.
 
-    LOOP AT lt_data ASSIGNING FIELD-SYMBOL(<lfs_data>).
-      lt_data1 = VALUE #( BASE lt_data1 (
-                                          projectid = <lfs_data>-project
-                                          projectname = <lfs_data>-project_description
-                                          startdate = <lfs_data>-project_start_date
-                                          enddate = <lfs_data>-project_end_date
-                                          costcenter = <lfs_data>-responsible_cost_center
-                                          status = COND #( WHEN <lfs_data>-processing_status EQ '00' THEN 'Created' )
-                                          Nav = lv_url && <lfs_data>-project
-
+    LOOP AT s4_project_details ASSIGNING FIELD-SYMBOL(<s4_project_details>).
+      project_details = VALUE #( BASE project_details (
+                                          projectid = <s4_project_details>-project
+                                          projectname = <s4_project_details>-project_description
+                                          startdate = <s4_project_details>-project_start_date
+                                          enddate = <s4_project_details>-project_end_date
+                                          costcenter = <s4_project_details>-responsible_cost_center
+                                          status = COND #( WHEN <s4_project_details>-processing_status EQ '00' THEN 'Created' )
+                                          Nav = url && <s4_project_details>-project
                                            ) ).
     ENDLOOP.
-    io_response->set_data( it_data = lt_data1 ).
-    io_response->set_total_number_of_records( CONV int8( lines( lt_data1 ) ) ).
+    io_response->set_data( it_data = project_details ).
+    io_response->set_total_number_of_records( CONV int8( lines( project_details ) ) ).
 
   ENDMETHOD.
 ENDCLASS.

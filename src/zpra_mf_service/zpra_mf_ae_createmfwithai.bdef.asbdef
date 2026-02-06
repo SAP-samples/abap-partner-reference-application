@@ -1,0 +1,10 @@
+abstract;
+strict ( 2 );
+
+with hierarchy;
+
+define behavior for ZPRA_MF_AE_CreateMFWithAI with control
+{
+  field ( mandatory : execute ) language;
+  field ( mandatory : execute ) tags;
+}

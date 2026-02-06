@@ -3,12 +3,13 @@ strict ( 2 );
 extensible;
 use draft;
 use side effects;
-define behavior for ZPRA_MF_C_MusicFestivalTP alias MusicFestival
+define behavior for ZPRA_MF_C_MUSICFESTIVALTP alias MusicFestival
 extensible
 use etag
 
 {
   use create;
+  use function GetDefaultsForCreate;
   use update;
   use delete;
 
@@ -21,6 +22,7 @@ use etag
   use action publish;
   use action CrProj;
   use action generateSampleData;
+  use action createWithAI;
   use association _Visits { create; with draft; }
 
   side effects

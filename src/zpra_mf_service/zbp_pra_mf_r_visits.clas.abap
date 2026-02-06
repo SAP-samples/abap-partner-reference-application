@@ -1,4 +1,6 @@
 CLASS zbp_pra_mf_r_visits DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zpra_mf_r_musicfestival.
+protected section.
+private section.
 ENDCLASS.
 
 

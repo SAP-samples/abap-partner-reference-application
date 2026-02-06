@@ -3,9 +3,9 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <VSEOCLASS>
-    <CLSNAME>ZCL_PRA_MF_FETCH_PROJ</CLSNAME>
+    <CLSNAME>ZCL_PRA_MF_GEN_AI_UTIL</CLSNAME>
     <LANGU>E</LANGU>
-    <DESCRIPT>Class to fetch the project</DESCRIPT>
+    <DESCRIPT>Class for Gen AI Integration Utils</DESCRIPT>
     <STATE>1</STATE>
     <CLSCCINCL>X</CLSCCINCL>
     <FIXPT>X</FIXPT>

@@ -55,23 +55,23 @@
         <VALUES>
          <item>
           <FIELD>ACTVT</FIELD>
-          <VALUE>Create or generate,Change,Display,Delete</VALUE>
+          <VALUE>Display,Change,Delete,Create or generate</VALUE>
           <VALUES>
            <item>
-            <UUID>srHNn7LrH+CcuE7aRWNYQw==</UUID>
-            <LOW_VALUE>01</LOW_VALUE>
+            <UUID>srHNn7LrH+CcuE7aRWOYQw==</UUID>
+            <LOW_VALUE>03</LOW_VALUE>
            </item>
            <item>
             <UUID>srHNn7LrH+CcuE7aRWO4Qw==</UUID>
             <LOW_VALUE>02</LOW_VALUE>
            </item>
            <item>
-            <UUID>srHNn7LrH+CcuE7aRWOYQw==</UUID>
-            <LOW_VALUE>03</LOW_VALUE>
-           </item>
-           <item>
             <UUID>srHNn7LrH+CcuE7aRWN4Qw==</UUID>
             <LOW_VALUE>06</LOW_VALUE>
+           </item>
+           <item>
+            <UUID>srHNn7LrH+CcuE7aRWNYQw==</UUID>
+            <LOW_VALUE>01</LOW_VALUE>
            </item>
           </VALUES>
           <TEXT>Activity</TEXT>
@@ -91,23 +91,23 @@
         <VALUES>
          <item>
           <FIELD>ACTVT</FIELD>
-          <VALUE>Create or generate,Change,Display,Delete</VALUE>
+          <VALUE>Display,Change,Delete,Create or generate</VALUE>
           <VALUES>
            <item>
-            <UUID>srHNn7LrH+CcuE7aRWPYQw==</UUID>
-            <LOW_VALUE>01</LOW_VALUE>
+            <UUID>srHNn7LrH+CcuE7aRWQYQw==</UUID>
+            <LOW_VALUE>03</LOW_VALUE>
            </item>
            <item>
             <UUID>srHNn7LrH+CcuE7aRWQ4Qw==</UUID>
             <LOW_VALUE>02</LOW_VALUE>
            </item>
            <item>
-            <UUID>srHNn7LrH+CcuE7aRWQYQw==</UUID>
-            <LOW_VALUE>03</LOW_VALUE>
-           </item>
-           <item>
             <UUID>srHNn7LrH+CcuE7aRWP4Qw==</UUID>
             <LOW_VALUE>06</LOW_VALUE>
+           </item>
+           <item>
+            <UUID>srHNn7LrH+CcuE7aRWPYQw==</UUID>
+            <LOW_VALUE>01</LOW_VALUE>
            </item>
           </VALUES>
           <TEXT>Activity</TEXT>
@@ -127,23 +127,23 @@
         <VALUES>
          <item>
           <FIELD>ACTVT</FIELD>
-          <VALUE>Create or generate,Delete,Display,Change</VALUE>
+          <VALUE>Display,Delete,Change,Create or generate</VALUE>
           <VALUES>
            <item>
-            <UUID>srHNn7LrH+CcuE7aRWR4Qw==</UUID>
-            <LOW_VALUE>01</LOW_VALUE>
+            <UUID>srHNn7LrH+CcuE7aRWS4Qw==</UUID>
+            <LOW_VALUE>03</LOW_VALUE>
            </item>
            <item>
             <UUID>srHNn7LrH+CcuE7aRWTYQw==</UUID>
             <LOW_VALUE>06</LOW_VALUE>
            </item>
            <item>
-            <UUID>srHNn7LrH+CcuE7aRWS4Qw==</UUID>
-            <LOW_VALUE>03</LOW_VALUE>
-           </item>
-           <item>
             <UUID>srHNn7LrH+CcuE7aRWSYQw==</UUID>
             <LOW_VALUE>02</LOW_VALUE>
+           </item>
+           <item>
+            <UUID>srHNn7LrH+CcuE7aRWR4Qw==</UUID>
+            <LOW_VALUE>01</LOW_VALUE>
            </item>
           </VALUES>
           <TEXT>Activity</TEXT>
@@ -163,23 +163,23 @@
         <VALUES>
          <item>
           <FIELD>ACTVT</FIELD>
-          <VALUE>Create or generate,Delete,Display,Change</VALUE>
+          <VALUE>Display,Delete,Change,Create or generate</VALUE>
           <VALUES>
            <item>
-            <UUID>srHNn7LrH+CcuE7aRWUYQw==</UUID>
-            <LOW_VALUE>01</LOW_VALUE>
+            <UUID>srHNn7LrH+CcuE7aRWVYQw==</UUID>
+            <LOW_VALUE>03</LOW_VALUE>
            </item>
            <item>
             <UUID>srHNn7LrH+CcuE7aRWV4Qw==</UUID>
             <LOW_VALUE>06</LOW_VALUE>
            </item>
            <item>
-            <UUID>srHNn7LrH+CcuE7aRWVYQw==</UUID>
-            <LOW_VALUE>03</LOW_VALUE>
-           </item>
-           <item>
             <UUID>srHNn7LrH+CcuE7aRWU4Qw==</UUID>
             <LOW_VALUE>02</LOW_VALUE>
+           </item>
+           <item>
+            <UUID>srHNn7LrH+CcuE7aRWUYQw==</UUID>
+            <LOW_VALUE>01</LOW_VALUE>
            </item>
           </VALUES>
           <TEXT>Activity</TEXT>

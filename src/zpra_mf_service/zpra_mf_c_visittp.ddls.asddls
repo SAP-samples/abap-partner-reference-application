@@ -2,6 +2,7 @@
 @EndUserText.label: 'Projection View for ZPRA_MF_R_VISIT'
 @Search.searchable: true
 @Metadata.allowExtensions: true
+
 define view entity ZPRA_MF_C_VISITTP
   as projection on ZPRA_MF_R_VISIT
 {
@@ -13,7 +14,7 @@ define view entity ZPRA_MF_C_VISITTP
           @Search.defaultSearchElement: true
           @Consumption.valueHelpDefinition: [
             { entity: {
-                name: 'ZPRA_MF_I_Visitor',
+                name: 'ZPRA_MF_I_VISITOR_VH',
                 element: 'VisitorId' },
               additionalBinding: [ {
                 localElement: 'VisitorEmail',
@@ -39,7 +40,7 @@ define view entity ZPRA_MF_C_VISITTP
           LocalLastChangedAt,
 
           /* Associations */
-          _MusicFestival : redirected to parent ZPRA_MF_C_MusicFestivalTP,
+          _MusicFestival : redirected to parent ZPRA_MF_C_MUSICFESTIVALTP,
           _Visitor          : redirected to ZPRA_MF_C_VisitorTP,
           _VisitorVH
 }

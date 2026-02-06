@@ -14,11 +14,20 @@ CLASS zcm_pra_mf_messages DEFINITION
       gc_msgid TYPE symsgid VALUE 'ZPRA_MF_MSG_CLS',
 
       BEGIN OF state_area,
-        validate_event    TYPE string VALUE 'VALIDATE_EVENT',
-        validate_visitors TYPE String VALUE 'VALIDATE_VISITORS',
-        validate_date     TYPE string VALUE 'VALIDATE_DATE',
+        validate_event          TYPE string VALUE 'VALIDATE_EVENT',
+        validate_visitors       TYPE String VALUE 'VALIDATE_VISITORS',
+        validate_date           TYPE string VALUE 'VALIDATE_DATE',
         validate_publish_action TYPE string VALUE 'VALIDATE_PUBLISH_ACTION',
       END OF state_area,
+
+      BEGIN OF default,
+        msgid TYPE symsgid VALUE 'ZPRA_MF_MSG_CLS',
+        msgno TYPE symsgno VALUE '000',
+        attr1 TYPE scx_attrname VALUE 'MV_ATTR1',
+        attr2 TYPE scx_attrname VALUE 'MV_ATTR2',
+        attr3 TYPE scx_attrname VALUE 'MV_ATTR3',
+        attr4 TYPE scx_attrname VALUE 'MV_ATTR4',
+      END OF default,
 
       BEGIN OF max_visitor_zero_negative,
         msgid TYPE symsgid VALUE 'ZPRA_MF_MSG_CLS',
@@ -56,14 +65,23 @@ CLASS zcm_pra_mf_messages DEFINITION
         attr4 TYPE scx_attrname VALUE '',
       END OF event_mandatory_value_missing,
 
-      BEGIN OF event_already_published,
+      BEGIN OF create_with_ai_failed,
         msgid TYPE symsgid VALUE 'ZPRA_MF_MSG_CLS',
         msgno TYPE symsgno VALUE '005',
-        attr1 TYPE scx_attrname VALUE 'TITLE',
+        attr1 TYPE scx_attrname VALUE 'EXCEPTION_TEXT',
         attr2 TYPE scx_attrname VALUE '',
         attr3 TYPE scx_attrname VALUE '',
         attr4 TYPE scx_attrname VALUE '',
-      END OF event_already_published,
+      END OF create_with_ai_failed,
+
+      BEGIN OF scenario_not_configured,
+        msgid TYPE symsgid VALUE 'ZPRA_MF_MSG_CLS',
+        msgno TYPE symsgno VALUE '006',
+        attr1 TYPE scx_attrname VALUE 'SCENARIO_ID',
+        attr2 TYPE scx_attrname VALUE '',
+        attr3 TYPE scx_attrname VALUE '',
+        attr4 TYPE scx_attrname VALUE '',
+      END OF scenario_not_configured,
 
       BEGIN OF error_in_proj_creation,
         msgid TYPE symsgid VALUE 'ZPRA_MF_MSG_CLS',
@@ -77,23 +95,27 @@ CLASS zcm_pra_mf_messages DEFINITION
 
     METHODS constructor
       IMPORTING
-        textid   LIKE if_t100_message=>t100key OPTIONAL
-        attr1    TYPE string OPTIONAL
-        attr2    TYPE string OPTIONAL
-        attr3    TYPE string OPTIONAL
-        attr4    TYPE string OPTIONAL
-        title    TYPE zpra_mf_title OPTIONAL
-        previous LIKE previous OPTIONAL
-        severity TYPE if_abap_behv_message=>t_severity OPTIONAL
-        uname    TYPE syuname OPTIONAL.
+        textid         LIKE if_t100_message=>t100key OPTIONAL
+        attr1          TYPE string OPTIONAL
+        attr2          TYPE string OPTIONAL
+        attr3          TYPE string OPTIONAL
+        attr4          TYPE string OPTIONAL
+        title          TYPE zpra_mf_title OPTIONAL
+        exception_text TYPE string OPTIONAL
+        scenario_id    type if_com_arrangement_v2=>ty_ca-cscn_id OPTIONAL
+        previous       LIKE previous OPTIONAL
+        severity       TYPE if_abap_behv_message=>t_severity OPTIONAL
+        uname          TYPE syuname OPTIONAL.
 
     DATA:
-      mv_attr1 TYPE string,
-      mv_attr2 TYPE string,
-      mv_attr3 TYPE string,
-      mv_attr4 TYPE string,
-      title TYPE zpra_mf_title,
-      mv_uname TYPE syuname.
+      mv_attr1       TYPE string,
+      mv_attr2       TYPE string,
+      mv_attr3       TYPE string,
+      mv_attr4       TYPE string,
+      title          TYPE zpra_mf_title,
+      exception_text TYPE zpra_mf_title,
+      scenario_id    type if_com_arrangement_v2=>ty_ca-cscn_id,
+      mv_uname       TYPE syuname.
 
   PROTECTED SECTION.
   PRIVATE SECTION.
@@ -101,7 +123,7 @@ ENDCLASS.
 
 
 
-CLASS zcm_pra_mf_messages IMPLEMENTATION.
+CLASS ZCM_PRA_MF_MESSAGES IMPLEMENTATION.
 
 
   METHOD constructor ##ADT_SUPPRESS_GENERATION.
@@ -113,6 +135,8 @@ CLASS zcm_pra_mf_messages IMPLEMENTATION.
     me->mv_attr4                 = attr4.
     me->mv_uname                 = uname.
     me->title                    = title.
+    me->exception_text           = exception_text.
+    me->scenario_id              = scenario_id.
 
     if_abap_behv_message~m_severity = severity.
 

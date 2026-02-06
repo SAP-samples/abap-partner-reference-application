@@ -3,13 +3,12 @@ strict ( 2 );
 with draft;
 
 with cross associations;
-
 extensible;
 define own authorization context
 {
   'ZPRA_MF_AO';
 }
-define behavior for ZPRA_MF_R_MusicFestival alias MusicFestival
+define behavior for ZPRA_MF_R_MUSICFESTIVAL alias MusicFestival
 persistent table zpra_mf_a_mf
 extensible
 draft table zpra_mf_d_mf
@@ -34,7 +33,7 @@ authorization master ( global, instance )
 
   association _Visits { create ( features : instance, authorization : update ); with draft; }
 
-  create;
+  create { default function GetDefaultsForCreate; }
   update;
   delete ( features : instance );
 
@@ -46,11 +45,12 @@ authorization master ( global, instance )
   action ( features : instance ) cancel result [1] $self;
   action ( features : instance ) publish result [1] $self;
   action ( features : instance ) CrProj result [1] $self;
-  //  action createproject;
 
   static action generateSampleData;
 
   internal action calculateFreeVisitorSeats;
+
+  static factory action createWithAI deep parameter ZPRA_MF_AE_CreateMFWithAI [1];
 
   validation validateMandatoryValue on save { create; field Title, MaxVisitorsNumber, EventDateTime; }
   validation validateMaxVisitors on save { field FreeVisitorSeats, MaxVisitorsNumber; }
@@ -80,6 +80,7 @@ authorization master ( global, instance )
     validation validateDate;
   }
 
+
   mapping for zpra_mf_a_mf corresponding extensible
     {
       Uuid                = uuid;
@@ -97,6 +98,7 @@ authorization master ( global, instance )
       LastChangedBy       = last_changed_by;
       LocalLastChangedAt  = local_last_changed_at;
     }
+
 }
 
 
@@ -144,4 +146,5 @@ etag master LocalLastChangedAt
       Status             = status;
       LocalLastChangedAt = local_last_changed_at;
     }
-}
+
+ }
