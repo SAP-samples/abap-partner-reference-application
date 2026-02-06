@@ -1,12 +1,12 @@
 _schema-version: "3.1"
-ID: pra-mf
-version: 1.0.0
+ID: music-festivals
+version: 1.0.1
 
 parameters:
   app-domain:
   route-prefix:
   appname:
-addon-product-name:
+  addon-product-name: 
   # empty version means that always the latest available version is used when creating a new system
   # so, default value is ""
   addon-product-version:

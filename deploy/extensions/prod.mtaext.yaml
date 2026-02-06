@@ -4,7 +4,7 @@
 #     2. cf deploy mta_archives/music-festivals_1.0.1.mtar -e extensions/dev.mtaext.yaml
 
 _schema-version: '3.1'
-ID: music-festivals-dev
+ID: music-festivals-prod
 extends: music-festivals
 
 parameters:
@@ -20,7 +20,7 @@ parameters:
   addon-product-version: ""
   tenant-mode: multi
   enable-parallel-deployments: true
-  usage-mode: test
+  usage-mode: prod
   size-of-runtime: 1
   size-of-persistence: 2
   consumer-id-pattern: ([^-]*).*
@@ -28,14 +28,14 @@ parameters:
   abap-endpoint-timeout: 60000
   send-x-frame-options: true
   consumer-tenant-limit: 100
-  sap-system-name: ""
+  sap-system-name: "PRD"
 
 modules:
   - name: approuter
     parameters:
       routes:
         - route: cis${route-prefix}.${app-domain}
-        # add further routes for subscriber subaccounts by replacing subdomain placeholder with actual subaccount subdomain
+        #  add further routes for subscriber subaccounts by replacing subdomain placeholder with actual subaccount subdomain
         # - route: <subscriber1-subaccount-subdomain>${route-prefix}.${app-domain}
         # - route: <subscriber2-subaccount-subdomain>${route-prefix}.${app-domain}
 
