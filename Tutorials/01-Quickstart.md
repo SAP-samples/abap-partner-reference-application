@@ -5,6 +5,10 @@ This tutorial offers a step-by-step guide on developing and deploying the Music 
 If you prefer a quick start without further explanation and want to the application with all features, follow these steps:
 
 1. [Prepare your SAP BTP provider account, SAP Business Application Studio (BAS) and ABAP Development Tools (ADT) for development](./11-Prepare-BTP-Account-ADT-For-Dev.md).
+
+>[!IMPORTANT]
+> Update your Eclipse and ABAP Development Tools (ADT) to the latest versions to ensure you have all the necessary features for a smooth experience.
+
 2. [Enable the entitlements mentioned in the bill of materials of the multi-tenant application](./00-BillOfMaterials.md).
 3. Create the software component in the SAP BTP ABAP environment. To create a software component, follow these steps:
 

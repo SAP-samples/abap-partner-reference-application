@@ -131,6 +131,9 @@ The Adobe Document Services (ADS) can render Adobe XML Forms (XFA) into PDF docu
 > [!CAUTION]
 > Make sure the service definition and the CDS view definition names are in CAPITAL letters to consume the form service.
 
+> [!IMPORTANT]
+> Update your Eclipse and ABAP Development Tools (ADT) to the latest versions to ensure you can work with form objects.
+
 4. Let's create a form now.
    1. Right-click on the package name **ZPRA_MF_SERVICE** and choose **New -> Other ABAP Repository Object**.
    2. Under **Form Objects**, choose **Forms**.
