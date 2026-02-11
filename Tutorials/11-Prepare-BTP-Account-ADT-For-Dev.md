@@ -11,9 +11,11 @@ To start with this tutorial, you need an SAP Business Technology Platform (SAP B
 1. Go to your SAP BTP global account cockpit.
 2. Create a new *Multi-Environment* subaccount with the name `MusicFestivals` and choose a *Region* and *Service Provider*.
 
-   > Refer to the official [SAP Regions and API Endpoints for the ABAP Environment](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/regions-and-api-endpoints-for-abap-environment?locale=en-US) to choose the appropriate Region and Service Provider for your ABAP environment.
+> [!NOTE]
+> - Refer to the official [SAP Regions and API Endpoints for the ABAP Environment](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/regions-and-api-endpoints-for-abap-environment?locale=en-US) to choose the appropriate Region and Service Provider for your ABAP environment.
 
-   > The subdomain must be unique across the whole region. Therefore, include an abbreviation that uniquely identifies your company. Don't use special characters or capital letters. In addition, keep it short to avoid length restriction issues.
+> [!IMPORTANT]
+> The subdomain must be unique across the whole region. Therefore, include an abbreviation that uniquely identifies your company. Don't use special characters or capital letters. In addition, keep it short to avoid length restriction issues.
 
 ### Preparing Your Development Environment: SAP BTP ABAP Instance and Eclipse ADT Setup
 
@@ -26,17 +28,11 @@ By the end of this section, you will have a fully functional environment ready t
 
 > To download and install Eclipse and the ADT plugin, please follow the instructions provided in this [tutorial](https://developers.sap.com/tutorials/abap-install-adt.html).
 
-#### Recommended: Automate Setup Using a Booster
+#### ABAP Environment setup in Customer Account
 
-The fastest and most efficient way to get started is by using the [Booster for ABAP Environment Setup](https://help.sap.com/docs/btp/sap-business-technology-platform/using-booster-to-automate-setup-of-abap-environment-optional). This guided procedure automates the creation and configuration of your ABAP environment, saving you time and minimizing the risk of configuration errors.
+Step-by-step guide for the creation and configuration of your ABAP environment, refer to [Getting Started with a Customer Account in the ABAP Environment.](https://help.sap.com/docs/btp/sap-business-technology-platform/getting-started-with-customer-account-in-abap-environment)
 
 Once your environment is ready, follow the steps to [connect to your ABAP system](https://developers.sap.com/tutorials/abap-environment-create-abap-cloud-project.html) using Eclipse and ADT.
-
-> **Note:**
-> If you prefer a step-by-step guide or want to better understand the process, refer to the detailed setup guide below:
->
-> 1. [Preparing to Set up an ABAP Environment](https://learning.sap.com/learning-journeys/setting-up-an-abap-environment-on-sap-btp/preparing-to-set-up-an-abap-environment_da85b82a-eb42-4eec-92f0-225b99402a2d)
-> 2. [Setting up an ABAP Environment in SAP BTP](https://learning.sap.com/learning-journeys/setting-up-an-abap-environment-on-sap-btp/setting-up-an-abap-environment-in-sap-btp_d0e395ae-6bb3-468e-b141-0934a16c3f37)
 
 ### Enable SAP Business Application Studio
 

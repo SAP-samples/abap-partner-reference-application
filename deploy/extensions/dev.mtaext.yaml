@@ -1,14 +1,14 @@
 # - Check if there are ongoing operations: cf mta-ops
 # - Full Build and Deploy:
 #     1. mbt build
-#     2. cf deploy mta_archives/pra-mf_1.0.0.mtar -e extensions/dev.mtaext.yaml
+#     2. cf deploy mta_archives/music-festivals_1.0.1.mtar -e extensions/dev.mtaext.yaml
 
 _schema-version: '3.1'
-ID: pra-mf-dev
-extends: pra-mf
+ID: music-festivals-dev
+extends: music-festivals
 
 parameters:
-  appname: pra-mf
+  appname: music-festivals
   # add-on product name must be left empty for gCTS transport-based delivery
   addon-product-name: ""
   provider-admin-email: <email-of-admin>

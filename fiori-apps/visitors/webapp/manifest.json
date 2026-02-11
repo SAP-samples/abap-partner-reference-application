@@ -1,5 +1,5 @@
 {
-  "_version": "1.65.0",
+  "_version": "1.73.1",
   "sap.app": {
     "id": "visitors",
     "type": "application",

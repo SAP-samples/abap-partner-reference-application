@@ -49,7 +49,7 @@ You need to set up an `OAuth2Password` destination ABAP Solution service to crea
    > Make sure you're logged in to the CF space of the provider subaccount. You can confirm this by using the `cf target` command.
 
    ```bash
-   cf deploy mta_archives/pra-mf_1.0.0.mtar -e extensions/dev.mtaext.yaml
+   cf deploy mta_archives/music-festivals_1.0.1.mtar -e extensions/dev.mtaext.yaml
    ```
 
 ### Subscribe to the New ABAP Application

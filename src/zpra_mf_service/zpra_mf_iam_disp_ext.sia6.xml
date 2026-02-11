@@ -73,23 +73,23 @@
         <VALUES>
          <item>
           <FIELD>ACTVT</FIELD>
-          <VALUE>Create or generate,Delete,Display,Change</VALUE>
+          <VALUE>Display,Delete,Change,Create or generate</VALUE>
           <VALUES>
            <item>
-            <UUID>srHNn7LrH+CcuDdTJok4Qw==</UUID>
-            <LOW_VALUE>01</LOW_VALUE>
+            <UUID>srHNn7LrH+CcuDdTJol4Qw==</UUID>
+            <LOW_VALUE>03</LOW_VALUE>
            </item>
            <item>
             <UUID>srHNn7LrH+CcuDdTJomYQw==</UUID>
             <LOW_VALUE>06</LOW_VALUE>
            </item>
            <item>
-            <UUID>srHNn7LrH+CcuDdTJol4Qw==</UUID>
-            <LOW_VALUE>03</LOW_VALUE>
-           </item>
-           <item>
             <UUID>srHNn7LrH+CcuDdTJolYQw==</UUID>
             <LOW_VALUE>02</LOW_VALUE>
+           </item>
+           <item>
+            <UUID>srHNn7LrH+CcuDdTJok4Qw==</UUID>
+            <LOW_VALUE>01</LOW_VALUE>
            </item>
           </VALUES>
           <TEXT>Activity</TEXT>
@@ -134,23 +134,23 @@
         <VALUES>
          <item>
           <FIELD>ACTVT</FIELD>
-          <VALUE>Create or generate,Delete,Display,Change</VALUE>
+          <VALUE>Display,Delete,Change,Create or generate</VALUE>
           <VALUES>
            <item>
-            <UUID>srHNn7LrH+CcuDdTJon4Qw==</UUID>
-            <LOW_VALUE>01</LOW_VALUE>
+            <UUID>srHNn7LrH+CcuDdTJoo4Qw==</UUID>
+            <LOW_VALUE>03</LOW_VALUE>
            </item>
            <item>
             <UUID>srHNn7LrH+CcuDdTJopYQw==</UUID>
             <LOW_VALUE>06</LOW_VALUE>
            </item>
            <item>
-            <UUID>srHNn7LrH+CcuDdTJoo4Qw==</UUID>
-            <LOW_VALUE>03</LOW_VALUE>
-           </item>
-           <item>
             <UUID>srHNn7LrH+CcuDdTJooYQw==</UUID>
             <LOW_VALUE>02</LOW_VALUE>
+           </item>
+           <item>
+            <UUID>srHNn7LrH+CcuDdTJon4Qw==</UUID>
+            <LOW_VALUE>01</LOW_VALUE>
            </item>
           </VALUES>
           <TEXT>Activity</TEXT>

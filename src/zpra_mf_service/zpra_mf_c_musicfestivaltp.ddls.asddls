@@ -3,9 +3,11 @@
 @AccessControl.authorizationCheck: #CHECK
 @ObjectModel.sapObjectNodeType.name: 'ZPRA_MF_A_MF'
 @ObjectModel.semanticKey: ['Title']
-define root view entity ZPRA_MF_C_MusicFestivalTP
+@ObjectModel.supportedCapabilities: [ #OUTPUT_FORM_DATA_PROVIDER  ]
+
+define root view entity ZPRA_MF_C_MUSICFESTIVALTP
   provider contract transactional_query
-  as projection on ZPRA_MF_R_MusicFestival as _music
+  as projection on ZPRA_MF_R_MUSICFESTIVAL as _music
   association to ZPRA_MF_AE_REMOTE_PROJ as _proj on _proj.ProjectID = _music.project_id
 {
   key     Uuid,
@@ -13,6 +15,20 @@ define root view entity ZPRA_MF_C_MusicFestivalTP
           Description,
           EventDateTime,
           MaxVisitorsNumber,
+          @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_PRA_MF_CALC_MF_ELEMENTS'
+          @Semantics.mimeType: true
+  virtual MimeType          : abap.char(32),
+
+          @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_PRA_MF_CALC_MF_ELEMENTS'
+          @Semantics.mimeType: true
+  virtual HyperLinkText     : zpra_mf_title,
+
+          @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_PRA_MF_CALC_MF_ELEMENTS'
+          @Semantics.largeObject.contentDispositionPreference: #INLINE
+          @Semantics.largeObject.mimeType: 'mimeType'
+          @Semantics.largeObject.fileName: 'HyperLinkText'
+  virtual OutputPdfData     : zpra_mf_form,
+
           @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_PRA_MF_CALC_MF_ELEMENTS'
   virtual BookedSeats       : abap.int4,
           FreeVisitorSeats,

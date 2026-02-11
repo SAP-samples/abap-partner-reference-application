@@ -3,6 +3,7 @@
 @AccessControl.authorizationCheck: #CHECK
 @ObjectModel.sapObjectNodeType.name: 'ZPRA_MF_A_VSTR'
 @ObjectModel.semanticKey: [ 'Name' ]
+
 define root view entity ZPRA_MF_C_VisitorTP
   provider contract transactional_query
   as projection on ZPRA_MF_R_Visitor

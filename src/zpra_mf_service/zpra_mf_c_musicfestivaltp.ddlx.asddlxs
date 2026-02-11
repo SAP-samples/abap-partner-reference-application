@@ -23,7 +23,7 @@
     }]
    }
 
-annotate view ZPRA_MF_C_MusicFestivalTP with
+annotate view ZPRA_MF_C_MUSICFESTIVALTP with
 {
   @UI.facet: [
   {
@@ -111,6 +111,12 @@ annotate view ZPRA_MF_C_MusicFestivalTP with
       dataAction: 'publish',
       position: 30,
       label: 'Publish'
+    },
+    {
+      type: #FOR_ACTION,
+      dataAction: 'createWithAI',
+      position: 40,
+      label: 'Create with Musical AI'
     }],
     identification: [{
       type: #FOR_ACTION,
@@ -179,7 +185,6 @@ annotate view ZPRA_MF_C_MusicFestivalTP with
 
   @UI.hidden: true
   StatusCriticality;
-
   @UI: {
     lineItem: [{
       importance: #HIGH,
@@ -212,6 +217,15 @@ annotate view ZPRA_MF_C_MusicFestivalTP with
        }
     }
   EventDateTime;
+  
+ @UI: {
+  lineItem: [{
+   importance: #HIGH,
+   position: 50
+   }]
+  }
+  OutputPdfData;
+ 
 
   @UI: {
     dataPoint: {
@@ -263,7 +277,7 @@ annotate view ZPRA_MF_C_MusicFestivalTP with
     }
   @EndUserText.label: 'Booked Seats'
   BookedSeats;
-
+ 
   @UI: {
     fieldGroup: [{
       qualifier: 'AdminData',
@@ -275,7 +289,7 @@ annotate view ZPRA_MF_C_MusicFestivalTP with
       }]
     }
   CreatedBy;
-
+  
   @UI: {
     fieldGroup: [{
       qualifier: 'AdminData',

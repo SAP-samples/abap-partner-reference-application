@@ -1,8 +1,7 @@
-
 # Core Data Services (CDS) and RAP Modeling
 
 A CDS view is typically created on top of one or more database tables. It selects data from them and defines how data should be read or exposed.
-In the ABAP RESTful Application Programming Model (RAP), domain modeling involves defining the structure of business objects (BO) using CDS entities and then defining their behavior. This layer defines the data entities, their attributes, and relationships within the application, ensuring a clear and consistent representation of the business domain. 
+In the ABAP RESTful Application Programming Model (RAP), domain modeling involves defining the structure of business objects (BO) using CDS entities and then defining their behavior. This layer defines the data entities, their attributes, and relationships within the application, ensuring a clear and consistent representation of the business domain.
 
 For more information on domain modeling in RAP, go to [ABAP RESTful Application Programming Model documentation on ABAP Core Data Services (CDS)](https://www.sap.com/documents/2022/01/96489f20-157e-0010-bca6-c68f7e60039b.html).
 
@@ -12,9 +11,7 @@ To define a data model leveraging the ABAP CDS framework, it is essential to gen
 
 ### 1. Data Definition
 
-A data definition is a repository object that allows you to define a CDS entity using the CDS [DDL](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abencds_f1_ddl_syntax.htm#:~:text=CDS%20data%20definitions%20in%20ABAP,Statements%20for%20CDS%20views) of ABAP CDS in DDL source code.
-
-> **Note**: A CDS entity can be used, for example, as a data source in other CDS entities.
+A data definition is a repository object that allows you to define a CDS entity using the CDS [DDL](https://help.sap.com/doc/abapdocu_752_index_htm/7.52/en-US/abencds_f1_ddl_syntax.htm#:~:text=CDS%20data%20definitions%20in%20ABAP,Statements%20for%20CDS%20views) of ABAP CDS in DDL source code. A CDS entity can be used, for example, as a data source in other CDS entities.
 
 In this tutorial, we focus on `View Entities` and `Projection View Entities`.
 
@@ -28,57 +25,60 @@ Let's take a detailed look at one of the view entities:
 
 **CDS view entity structure** - The CDS view entity is structured into three main sections: `Annotations`, `Core Definition`, and `Field Mapping`. Each section plays a distinct role in defining the semantics and structure of your RAP business object.
 
-  - **Annotations** -  A CDS annotation enriches CDS objects with metadata. It can be specified in fixed annotation syntax for specific scopes of a CDS object, namely specific places in a piece of CDS source code. For more details, refer to [ABAP CDS - Annotations](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENCDS_ANNOTATIONS.html).
-        ```abap
-        @AccessControl.authorizationCheck: #CHECK
-        @Metadata.allowExtensions: true
-        @EndUserText.label: '###GENERATED Core Data Service Entity'
-        ```
+- **Annotations** - A CDS annotation enriches CDS objects with metadata. It can be specified in fixed annotation syntax for specific scopes of a CDS object, namely specific places in a piece of CDS source code. For more details, refer to [ABAP CDS - Annotations](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENCDS_ANNOTATIONS.html).
 
-  - **Core definition** - A CDS view entity is a CDS entity, designed primarily to select data from one or more data sources, such as database tables. 
-    
-    ```abap
-    define root view entity ZPRA_MF_R_MusicFestival
-      as select from zpra_mf_a_mf as MusicFestival
-    ```
+  ```cds
+  ...
+  @AccessControl.authorizationCheck: #CHECK
+  @Metadata.allowExtensions: true
+  @EndUserText.label: '###GENERATED Core Data Service Entity'
+  ...
+  ```
 
-  - **Field mapping** - The field mapping section defines which fields are selected from the base data source and how they are exposed in the CDS view.
+- **Core definition** - A CDS view entity is a CDS entity, designed primarily to select data from one or more data sources, such as database tables.
 
-    ```abap
-      title                 as Title,
-      description           as Description,
-      event_date_time       as EventDateTime,
-      max_visitors_number   as MaxVisitorsNumber,
-      free_visitor_seats    as FreeVisitorSeats,
-      @Semantics.amount.currencyCode : 'VisitorsFeeCurrency'
-      visitors_fee_amount   as VisitorsFeeAmount,
-      @Consumption.valueHelpDefinition: [ {
-        entity.name: 'I_CurrencyStdVH',
-        entity.element: 'Currency',
-        useForValidation: true
-      } ]
-      visitors_fee_currency as VisitorsFeeCurrency,
-      status                as Status,
-      @Semantics.user.createdBy: true
-      created_by            as CreatedBy,
-      @Semantics.systemDateTime.createdAt: true
-      created_at            as CreatedAt,
-      @Semantics.systemDateTime.lastChangedAt: true
-      last_changed_at       as LastChangedAt,
-      @Semantics.user.lastChangedBy: true
-      last_changed_by       as LastChangedBy,
-      //local ETag field --> OData ETag
-      @Semantics.systemDateTime.localInstanceLastChangedAt: true
-      local_last_changed_at as LocalLastChangedAt,
+  ```cds
+  ...
+  define root view entity ZPRA_MF_R_MusicFestival
+    as select from zpra_mf_a_mf as MusicFestival
+  ...
+  ```
 
-      project_id            as project_id,
+- **Field mapping** - The field mapping section defines which fields are selected from the base data source and how they are exposed in the CDS view.
 
-      //Associations
-      _Visits,
-      _Status
-          
-     
-    ```
+  ```cds
+  title                 as Title,
+  description           as Description,
+  event_date_time       as EventDateTime,
+  max_visitors_number   as MaxVisitorsNumber,
+  free_visitor_seats    as FreeVisitorSeats,
+  @Semantics.amount.currencyCode : 'VisitorsFeeCurrency'
+  visitors_fee_amount   as VisitorsFeeAmount,
+  @Consumption.valueHelpDefinition: [ {
+    entity.name: 'I_CurrencyStdVH',
+    entity.element: 'Currency',
+    useForValidation: true
+  } ]
+  visitors_fee_currency as VisitorsFeeCurrency,
+  status                as Status,
+  @Semantics.user.createdBy: true
+  created_by            as CreatedBy,
+  @Semantics.systemDateTime.createdAt: true
+  created_at            as CreatedAt,
+  @Semantics.systemDateTime.lastChangedAt: true
+  last_changed_at       as LastChangedAt,
+  @Semantics.user.lastChangedBy: true
+  last_changed_by       as LastChangedBy,
+  //local ETag field --> OData ETag
+  @Semantics.systemDateTime.localInstanceLastChangedAt: true
+  local_last_changed_at as LocalLastChangedAt,
+
+  project_id            as project_id,
+
+  //Associations
+  _Visits,
+  _Status
+  ```
 
 #### CDS Projection Views
 
@@ -94,7 +94,8 @@ There are three types of projection views that serve different purposes and are 
 
 **CDS analytical queries**: Used for modeling analytical queries within a CDS data model, for example, aggregating data for analytical evaluations.
 
-> **Note** - For more details, refer to [ABAP CDS - Projection Views](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENCDS_PROJ_VIEWS.html).
+> [!NOTE]
+> For more details, refer to [ABAP CDS - Projection Views](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENCDS_PROJ_VIEWS.html).
 
 Let's take a look at one projection view in detail.
 
@@ -134,12 +135,14 @@ The [behavior definition for Music Festival](../src/zpra_mf_service/zpra_mf_r_mu
 **RAP Behavior Definition Structure** -
 
 - **Behavior Definition Header** -
-The header can define the following attributes for the entire business object:
+  The header can define the following attributes for the entire business object:
 
-  ```abap
+  ```cds
+  ...
   managed implementation in class ZPRA_MF_BP_R_MusicFestival unique;
   strict ( 2 );
   with draft;
+  ...
   ```
 
   - `managed implementation in class ZPRA_MF_BP_R_MusicFestival unique` - Specifies that the behavior implementation is managed by the framework, and the custom logic is placed in the specified ABAP class. **Unique** means that each entity instance is uniquely identifiable.
@@ -148,15 +151,17 @@ The header can define the following attributes for the entire business object:
 
 - **Entity Behavior Definition** -
 
-  ```abap
-    define behavior for ZPRA_MF_R_VISIT alias Visits
-    implementation in class ZBP_PRA_MF_R_Visits unique
-    persistent table zpra_mf_a_vst
-    draft table zpra_mf_d_vst
-    lock dependent by _MusicFestival
-    authorization dependent by _MusicFestival
-    etag master LocalLastChangedAt
-    ```
+  ```cds
+  ...
+  define behavior for ZPRA_MF_R_VISIT alias Visits
+  implementation in class ZBP_PRA_MF_R_Visits unique
+  persistent table zpra_mf_a_vst
+  draft table zpra_mf_d_vst
+  lock dependent by _MusicFestival
+  authorization dependent by _MusicFestival
+  etag master LocalLastChangedAt
+  ...
+  ```
 
   - `persistent table`: Specifies the database table for active records.
   - `draft table`: Table used to store draft versions of records.
@@ -164,7 +169,7 @@ The header can define the following attributes for the entire business object:
   - `authorization dependent by _MusicFestival`: Indicates that the entity’s authorization checks are delegated to the `_MusicFestival` entity.
   - `etag master`: Enables optimistic locking based on the `LocalLastChangedAt` field.
 
-- **Entity Behavior Body** - Consists of the following elements: 
+- **Entity Behavior Body** - Consists of the following elements:
   - `Field Characteristics`
   - `Field Numbering`
   - `RAP BO operations`
@@ -176,46 +181,47 @@ The header can define the following attributes for the entire business object:
   - `type mapping`
   - `group`
 
-    ```abap
-      update;
-      delete ( features : instance );
+    ```cds
+    update;
+    delete ( features : instance );
 
-      field ( numbering : managed )
-      Uuid;
+    field ( numbering : managed )
+    Uuid;
 
-      field ( readonly )
-      Uuid,
-      ParentUuid,
-      Status,
-      LocalLastChangedAt;
+    field ( readonly )
+    Uuid,
+    ParentUuid,
+    Status,
+    LocalLastChangedAt;
 
-      association _MusicFestival { with draft; }
-      association _Visitor;
+    association _MusicFestival { with draft; }
+    association _Visitor;
 
-      determination determineStatus on modify { create; }
-      determination determineAvailableSeats on modify { field Status; }
+    determination determineStatus on modify { create; }
+    determination determineAvailableSeats on modify { field Status; }
 
-      action ( features : instance ) book result [1] $self;
-      action ( features : instance ) cancel result [1] $self;
+    action ( features : instance ) book result [1] $self;
+    action ( features : instance ) cancel result [1] $self;
 
-      side effects
-      {
-        action book affects field _MusicFestival.( FreeVisitorSeats, Status );
-        action cancel affects field _MusicFestival.( FreeVisitorSeats, Status );
-      }
+    side effects
+    {
+      action book affects field _MusicFestival.( FreeVisitorSeats, Status );
+      action cancel affects field _MusicFestival.( FreeVisitorSeats, Status );
+    }
 
-      mapping for zpra_mf_a_vst
-      {
-        Uuid               = uuid;
-        ParentUuid         = parent_uuid;
-        VisitorUuid        = visitor_uuid;
-        ArtistIndicator    = artist_indicator;
-        Status             = status;
-        LocalLastChangedAt = local_last_changed_at;
-      }
+    mapping for zpra_mf_a_vst
+    {
+      Uuid               = uuid;
+      ParentUuid         = parent_uuid;
+      VisitorUuid        = visitor_uuid;
+      ArtistIndicator    = artist_indicator;
+      Status             = status;
+      LocalLastChangedAt = local_last_changed_at;
+    }
     ```
 
-    > **Note**: For more information, refer to [RAP - EntityBehaviorBody](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENBDL_BODY.html) and [ABAP RAP Behavior Definition](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENBDL.html).
+> [!NOTE]
+> For more information, refer to [RAP - EntityBehaviorBody](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENBDL_BODY.html) and [ABAP RAP Behavior Definition](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENBDL.html).
 
 #### Projection Behavior Definition
 
@@ -230,18 +236,18 @@ The following image shows the role of RAP projection behavior definitions for a 
 Go to [Projection Behavior for Music Fest](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.bdef.asbdef).
 It is described here how actions and associations are defined.
 
-> **Note** - For more information about projection behavior definitions, refer to [RAP - Projection Behavior Definitions](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENBDL_PROJECTION_BO.html).
+> [!NOTE]
+> For more information about projection behavior definitions, refer to [RAP - Projection Behavior Definitions](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENBDL_PROJECTION_BO.html).
 
 ### 3. Metadata Extension
 
 In SAP BTP ABAP RESTful Application Programming Model, a metadata extension is a way to annotate CDS views externally, providing UI-related annotations without modifying the original CDS view itself. This is particularly useful when you want to enrich the UI presentation layer, for example, how fields are shown in SAP Fiori elements applications without touching the base CDS artifacts. This maintains separation of concerns and enhances reusability. For a reference of a sample application, see [Enhance the Business Object Data Model and Enable OData Streams](https://developers.sap.com/tutorials/abap-environment-rap100-enhance-data-model.html?utm_source=chatgpt.com).
 
-
 A CDS metadata extension is a CDS object that is defined and transported in a separate piece of DDLX source code. These pieces of DDLX source code can only be edited in ADT.
 
-Alongside the CDS DDL statements for data definitions, there is a CDS DDL statement for defining metadata extensions in DDLX source code. To extend a CDS entity with metadata extensions, you need to specify the annotation **@Metadata.allowExtensions** in the DDL source code of the CDS entity. The default value for this annotation is *true*.
+Alongside the CDS DDL statements for data definitions, there is a CDS DDL statement for defining metadata extensions in DDLX source code. To extend a CDS entity with metadata extensions, you need to specify the annotation **@Metadata.allowExtensions** in the DDL source code of the CDS entity. The default value for this annotation is _true_.
 
-Below is the basic implementation of the metadata extension for `ZPRA_MF_C_MusicFestivalTP`. If you want to enhance this metadata extension for a specific use case, refer to [ABAP CDS DDL - ANNOTATE ENTITY, VIEW](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENCDS_F1_ANNOTATE_VIEW.html). 
+Below is the basic implementation of the metadata extension for `ZPRA_MF_C_MusicFestivalTP`. If you want to enhance this metadata extension for a specific use case, refer to [ABAP CDS DDL - ANNOTATE ENTITY, VIEW](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENCDS_F1_ANNOTATE_VIEW.html).
 
 For more information, refer to [Metadata Extension for Music Festival](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddlx.asddlxs).
 
@@ -276,46 +282,54 @@ For more information on how associations are defined, see [Association Definitio
 
 The current application needs to have an association between two entities:
 
-  1. Music Festival
-  2. Visitors
-  
+1. Music Festival
+2. Visitors
+
 To define the association, you need to define the association in the View entity for music festivals. The below code snippet defines how the **Visit** table created can be used to link between a music festival and visitors.
 
-``` abap
-  define root view entity ZPRA_MF_R_MusicFestival
-    as select from zpra_mf_a_mf as MusicFestival
-    composition [0..*] of ZPRA_MF_R_VISIT                   as _Visits
-    association [1..1] to ZPRA_MF_I_Music_Fest_Status_VH as _Status on $projection.Status = _Status.Value
+```cds
+...
+define root view entity ZPRA_MF_R_MusicFestival
+  as select from zpra_mf_a_mf as MusicFestival
+  composition [0..*] of ZPRA_MF_R_VISIT                   as _Visits
+  association [1..1] to ZPRA_MF_I_Music_Fest_Status_VH as _Status on $projection.Status = _Status.Value
+...
 ```
 
 You also need to define the respective associations under the view entity:
 
-```abap
- //Associations
-      _Visits,
-      _Status
+```cds
+...
+//Associations
+_Visits,
+_Status
+...
 ```
 
-This enables the association from the **Music Festival** entity. 
+This enables the association from the **Music Festival** entity.
 You can now create the association from **Visits** and **Visitor** entities similarly to establish the connection.
 
 For the **Visit** entity in the `ZPRA_MF_R_VISIT` view entity, the following association can be created:
 
-```abap
+```cds
+...
 define view entity ZPRA_MF_R_VISIT
   as select from zpra_mf_a_vst
   association        to parent ZPRA_MF_R_MusicFestival as _MusicFestival on $projection.ParentUuid = _MusicFestival.Uuid
   association [0..1] to ZPRA_MF_R_Visitor                 as _Visitor          on $projection.VisitorUuid = _Visitor.Uuid
   association [1..1] to ZPRA_MF_I_Visitor                 as _VisitorVH        on $projection.VisitorUuid = _VisitorVH.VisitorId
   association [1..1] to ZPRA_MF_I_Visit_Status_VH         as _Status           on $projection.Status = _Status.Value
+...
 ```
 
 For **Visitors** entity in the `ZPRA_MF_R_Visitor` view entity, the following association can be created:
 
-``` abap
+```cds
+...
 define root view entity ZPRA_MF_R_Visitor
   as select from zpra_mf_a_vstr as Visitor
   association [1..*] to ZPRA_MF_R_VISIT as _Visits on $projection.Uuid = _Visits.VisitorUuid
+...
 ```
 
 The above created associations can help in establishing the relation between entities.

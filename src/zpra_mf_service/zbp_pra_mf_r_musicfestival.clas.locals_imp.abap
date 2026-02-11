@@ -8,6 +8,7 @@ CLASS lhc_zpra_mf_r_musicfestival DEFINITION INHERITING FROM cl_abap_behavior_ha
 FRIENDS ltc_validation_methods ltc_action_methods ltcl_determination_methods ltc_authorization_methods.
 
   PRIVATE SECTION.
+    DATA ai_service TYPE REF TO zif_pra_mf_gen_ai_util.
 
     METHODS get_global_authorizations FOR GLOBAL AUTHORIZATION
       IMPORTING
@@ -43,6 +44,15 @@ FRIENDS ltc_validation_methods ltc_action_methods ltcl_determination_methods ltc
       IMPORTING keys FOR ACTION MusicFestival~CrProj RESULT result.
     METHODS generateSampleData FOR MODIFY
       IMPORTING keys FOR ACTION MusicFestival~generateSampleData.
+    METHODS GetDefaultsForCreate FOR READ
+      IMPORTING keys FOR FUNCTION MusicFestival~GetDefaultsForCreate RESULT result.
+    METHODS createWithAI FOR MODIFY
+      IMPORTING keys FOR ACTION MusicFestival~createWithAI.
+
+
+    "Class Methods not linked to BO
+    METHODS getAIService
+      RETURNING VALUE(result) TYPE REF TO zif_pra_mf_gen_ai_util.
 
 ENDCLASS.
 
@@ -122,31 +132,33 @@ CLASS lhc_zpra_mf_r_musicfestival IMPLEMENTATION.
 
     DATA(music_festival) = VALUE #( music_festivals[ 1 ] OPTIONAL ).
 
-    result = VALUE #( FOR ls_event IN music_festivals
-                      ( %tky = ls_event-%tky
+    result = VALUE #( FOR event IN music_festivals
+                      ( %tky = event-%tky
                         %features-%assoc-_Visits = COND #(
-                          WHEN ls_event-Status = zcl_pra_mf_enum_mf_status=>published
+                          WHEN event-Status = zcl_pra_mf_enum_mf_status=>published
                             THEN if_abap_behv=>fc-o-enabled
                             ELSE if_abap_behv=>fc-o-disabled )
 
                         %features-%action-publish = COND #(
-                          WHEN ls_event-%is_draft = if_abap_behv=>mk-off
+                          WHEN event-%is_draft = if_abap_behv=>mk-off AND
+                               event-Status NE zcl_pra_mf_enum_mf_status=>published AND
+                               event-Status NE zcl_pra_mf_enum_mf_status=>fully_booked
                             THEN if_abap_behv=>fc-o-enabled
                             ELSE if_abap_behv=>fc-o-disabled )
 
                         %features-%delete = COND #(
-                          WHEN ls_event-Status = zcl_pra_mf_enum_mf_status=>published OR
-                               ls_event-Status = zcl_pra_mf_enum_mf_status=>fully_booked
+                          WHEN event-Status = zcl_pra_mf_enum_mf_status=>published OR
+                               event-Status = zcl_pra_mf_enum_mf_status=>fully_booked
                             THEN if_abap_behv=>fc-o-disabled
                             ELSE if_abap_behv=>fc-o-enabled )
 
                         %features-%action-cancel = COND #(
-                          WHEN ls_event-%is_draft = if_abap_behv=>mk-off
+                          WHEN event-%is_draft = if_abap_behv=>mk-off
                             THEN if_abap_behv=>fc-o-enabled
                             ELSE if_abap_behv=>fc-o-disabled )
 
                         %features-%action-CrProj = COND #(
-                          WHEN ls_event-Status = zcl_pra_mf_enum_mf_status=>published AND
+                          WHEN event-Status = zcl_pra_mf_enum_mf_status=>published AND
                                music_festival-project_id IS INITIAL
                             THEN if_abap_behv=>fc-o-enabled
                             ELSE if_abap_behv=>fc-o-disabled ) ) ).
@@ -206,7 +218,7 @@ CLASS lhc_zpra_mf_r_musicfestival IMPLEMENTATION.
 
     LOOP AT events REFERENCE INTO DATA(event).
 
-      INSERT VALUE #( %tky = event->%tky
+      INSERT VALUE #( %tky        = event->%tky
                       %state_area = zcm_pra_mf_messages=>state_area-validate_visitors )
         INTO TABLE reported-musicfestival.
 
@@ -225,7 +237,7 @@ CLASS lhc_zpra_mf_r_musicfestival IMPLEMENTATION.
       booked_visitors = VALUE #( FOR visit IN event_visits
                                  WHERE ( ParentUuid = event->uuid
                                  AND     Status     = zcl_pra_mf_enum_visit_status=>booked )
-                                 ( visit ) ).
+                                       ( visit ) ).
       IF lines( booked_visitors ) > event->MaxVisitorsNumber.
 
         INSERT VALUE #( %tky = event->%tky ) INTO TABLE failed-musicfestival.
@@ -285,7 +297,7 @@ CLASS lhc_zpra_mf_r_musicfestival IMPLEMENTATION.
       booked_visitors = VALUE #( FOR visit IN event_visits
                                  WHERE ( ParentUuid = event->uuid
                                  AND     Status     = zcl_pra_mf_enum_visit_status=>booked )
-                                 ( visit ) ).
+                                       ( visit ) ).
 
       event->Status = COND #( WHEN event->Status IS INITIAL
                               THEN zcl_pra_mf_enum_mf_status=>in_preparation
@@ -293,10 +305,9 @@ CLASS lhc_zpra_mf_r_musicfestival IMPLEMENTATION.
                               THEN zcl_pra_mf_enum_mf_status=>published
                               WHEN event->MaxVisitorsNumber > 0 AND event->MaxVisitorsNumber = lines( booked_visitors )
                               THEN zcl_pra_mf_enum_mf_status=>fully_booked
-                              ELSE abap_off ).
+                              ELSE event->Status ).
     ENDLOOP.
 
-    DELETE events WHERE Status IS INITIAL.
     CHECK lines( events ) > 0.
 
     MODIFY ENTITIES OF ZPRA_MF_R_MusicFestival IN LOCAL MODE
@@ -333,7 +344,7 @@ CLASS lhc_zpra_mf_r_musicfestival IMPLEMENTATION.
       booked_visitors = VALUE #( FOR visit IN event_visits
                                  WHERE ( ParentUuid = event->uuid
                                  AND     Status     = zcl_pra_mf_enum_visit_status=>booked )
-                                 ( visit ) ).
+                                       ( visit ) ).
 
       event->FreeVisitorSeats = event->MaxVisitorsNumber - lines( booked_visitors ).
     ENDLOOP.
@@ -381,26 +392,6 @@ CLASS lhc_zpra_mf_r_musicfestival IMPLEMENTATION.
         WITH CORRESPONDING #( keys )
         RESULT DATA(events).
 
-    LOOP AT events REFERENCE INTO DATA(event).
-
-      IF event->Status =  zcl_pra_mf_enum_mf_status=>published OR
-         event->Status =  zcl_pra_mf_enum_mf_status=>fully_booked.
-
-        INSERT VALUE #( %tky = event->%tky ) INTO TABLE failed-musicfestival.
-        INSERT VALUE #(
-          %tky = event->%tky
-          "The festival 'Title' has already been published.
-          %msg = NEW zcm_pra_mf_messages( textid = zcm_pra_mf_messages=>event_already_published
-                                          severity = if_abap_behv_message=>severity-error
-                                          title = event->Title )
-        %op-%action-publish = if_abap_behv=>mk-on
-        %element-Status = if_abap_behv=>mk-on
-
-
-           ) INTO TABLE reported-musicfestival.
-      ENDIF.
-    ENDLOOP.
-
     MODIFY ENTITIES OF ZPRA_MF_R_MusicFestival IN LOCAL MODE
       ENTITY MusicFestival
         UPDATE FIELDS ( Status )
@@ -424,80 +415,79 @@ CLASS lhc_zpra_mf_r_musicfestival IMPLEMENTATION.
 
   METHOD createproject.
 
-    DATA ls_project_data TYPE zcl_pra_mf_scm_ent_proj=>tys_a_enterprise_project_type.
+    DATA project_details TYPE zcl_pra_mf_scm_ent_proj=>tys_a_enterprise_project_type.
 
     READ ENTITIES OF ZPRA_MF_R_MusicFestival IN LOCAL MODE
       ENTITY MusicFestival
         ALL FIELDS
         WITH CORRESPONDING #( keys )
-        RESULT DATA(lt_event_data).
+        RESULT DATA(events).
 
-    IF lt_event_data IS NOT INITIAL.
+    IF events IS INITIAL.
+      EXIT.
+    ENDIF.
 
-      DATA(ls_mf_data) = VALUE #( lt_event_data[ 1 ] OPTIONAL ).
+      DATA(event) = VALUE #( events[ 1 ] OPTIONAL ).
 
-      DATA(lo_project) = NEW zcl_pra_mf_ent_proj_outb_integ( ).
+      DATA(project) = NEW zcl_pra_mf_ent_proj_outb_integ( ).
 
-      ls_project_data-project = ls_mf_data-Title.
-      ls_project_data-project_description = ls_mf_data-Description.
+      project_details-project = event-Title.
+      IF strlen( event-Description ) LE 60.
+        project_details-project_description = event-Description.
+      ELSE.
+        project_details-project_description = event-Description+0(60).
+      ENDIF.
 
       CONVERT UTCLONG
-      ls_mf_data-EventDateTime
-      INTO DATE DATA(lv_event_date)
-      TIME DATA(lv_event_time)
+      event-EventDateTime
+      INTO DATE DATA(event_date)
+      TIME DATA(event_time)
       TIME ZONE 'UTC'.
 
-      ls_project_data-project_start_date = lv_event_date.
-      ls_project_data-project_end_date = lv_event_date.
+      project_details-project_start_date = event_date - 30.
+      project_details-project_end_date = event_date.
 
+      TEST-SEAM create_project.
+        project->create_entproject( EXPORTING project_details_in = project_details
+                                    IMPORTING messages           = DATA(proj_message) ).
+      END-TEST-SEAM.
 
-      lo_project->create_entproject( EXPORTING Is_project_data = ls_project_data
-                                     IMPORTING et_message = DATA(lt_proj_message) ).
+      IF proj_message IS NOT INITIAL AND event-%tky IS NOT INITIAL.
 
-      IF lt_proj_message IS NOT INITIAL.
-
-        INSERT VALUE #( %tky = ls_mf_data-%tky ) INTO TABLE failed-musicfestival.
         INSERT VALUE #(
-          %tky = ls_mf_data-%tky
-          "The festival 'Title' has already been published.
-          %msg = NEW zcm_pra_mf_messages( textid = zcm_pra_mf_messages=>error_in_proj_creation
-                                          severity = if_abap_behv_message=>severity-error
-                                          title = ls_mf_data-Title )
-        %op-%action-crproj = if_abap_behv=>mk-on
-        %element-Status = if_abap_behv=>mk-on
+          %tky               = event-%tky
+          "Error in Project Creation
+          %msg               = NEW zcm_pra_mf_messages( textid   = zcm_pra_mf_messages=>error_in_proj_creation
+                                                        severity = if_abap_behv_message=>severity-error
+                                                        title    = event-Title )
+          %op-%action-crproj = if_abap_behv=>mk-on
+          %element-Status    = if_abap_behv=>mk-on
 
-           ) INTO TABLE reported-musicfestival.
+        ) INTO TABLE reported-musicfestival.
 
 
-      ELSEIF lt_proj_message IS INITIAL.
+      ELSEIF proj_message IS INITIAL.
 
-        DATA ls_mf TYPE zpra_mf_a_mf.
+        DATA music_fest TYPE zpra_mf_a_mf.
 
-        ls_mf-project_id = |MF_| && |{ to_upper( ls_project_data-project ) }|.
+        music_fest-project_id = |MF_| && |{ to_upper( project_details-project ) }|.
 
-        ls_mf-uuid = ls_mf_data-Uuid.
+        music_fest-uuid = event-Uuid.
 
         MODIFY ENTITIES OF ZPRA_MF_R_MusicFestival IN LOCAL MODE
           ENTITY MusicFestival
-          UPDATE SET FIELDS
-          WITH VALUE #( FOR entity IN lt_event_data
+          UPDATE FIELDS ( project_id )
+          WITH VALUE #( FOR entity IN events
                         ( %tky       = entity-%tky
-                          project_id = ls_mf-project_id ) ).
+                          project_id = music_fest-project_id ) ).
 
       ENDIF.
-
-    ENDIF.
-
 
     READ ENTITIES OF ZPRA_MF_R_MusicFestival IN LOCAL MODE
       ENTITY MusicFestival
         FIELDS ( Status )
         WITH CORRESPONDING #( keys )
-      RESULT DATA(lt_updated_entities).
-
-    result = VALUE #( FOR ls_updated_entities IN lt_updated_entities
-                      ( %tky   = ls_updated_entities-%tky
-                        %param = ls_updated_entities ) ).
+      RESULT DATA(updated_entities).
 
   ENDMETHOD.
 
@@ -534,45 +524,45 @@ CLASS lhc_zpra_mf_r_musicfestival IMPLEMENTATION.
     create_music_fests = VALUE #(
                           VisitorsFeeAmount   = `99`
                           VisitorsFeeCurrency = `USD`
-                          EventDateTime       = utclong_add(  val   = utclong_current( )
-                                                              days  = 30 )
-                          ( %cid              = `mf01`
-                            Title             = `Tango Tales Buenos Aires`
-                            Description       = `Experience the passionate and intricate world of Argentine Tango.`
-                            MaxVisitorsNumber = `25` )
-                          ( %cid              = `mf02`
-                            Title             = `Sakura Spring Kyoto`
-                            Description       = `Celebrate the ephemeral beauty of cherry blossoms in ancient Kyoto.`
-                            MaxVisitorsNumber = `5` )
-                          ( %cid              = `mf03`
-                            Title             = `Mediterranean Melodies Athens`
-                            Description       = `Enjoy the soulful sounds and rhythms of the Mediterranean coast.`
-                            MaxVisitorsNumber = `50` )
-                          ( %cid              = `mf04`
-                            Title             = `Stage of Words New York`
-                            Description       = `Welcome to a stage in New York where words reign supreme`
-                            MaxVisitorsNumber = `10` )
-                          ( %cid              = `mf05`
-                            Title             = `Rhythm of Rajasthan`
-                            Description       = `Immerse yourself in the vibrant folk music and dance of Rajasthan.`
-                            MaxVisitorsNumber = `20` ) ) ##NO_TEXT.
+                          EventDateTime       = utclong_add( val               = utclong_current( )
+                                                             days              = 30 )
+                          (                                  %cid              = `mf01`
+                                                             Title             = `Tango Tales Buenos Aires`
+                                                             Description       = `Experience the passionate and intricate world of Argentine Tango.`
+                                                             MaxVisitorsNumber = `25` )
+                          (                                  %cid              = `mf02`
+                                                             Title             = `Sakura Spring Kyoto`
+                                                             Description       = `Celebrate the ephemeral beauty of cherry blossoms in ancient Kyoto.`
+                                                             MaxVisitorsNumber = `5` )
+                          (                                  %cid              = `mf03`
+                                                             Title             = `Mediterranean Melodies Athens`
+                                                             Description       = `Enjoy the soulful sounds and rhythms of the Mediterranean coast.`
+                                                             MaxVisitorsNumber = `50` )
+                          (                                  %cid              = `mf04`
+                                                             Title             = `Stage of Words New York`
+                                                             Description       = `Welcome to a stage in New York where words reign supreme`
+                                                             MaxVisitorsNumber = `10` )
+                          (                                  %cid              = `mf05`
+                                                             Title             = `Rhythm of Rajasthan`
+                                                             Description       = `Immerse yourself in the vibrant folk music and dance of Rajasthan.`
+                                                             MaxVisitorsNumber = `20` ) ) ##NO_TEXT.
 
     cba_music_fest_visits = VALUE #( ( %cid_ref = `mf02`
-                                      %target  = VALUE #(
-                                                    ( %cid = `mf02_1` VisitorUuid = visitors_mapping-visitor[ 2 ]-uuid )
-                                                    ( %cid = `mf02_2` VisitorUuid = visitors_mapping-visitor[ 3 ]-uuid )
-                                                    ( %cid = `mf02_3` VisitorUuid = visitors_mapping-visitor[ 4 ]-uuid )
-                                                    ( %cid = `mf02_4` VisitorUuid = visitors_mapping-visitor[ 5 ]-uuid )
-                                                    ( %cid = `mf02_5` VisitorUuid = visitors_mapping-visitor[ 6 ]-uuid ) ) )
-                                    ( %cid_ref = `mf03`
-                                      %target  = VALUE #( ( %cid        = `mf03_1`
-                                                            VisitorUuid = visitors_mapping-visitor[ 1 ]-uuid ) ) )
-                                    ( %cid_ref = `mf04`
-                                      %target  = VALUE #( ( %cid = `mf04_1` VisitorUuid = visitors_mapping-visitor[ 7 ]-uuid )
-                                                          ( %cid = `mf04_2` VisitorUuid = visitors_mapping-visitor[ 8 ]-uuid ) ) ) ).
+                                       %target  = VALUE #(
+                                                           ( %cid        = `mf02_1` VisitorUuid = visitors_mapping-visitor[ 2 ]-uuid )
+                                                           ( %cid        = `mf02_2` VisitorUuid = visitors_mapping-visitor[ 3 ]-uuid )
+                                                           ( %cid        = `mf02_3` VisitorUuid = visitors_mapping-visitor[ 4 ]-uuid )
+                                                           ( %cid        = `mf02_4` VisitorUuid = visitors_mapping-visitor[ 5 ]-uuid )
+                                                           ( %cid        = `mf02_5` VisitorUuid = visitors_mapping-visitor[ 6 ]-uuid ) ) )
+                                     ( %cid_ref = `mf03`
+                                       %target  = VALUE #( ( %cid        = `mf03_1`
+                                                             VisitorUuid = visitors_mapping-visitor[ 1 ]-uuid ) ) )
+                                     ( %cid_ref = `mf04`
+                                       %target  = VALUE #( ( %cid        = `mf04_1` VisitorUuid = visitors_mapping-visitor[ 7 ]-uuid )
+                                                           ( %cid        = `mf04_2` VisitorUuid = visitors_mapping-visitor[ 8 ]-uuid ) ) ) ).
     action_music_fest_publish = VALUE #( ( %cid_ref = `mf02` )
-                                        ( %cid_ref = `mf03` )
-                                        ( %cid_ref = `mf04` ) ).
+                                         ( %cid_ref = `mf03` )
+                                         ( %cid_ref = `mf04` ) ).
     action_visits_book = VALUE #( ( %cid_ref = `mf02_1` )
                                   ( %cid_ref = `mf02_2` )
                                   ( %cid_ref = `mf02_3` )
@@ -598,5 +588,76 @@ CLASS lhc_zpra_mf_r_musicfestival IMPLEMENTATION.
       REPORTED reported.
 
   ENDMETHOD.
+
+  METHOD GetDefaultsForCreate.
+    result = VALUE #( FOR key IN keys (
+                      %cid                       = key-%cid
+                      %param-VisitorsFeeCurrency = 'INR'
+                      ) ).
+  ENDMETHOD.
+
+  METHOD createWithAI.
+
+    TYPES: BEGIN OF mf_create_data_structure,
+             cid          TYPE abp_behv_cid,
+             is_draft     TYPE abp_behv_flag,
+             llm_response TYPE zcl_pra_mf_gen_ai_util=>zif_pra_mf_gen_ai_util~llm_response_structure,
+           END OF mf_create_data_structure.
+
+    DATA mf_create_data TYPE TABLE OF mf_create_data_structure.
+
+    IF NEW zcl_pra_mf_com_util(  )->is_scenario_configured( 'SAP_COM_0A69' ) = abap_false.
+      "No active communication arrangement for scenario SCENARIO_ID found
+      INSERT VALUE #( %msg = NEW zcm_pra_mf_messages( textid      = zcm_pra_mf_messages=>scenario_not_configured
+                                                      severity    = if_abap_behv_message=>severity-error
+                                                      scenario_id = 'SAP_COM_0A69' ) ) INTO TABLE reported-musicfestival.
+      failed-musicfestival = CORRESPONDING #( keys ).
+      RETURN.
+    ENDIF.
+
+    LOOP AT keys REFERENCE INTO DATA(key).
+
+      TRY.
+          DATA(llm_response) = getAIService( )->generate_music_festival_data( language        = key->%param-language
+                                                                              tags            = key->%param-tags
+                                                                              rhyme_indicator = key->%param-rhyme ).
+          llm_response-description = |{ llm_response-description } \n\nDisclaimer: This content is generated by AI|.
+
+          APPEND VALUE #( cid          = key->%cid
+                          is_draft     = key->%param-%is_draft
+                          llm_response = llm_response ) TO mf_create_data.
+
+        CATCH cx_root INTO DATA(exception).
+          DATA(exception_text) = exception->get_longtext( ).
+          "Musical event creation with AI failed. Please try again. Error: EXCEPTION_TEXT
+          INSERT VALUE #( %msg = NEW zcm_pra_mf_messages( textid         = zcm_pra_mf_messages=>create_with_ai_failed
+                                                          severity       = if_abap_behv_message=>severity-error
+                                                          exception_text = exception_text ) ) INTO TABLE reported-musicfestival.
+          INSERT VALUE #( %cid = key->%cid ) INTO TABLE failed-musicfestival.
+      ENDTRY.
+
+    ENDLOOP.
+
+    MODIFY ENTITIES OF zpra_mf_r_musicfestival IN LOCAL MODE
+        ENTITY MusicFestival
+          CREATE
+            FIELDS ( Title Description )
+              WITH VALUE #( FOR line_item IN mf_create_data ( %cid        = line_item-cid
+                                                              %is_draft   = line_item-is_draft
+                                                              Title       = line_item-llm_response-title
+                                                              Description = line_item-llm_response-description ) )
+    MAPPED mapped.
+
+  ENDMETHOD.
+
+  METHOD getAIService.
+
+    IF ai_service IS INITIAL.
+      ai_service = zcl_pra_mf_gen_ai_util=>get_instance( ).
+    ENDIF.
+    result = ai_service.
+
+  ENDMETHOD.
+
 
 ENDCLASS.

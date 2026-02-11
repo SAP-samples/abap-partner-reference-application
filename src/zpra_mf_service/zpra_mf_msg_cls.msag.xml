@@ -11,6 +11,12 @@
     <T100>
      <SPRSL>E</SPRSL>
      <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>000</MSGNR>
+     <TEXT>&amp;1 &amp;2 &amp;3 &amp;4</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
      <MSGNR>001</MSGNR>
      <TEXT>Maximum visitors must be greater than zero.</TEXT>
     </T100>
@@ -36,7 +42,13 @@
      <SPRSL>E</SPRSL>
      <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
      <MSGNR>005</MSGNR>
-     <TEXT>The festival &apos;&amp;1&apos; has already been published.</TEXT>
+     <TEXT>Event creation with AI failed. Error: &amp;1</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>006</MSGNR>
+     <TEXT>No active communication arrangement for scenario &amp;1 found</TEXT>
     </T100>
     <T100>
      <SPRSL>E</SPRSL>
@@ -49,6 +61,12 @@
      <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
      <MSGNR>010</MSGNR>
      <TEXT>Error in Project Creation</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>011</MSGNR>
+     <TEXT>Error while generating PDF</TEXT>
     </T100>
    </T100>
   </asx:values>
