@@ -93,7 +93,9 @@ If you prefer a quick start without further explanation and want to the applicat
 >   - *Windows*: `Ctrl + Shift + A`
 >   - *Mac*: `Cmd + Shift + A`
 
-11. Now, let's deploy the **Music Festival Manager** and **Visitors** SAP Fiori applications.
+11. Follow the [prerequisites](./14-Develop-Web-Application.md#prerequisites) steps before proceeding with SAP Fiori application development.
+ 
+12. Now, let's deploy the **Music Festival Manager** and **Visitors** SAP Fiori applications.
 
     1. Open SAP BAS and clone the [ABAP Partner Reference Application](https://github.com/SAP-samples/abap-partner-reference-application) repository.
 
@@ -126,7 +128,7 @@ If you prefer a quick start without further explanation and want to the applicat
 > - If the deployment fails on the first attempt, try to retrigger the deployment to resolve any transient issues.
 > - If you encounter an error stating "duplicate ID in SAP UI5 repository" during deployment, open your manifest.json file and update the id field under the "sap.app" section to a unique value. Then, try deploying again.
 
-12. After successfully deploying the SAP Fiori applications, return to the abapGit repositories window in ADT and perform the pull operation again to fetch the remaining ABAP objects related to SAP Fiori applications.
+13. After successfully deploying the SAP Fiori applications, return to the abapGit repositories window in ADT and perform the pull operation again to fetch the remaining ABAP objects related to SAP Fiori applications.
     - Right-click on the `ZPRA_MF` package name under the abapGit repositories window and choose **Pull**. During the pull operation, verify and keep the following objects **unchecked**:
         - `ZPRA_MF_MF_UI5R`
         - `ZPRA_MF_VSTR_UI5R`
@@ -137,15 +139,15 @@ If you prefer a quick start without further explanation and want to the applicat
 > [!NOTE]
 > These objects are already created during the deployment of the SAP Fiori applications and don't need to be pulled again.
 
-13. Open the Launchpad Page Template `ZPRA_MF_LPT` and update both visualizations under the section `ZPRA_MF_SECTION_MF`:
+14. Open the Launchpad Page Template `ZPRA_MF_LPT` and update both visualizations under the section `ZPRA_MF_SECTION_MF`:
     - Expand visualization section
     - Select the visualization to update
     - Update 'Tile Id' by clicking on browse, search with '*'. Select the first entry and click ok.
     - Save the launchpad page template.
 
-14. ![icon for activate all](./images/01-icon-activate-all.png)Activate all the objects.
+15. ![icon for activate all](./images/01-icon-activate-all.png)Activate all the objects.
 
-15. Follow the steps below to publish the business role templates in ADT to enable the necessary roles for the application:
+16. Follow the steps below to publish the business role templates in ADT to enable the necessary roles for the application:
 
     1. Open the ADT in Eclipse.
     2. Use the search functionality to open the following objects:
@@ -154,18 +156,18 @@ If you prefer a quick start without further explanation and want to the applicat
         - Communication scenario `ZPRA_MF_CS_ENT_PROJ`
     3. Select each and choose **Publish Locally**.
 
-16. The Service Consumption Model as explained in [Integration with SAP S/4HANA Cloud Public Edition](./40-Integration-with-S4-Public-Cloud.md#set-up-a-service-consumption-model) guide needs to be created as this is not imported by abapGit.
+17. The Service Consumption Model as explained in [Integration with SAP S/4HANA Cloud Public Edition](./40-Integration-with-S4-Public-Cloud.md#set-up-a-service-consumption-model) guide needs to be created as this is not imported by abapGit.
     1. First, delete the imported class `ZCL_PRA_MF_SCM_ENT_PROJ` as this will be generated in the next step.
     2. Please follow steps 1 and 2 of section [Import SAP S/4HANA Cloud Public Edition OData Services](./40-Integration-with-S4-Public-Cloud.md#import-sap-s4hana-cloud-public-edition-odata-services) and then continue with step 17 here.
 
-17. Scope in the launchpad page and space templates to enable navigation and role-based access.
+18. Scope in the launchpad page and space templates to enable navigation and role-based access.
     1. Open the ADT in Eclipse.
     2. Use the search functionality to locate the following class:
         - `ZCL_PRA_MF_SCOPE_PG_SP_TMPLT`
     3. Right-click on the class and select **Run As > ABAP Application (Console)** to execute the scoping process.
 
-18. [Create the business roles and assign the business users in the ABAP landscape](./22-Integration%20Application%20into%20Launchpad.md#creating-business-roles-and-assigning-business-users)
+19. [Create the business roles and assign the business users in the ABAP landscape](./22-Integration%20Application%20into%20Launchpad.md#creating-business-roles-and-assigning-business-users)
 
-19. To integrate your SAP BTP application with the SAP S/4HANA Cloud Public Edition, follow the steps outlined in this guide: [Integration with SAP S/4HANA Cloud Public Edition](./40-Integration-with-S4-Public-Cloud.md).
+20. To integrate your SAP BTP application with the SAP S/4HANA Cloud Public Edition, follow the steps outlined in this guide: [Integration with SAP S/4HANA Cloud Public Edition](./40-Integration-with-S4-Public-Cloud.md).
 
 You've successfully deployed your SAP Fiori applications.
