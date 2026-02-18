@@ -23,25 +23,25 @@ This section guides you through the navigation from SAP BTP ABAP environment Par
 Set up the trust relationship between the SAP BTP subaccount and the Identity Authentication service using SAML 2.0. For more information, refer to [SAP Cloud Identity Services](https://help.sap.com/docs/identity-authentication/identity-authentication/saml-2-0). The SAML2 usage applies only if the OpenID Connect configuration isn't possible. This occurs when the SAP BTP subscriber subaccount and the Identity Authentication service tenant aren't assigned to the same customer ID. This setup comes with limitations regarding remote access to the OData services of the SAP BTP application with principal propagation.
 
 1. In the SAP BTP consumer subaccount, download the **SAML** metadata file of the subaccount.
-1. Open **Security** in the menu and go to **Trust Configuration**.
-1. Choose **Download SAML Metadata**.
+2. Open **Security** in the menu and go to **Trust Configuration**.
+3. Choose **Download SAML Metadata**.
 
-1. On the Identity Authentication admin UI, go to **Applications and Resources > Applications** and create a new application of the type _SAP BTP Solution_.
-1. Enter the required information, such as application display name, home URL, and so on.
+4. On the Identity Authentication admin UI, go to **Applications and Resources > Applications** and create a new application of the type _SAP BTP Solution_.
+5. Enter the required information, such as application display name, home URL, and so on.
    The display name appears on the user login screen. The login applies to all applications linked to the Identity Authentication service tenant, following the single sign-on principle.
-1. Go to **SAML 2.0 Configuration** and upload the **SAML** metadata file from the SAP BTP subaccount you've downloaded in the previous step.
-1. As **Subject Name Identifier**, select _E-Mail_ as the primary attribute.
-1. As **Default Name ID Format**, select _E-Mail_.
-1. Go to **Attributes** and add the **Groups** user attribute with the **Groups** value from the **Identity Directory** source.
+6. Go to **SAML 2.0 Configuration** and upload the **SAML** metadata file from the SAP BTP subaccount you've downloaded in the previous step.
+7. As **Subject Name Identifier**, select _E-Mail_ as the primary attribute.
+8. As **Default Name ID Format**, select _E-Mail_.
+9. Go to **Attributes** and add the **Groups** user attribute with the **Groups** value from the **Identity Directory** source.
 
 > [!NOTE]
 > The **Groups** assertion attribute is used to process authorization checks in the consumer subaccount based on user groups. The **Groups** value of the assertion attribute must be written with a **capital G** for SAP BTP subaccounts.
 
-3. To download the **SAML** metadata file of the IdP, go to **Applications and Resources > Tenant Settings > SAML 2.0 Configuration** and choose _Download Metadata File_.
+10. To download the **SAML** metadata file of the IdP, go to **Applications and Resources > Tenant Settings > SAML 2.0 Configuration** and choose _Download Metadata File_.
 
-4. In the SAP BTP consumer subaccount, go to **Security > Trust Configuration**.
-5. Choose **New SAML Trust Configuration**.
-6. Upload the **SAML** metadata file of the IdP that you've just downloaded and enter a meaningful name and description for the IdP, for example `Corporate IdP`.
+11. In the SAP BTP consumer subaccount, go to **Security > Trust Configuration**.
+12. Choose **New SAML Trust Configuration**.
+13. Upload the **SAML** metadata file of the IdP that you've just downloaded and enter a meaningful name and description for the IdP, for example `Corporate IdP`.
 
 > [!IMPORTANT]
 >
@@ -125,7 +125,7 @@ This section explains the setup process for both Basic Authentication and OAuth 
    3. Add a user for outbound communication.
       1. Choose the plus icon.
       2. As **Authentication Method**, set _User Name and Password_.
-      3. As **User name/Client ID**, set the communication user you've created in previous steps.
+      3. As **User name/Client ID**, set the communication user you've created in previous step.
       4. As **Password**, enter the password of the communication user.
       5. Choose **Create**.
 
@@ -135,9 +135,9 @@ This section explains the setup process for both Basic Authentication and OAuth 
 
 4. Create the communication arrangement for the communication scenario.
    1. Open the **Communication Arrangements** application and choose **New**.
-      1. Select the communication scenario you've created in previous steps.
+      1. Select the communication scenario you've created in step 1.
       2. Enter an **Arrangement Name** of your choice.
-      3. As **Communication System**, set the communication system you've created in previous steps.
+      3. As **Communication System**, set the communication system you've created in previous step.
       4. Save your changes.
 
          <img src="./images/51_O_Comm_Arran.png" width="75%">
@@ -158,7 +158,7 @@ This section explains the setup process for both Basic Authentication and OAuth 
    3. Add a user for inbound communication.
       1. Choose the plus icon.
       2. As **Authentication Method**, set _User Name and Password_.
-      3. As **User name/Client ID**, set the communication user you've created in previous steps.
+      3. As **User name/Client ID**, set the communication user you've created in previous step.
       4. As **Password**, enter the password of the communication user.
       5. Choose **Create**.
 
@@ -168,7 +168,7 @@ This section explains the setup process for both Basic Authentication and OAuth 
 3. Create a communication arrangement in the target SAP S/4HANA Cloud Public Edition system for the `SAP_COM_0308` communication scenario.
    1. Open the **Communication Arrangements** application and choose **New**.
       1. Enter an **Arrangement Name** of your choice.
-      2. As **Communication System**, set the communication system you've created in previous steps.
+      2. As **Communication System**, set the communication system you've created in previous step.
       3. Save your changes.
 
       <img src="./images/51_I_Comm_Arran.png" width="75%">
