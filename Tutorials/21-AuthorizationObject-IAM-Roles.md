@@ -34,13 +34,13 @@ To protect your service from activities such as create, update, or delete by una
 
   <img src="./images/21-Auth_Object_in_BDEF.png" width="50%">
 
-For more information on BDEFs, see - [zpra_mf_r_musicfestival](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) and [zpra_mf_r_visitor](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_r_visitor.bdef.asbdef).
+For more information on BDEFs, see - [zpra_mf_r_musicfestival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) and [zpra_mf_r_visitor](../src/zpra_mf_service/zpra_mf_r_visitor.bdef.asbdef).
 
 3. With the **authorization master ( global, instance )** line, an authorization check for the standard operations create, update, delete, and for non-standard operations is defined. Implement the authorization check using a method with addition **FOR GLOBAL AUTHORIZATION** and **FOR INSTANCE AUTHORIZATION** in the [behavior implementation](https://help.sap.com/docs/ABAP_PLATFORM_NEW/fc4c71aa50014fd1b43721701471913d/b915e9d784734ec088ac2cb51a0c18e6.html?locale=en-US&state=PRODUCTION&version=202310.003).
 
-Refer to the sample code in the **get_global_authorizations** method using [this link](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap).
+Refer to the sample code in the **get_global_authorizations** method using [this link](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap).
 
-Refer to the sample code in the **get_instance_authorizations** method using [this link](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap).
+Refer to the sample code in the **get_instance_authorizations** method using [this link](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap).
 
 ---
 

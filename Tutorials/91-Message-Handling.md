@@ -49,9 +49,9 @@ Message classes provide a way to define and manage messages in a centralized man
 
 A Message exception class in ABAP RAP is a specialized ABAP class that extends standard exception handling to provide structured, reusable message management for RAP applications. It serves as a bridge between traditional ABAP message classes and the modern RAP messaging framework. It is used to encapsulate the messages stored in a message class to handle the formatting of message variable types like dates or amounts through the exception class.
 
-We have implemented a message exception class for our application. You can refer to the implementation at [`Message Exception Class`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zcm_pra_mf_messages.clas.abap).
+We have implemented a message exception class for our application. You can refer to the implementation at [`Message Exception Class`](../src/zpra_mf_service/zcm_pra_mf_messages.clas.abap).
 
-A sample usage of the message exception class can be found in the Music Festival's [`behavior implementation class`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap).
+A sample usage of the message exception class can be found in the Music Festival's [`behavior implementation class`](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap).
 
 This is a code snippet from the behavior implementation class, validating the event date and time to be in the future, with messages created using the message exception class:
 

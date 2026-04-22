@@ -30,9 +30,9 @@ In our application, we have defined different kinds of actions to handle various
   static action generateSampleData;
   ```
 
-A complete set of [actions](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) can be found in the behavior definitions of the respective business objects.
+A complete set of [actions](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) can be found in the behavior definitions of the respective business objects.
 
-See [Behavior Definition for Music Festival](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) for more information.
+See [Behavior Definition for Music Festival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) for more information.
 
 Let's create an action:
 
@@ -46,7 +46,7 @@ Let's create an action:
 <img src="./images/13_action.png" width="50%" >
 
 4. As a result, the method for the **Publish** action is added to the local handler class, _lcl_handler_, in the behavior pool of the Music Festival entity.
-5. Add the implementation for an action. Refer to [Publish action](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) for more information.
+5. Add the implementation for an action. Refer to [Publish action](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) for more information.
 
 6. Save and activate the action.
 7. You can now test the action to see if a user is able to publish an event in the app.
@@ -135,12 +135,12 @@ Let's create one validation:
 <img src="./images/13_validationMandatoryValue.png" width="50%" >
 
 4. As a result, a method for validation named **validateMandatoryValue** is added to the local handler class _lcl_handler_ of the behavior pool of the Music Festival entity.
-5. Add the implementation for the validation. Refer to [ValidateMandatoryValue](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) for more information.
+5. Add the implementation for the validation. Refer to [ValidateMandatoryValue](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) for more information.
 
 6. Save and activate the validation.
 7. The validation can now be tested on a running app when a user tries to delete an event that is already published.
 
-For more information, see [Local Class with implementation for validation](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) and [Behavior Definition for Music Festival](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef).
+For more information, see [Local Class with implementation for validation](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) and [Behavior Definition for Music Festival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef).
 
 ### More Information
 
@@ -185,7 +185,7 @@ In context of our application, we have defined different kinds of determinations
   - _Trigger Operations_ - It runs specifically during the creation and deletion of a new Visit instance.
   - _Trigger Fields_ - It is triggered when the **Max Visitor Number** field is modified.
 
-A complete set of determinations can be found in the [behavior definitions](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) of the respective business objects.
+A complete set of determinations can be found in the [behavior definitions](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) of the respective business objects.
 
 For reference, let's create one determination:
 
@@ -199,12 +199,12 @@ For reference, let's create one determination:
 <img src="./images/13_determination.png" width="50%" >
 
 4. As a result, the method for the **determineStatus** determination is added to the local handler class _lcl_handler_ in the behavior pool of the Music Festival entity.
-5. Add the implementation for the determination. Refer to [Determine Status](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) for more information.
+5. Add the implementation for the determination. Refer to [Determine Status](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) for more information.
 
 6. Save and activate the determination.
 7. You can now test the determination in the app and check for various changes in the status when creating events.
 
-Go to [Local Class with implementation for all determination ](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) to check the code.
+Go to [Local Class with implementation for all determination ](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) to check the code.
 
 > [!NOTE]
 > **Chain Reactions**
@@ -250,7 +250,7 @@ Method invocation unit tests focus on testing business logic, such as determinat
 EML unit tests validate the complete RAP behavior by simulating runtime using the CDS test environment. They perform operations like **MODIFY ENTITIES** and **READ ENTITIES** to test determinations, validations, and actions end to end, making them ideal for realistic behavior validation in a RAP application.
 
 > [!NOTE]
-> For detailed insights and examples, refer to the [unit test class](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.testclasses.abap) associated with the Music Festival behavior definition class.
+> For detailed insights and examples, refer to the [unit test class](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.testclasses.abap) associated with the Music Festival behavior definition class.
 
 #### More Information
 

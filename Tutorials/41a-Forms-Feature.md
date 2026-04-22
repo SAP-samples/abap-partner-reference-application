@@ -76,7 +76,7 @@ The Adobe Document Services (ADS) can render Adobe XML Forms (XFA) into PDF docu
 
 ## Enhancing the Application Step by Step to Enable Forms
 
-1. To enable the SAP Forms service in the [data definition of the music application](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddls.asddls), you need to add a specific annotation. Locate the file in the **ZPRA_MF_SERVICE** package and include the following annotation: `@ObjectModel.supportedCapabilities: [ #OUTPUT_FORM_DATA_PROVIDER  ]`
+1. To enable the SAP Forms service in the [data definition of the music application](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddls.asddls), you need to add a specific annotation. Locate the file in the **ZPRA_MF_SERVICE** package and include the following annotation: `@ObjectModel.supportedCapabilities: [ #OUTPUT_FORM_DATA_PROVIDER  ]`
 
     <img src="./images/41a_Form_annotations.png" width=50%>
 
@@ -92,7 +92,7 @@ The Adobe Document Services (ADS) can render Adobe XML Forms (XFA) into PDF docu
       **Length**: 99000
       **Field Labels**: PDF
 
-3. Create three [virtual elements](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddls.asddls) for consuming forms with a calculation class defined. These virtual elements help determining the mime type and the hyperlink text value of the PDF file to be generated. The **OutputPdfData** assists in calculating the values to display in the form for the music event. The virtual elements are:
+3. Create three [virtual elements](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddls.asddls) for consuming forms with a calculation class defined. These virtual elements help determining the mime type and the hyperlink text value of the PDF file to be generated. The **OutputPdfData** assists in calculating the values to display in the form for the music event. The virtual elements are:
    1. Mime:
 
       ```cds
@@ -182,16 +182,16 @@ The Adobe Document Services (ADS) can render Adobe XML Forms (XFA) into PDF docu
 
 11. Save and activate the form.
 
-12. Create a interface called [`ZIF_PRA_MF_FORM_UTIL`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zif_pra_mf_form_util.intf.abap) by right-clicking on **Source Code Library** and choosing **New ABAP Interface**.
+12. Create a interface called [`ZIF_PRA_MF_FORM_UTIL`](../src/zpra_mf_service/zif_pra_mf_form_util.intf.abap) by right-clicking on **Source Code Library** and choosing **New ABAP Interface**.
 
-13. Create a util class called [`ZCL_PRA_MF_FORM_UTIL`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zcl_pra_mf_form_util.clas.abap) by right-clicking on **Source Code Library** and choosing **New ABAP Class** to process the forms in SAP Forms service. We use the PDF generation service with the **CL_FP_FDP_SERVICES** class.
+13. Create a util class called [`ZCL_PRA_MF_FORM_UTIL`](../src/zpra_mf_service/zcl_pra_mf_form_util.clas.abap) by right-clicking on **Source Code Library** and choosing **New ABAP Class** to process the forms in SAP Forms service. We use the PDF generation service with the **CL_FP_FDP_SERVICES** class.
 
 > [!NOTE]
 > The CL_FP_FDP_SERVICES class provides the ABAP API to receive the data in xml format for the use in print forms and the XML Schema Definition (XSD) used for the design of print forms in the Adobe LiveCycle Designer.
 
-14. Create a util class called [`ZCL_PRA_MF_COM_UTIL`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zcl_pra_mf_com_util.clas.abap) by right-clicking on **Source Code Library** and choosing **New ABAP Class** to check if the given scenario is configured based on the active communication arrangement.
+14. Create a util class called [`ZCL_PRA_MF_COM_UTIL`](../src/zpra_mf_service/zcl_pra_mf_com_util.clas.abap) by right-clicking on **Source Code Library** and choosing **New ABAP Class** to check if the given scenario is configured based on the active communication arrangement.
 
-15. Let's now define the calculation class defined for the virtual element, for example [ZCL_PRA_MF_CALC_MF_ELEMENTS](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zcl_pra_mf_calc_mf_elements.clas.abap), you can add the logic to call the util class you've created. Under the **if_sadl_exit_calc_element_read~calculate** method implementation, add following logic:
+15. Let's now define the calculation class defined for the virtual element, for example [ZCL_PRA_MF_CALC_MF_ELEMENTS](../src/zpra_mf_service/zcl_pra_mf_calc_mf_elements.clas.abap), you can add the logic to call the util class you've created. Under the **if_sadl_exit_calc_element_read~calculate** method implementation, add following logic:
 
     ```abap
     ...
@@ -225,7 +225,7 @@ The Adobe Document Services (ADS) can render Adobe XML Forms (XFA) into PDF docu
     ...
     ```
 
-16. For the **OutputPdfData** virtual element, add the UUID to extract the event details in the ** if_sadl_exit_calc_element_read~get_calculation_info** method of the [calculated class](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zcl_pra_mf_calc_mf_elements.clas.abap).
+16. For the **OutputPdfData** virtual element, add the UUID to extract the event details in the ** if_sadl_exit_calc_element_read~get_calculation_info** method of the [calculated class](../src/zpra_mf_service/zcl_pra_mf_calc_mf_elements.clas.abap).
 
     ```abap
     ...
@@ -235,7 +235,7 @@ The Adobe Document Services (ADS) can render Adobe XML Forms (XFA) into PDF docu
     ...
     ```
 
-17. In the [**ZPRA_MF_C_MUSICFESTIVAL_TP**](http://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddlx.asddlxs) metadata extension, add the UI changes to include the PDF preview.
+17. In the [**ZPRA_MF_C_MUSICFESTIVAL_TP**](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddlx.asddlxs) metadata extension, add the UI changes to include the PDF preview.
 
     ```abap
     ...

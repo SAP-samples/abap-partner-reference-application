@@ -46,7 +46,7 @@ The [scoping of space and page templates](https://help.sap.com/docs/sap-btp-abap
 
 - Create an ABAP class named **ZCL_PRA_MF_SCOPE_PG_SP_TMPLT** to implement your own scoping using the **CL_APS_BC_SCOPE_CHANGE_API** scoping API.
 - Update the names of the launchpad page template **ZPRA_MF_LPT** and launchpad space template **ZPRA_MF_LST** in the code.
-- Check the reference code [here](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_ui_mng_music_fests/zcl_pra_mf_scope_pg_sp_tmplt.clas.abap).
+- Check the reference code [here](../src/zpra_mf_ui_mng_music_fests/zcl_pra_mf_scope_pg_sp_tmplt.clas.abap).
 
 ## Creating a Business Role Template and Assigning the Launchpad Space Template
 

@@ -21,7 +21,7 @@ A CDS view entity is a CDS entity defined using the `DEFINE VIEW ENTITY` stateme
 
 Let's take a detailed look at one of the view entities:
 
-- [View Entity for Database Table `ZPRA_MF_A_MF`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_r_musicfestival.ddls.asddls)
+- [View Entity for Database Table `ZPRA_MF_A_MF`](../src/zpra_mf_service/zpra_mf_r_musicfestival.ddls.asddls)
 
 **CDS view entity structure** - The CDS view entity is structured into three main sections: `Annotations`, `Core Definition`, and `Field Mapping`. Each section plays a distinct role in defining the semantics and structure of your RAP business object.
 
@@ -102,7 +102,7 @@ Let's take a look at one projection view in detail.
 ##### Projection View for View Entity `ZPRA_MF_R_MusicFestival`
 
 A projection view for a view entity serves as a layer between the consumer and the business object data model. It’s a key part of exposing business objects in a controlled, secure, and flexible way.
-To see how entities are projected, refer to [Projection View for Music festivals](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddls.asddls).
+To see how entities are projected, refer to [Projection View for Music festivals](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddls.asddls).
 
 ### 2. Behavior Definition
 
@@ -130,7 +130,7 @@ Let's take a look at one of the behavior definitions in detail.
 
 #### Behavior Definition for View Entity `ZPRA_MF_R_MusicFestival`
 
-The [behavior definition for Music Festival](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) declares all validations, determinations, action, and attributes required for any application.
+The [behavior definition for Music Festival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) declares all validations, determinations, action, and attributes required for any application.
 
 **RAP Behavior Definition Structure** -
 
@@ -233,7 +233,7 @@ The following image shows the role of RAP projection behavior definitions for a 
 
 #### Projection Behavior Definition for `ZPRA_MF_C_MusicFestivalTP`
 
-Go to [Projection Behavior for Music Fest](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_c_musicfestivaltp.bdef.asbdef).
+Go to [Projection Behavior for Music Fest](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.bdef.asbdef).
 It is described here how actions and associations are defined.
 
 > [!NOTE]
@@ -249,7 +249,7 @@ Alongside the CDS DDL statements for data definitions, there is a CDS DDL statem
 
 Below is the basic implementation of the metadata extension for `ZPRA_MF_C_MusicFestivalTP`. If you want to enhance this metadata extension for a specific use case, refer to [ABAP CDS DDL - ANNOTATE ENTITY, VIEW](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENCDS_F1_ANNOTATE_VIEW.html).
 
-For more information, refer to [Metadata Extension for Music Festival](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddlx.asddlxs).
+For more information, refer to [Metadata Extension for Music Festival](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddlx.asddlxs).
 
 ## Associations
 
@@ -278,7 +278,7 @@ While creating applications, we often model these relationships to build intuiti
 
 - **Association** is defined between the **Visit** and **Visitor** entities, representing a weaker relationship. While a **visit may be linked to a visitor**, the **visitor exists independently** of any visit. This standard association allows for navigational access from a visit to its corresponding visitor without enforcing lifecycle dependency. It reflects a more flexible relationship, where visitors can participate in multiple events over time and are not bound to the existence of any specific visit.
 
-For more information on how associations are defined, see [Association Definition for Music Festival](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_r_musicfestival.ddls.asddls).
+For more information on how associations are defined, see [Association Definition for Music Festival](../src/zpra_mf_service/zpra_mf_r_musicfestival.ddls.asddls).
 
 The current application needs to have an association between two entities:
 

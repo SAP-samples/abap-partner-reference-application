@@ -60,9 +60,9 @@ Set up the trust relationship between the SAP BTP subaccount and the Identity Au
 3. The **Nav** field has to be populated in the **ZCL_PRA_MF_FETCH_PROJ** implementation class.
    - Inside the **if_rap_query_provider~select** method, fetch the hostname maintained in the communication arrangement created for the **ZPRA_CS_ENT_PROJ** scenario.
    - Prepare the complete URL by concatenating the hostname fetched above with the service URL for the enterprise project along with the **Project ID**.
-   - You can have a look at the [reference code](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zcl_pra_mf_fetch_proj.clas.abap).
+   - You can have a look at the [reference code](../src/zpra_mf_service/zcl_pra_mf_fetch_proj.clas.abap).
 
-4. Annotate the **ProjectID** key field with **#WITH_URL**. You can have a look at the [reference code](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_ae_remote_proj.ddls.asddls).
+4. Annotate the **ProjectID** key field with **#WITH_URL**. You can have a look at the [reference code](../src/zpra_mf_service/zpra_mf_ae_remote_proj.ddls.asddls).
 
 ### Back-Channel Integration
 
@@ -309,7 +309,7 @@ To determine the business catalogs, which enable your S/4HANA Cloud business use
 4.  Pass the `A_ENTERPRISE_PROJECT` entity to the `CREATE_RESOURCE_FOR_ENTITY_SET` method using the client proxy reference, and subsequently invoke the `CREATE_REQUEST_FOR_CREATE` method to instantiate the request object.
 5.  Use the `CREATE_DATA_DESCRIPTION_NODE` method on the request object created in the previous step to instantiate the data description node object.
 6.  Pass the enterprise project structure to the `SET_DEEP_BUSINESS_DATA` method on the request object along with the data description node object and execute the request.
-7.  You can have a look at the [reference code](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zcl_pra_mf_ent_proj_outb_integ.clas.abap).
+7.  You can have a look at the [reference code](../src/zpra_mf_service/zcl_pra_mf_ent_proj_outb_integ.clas.abap).
 
 ## Enhance the Web App to Display SAP S/4HANA Cloud Public Edition Data
 
@@ -318,10 +318,10 @@ The behavior definition is adjusted to add a button in the web application, whil
 1. Make adjustments in the behaviour definition.
    1. Define and expose a button to create a project in the behavior definition.
    2. Create a method in the behavior implementation class to call the method to [create a project](#create-a-class-for-project-creation).
-   3. You can have a look at the [reference code](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap).
-2. Create a custom entity for fetching the project. Refer to the code [here](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_ae_remote_proj.ddls.asddls).
-3. There's a class in the custom entity where the code to fetch the project is implemented. Refer to the code [here](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zcl_pra_mf_fetch_proj.clas.abap).
-4. The custom entity is then associated with the projection view to the fetched project. Refer to the code [here](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddls.asddls).
+   3. You can have a look at the [reference code](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap).
+2. Create a custom entity for fetching the project. Refer to the code [here](../src/zpra_mf_service/zpra_mf_ae_remote_proj.ddls.asddls).
+3. There's a class in the custom entity where the code to fetch the project is implemented. Refer to the code [here](../src/zpra_mf_service/zcl_pra_mf_fetch_proj.clas.abap).
+4. The custom entity is then associated with the projection view to the fetched project. Refer to the code [here](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddls.asddls).
 5. Expose the custom entity in the service definition.
 6. The images below show a preview of the application UI.
 

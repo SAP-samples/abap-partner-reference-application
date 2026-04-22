@@ -25,7 +25,7 @@ Each event contains information in its payload. A parameter is assigned to each 
     - ZPRA_MF_D_VISIT for **VisitBooked** and **VisitCancelled** event.
 3.	Specify the fields in the abstract entity that must be included in the event payload, along with their required data types.
 
-    [ZPRA_MF_D_MUSICEVENTCREATED](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_d_musiceventcreated.ddls.asddls)
+    [ZPRA_MF_D_MUSICEVENTCREATED](../src/zpra_mf_service/zpra_mf_d_musiceventcreated.ddls.asddls)
 
     The following fields are part of each event. The data elements were created in the previous release and reused in the abstract entity.
 
@@ -52,15 +52,15 @@ Each event contains information in its payload. A parameter is assigned to each 
 4. To define field changes in a business event such as **MusicEventUpdated**, create an abstract entity with a nested structure that shows the before and new values.
 5. Create an abstract entity named **ZPRA_MF_D_MUSICEVENTUPDATED** with the required fields and a node named `__before` (two underscores). The node is a composition of ZPRA_MF_D_MUSICEVENTUPDATED_OLD. Don't activate the entity.
 
-    [ZPRA_MF_D_MUSICEVENTUPDATED](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_d_musiceventupdated.ddls.asddls)
+    [ZPRA_MF_D_MUSICEVENTUPDATED](../src/zpra_mf_service/zpra_mf_d_musiceventupdated.ddls.asddls)
 
 6. Create an abstract entity named **ZPRA_MF_D_MUSICEVENTUPDATED_OLD** with the same fields as **ZPRA_MF_D_MUSICEVENTUPDATED** and a node named as `_parent` with an association to the parent **ZPRA_MF_D_MUSICEVENTUPDATED**.
 
-    [ZPRA_MF_D_MUSICEVENTUPDATED_OLD](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_d_musiceventupdtd_old.ddls.asddls)
+    [ZPRA_MF_D_MUSICEVENTUPDATED_OLD](../src/zpra_mf_service/zpra_mf_d_musiceventupdtd_old.ddls.asddls)
 
 7. Create an abstract behavior definition named **ZPRA_MF_D_MUSICEVENTUPDATED** with the behaviors for **ZPRA_MF_D_MUSICEVENTUPDATED** and **ZPRA_MF_D_MUSICEVENTUPDATED_OLD** as shown below.
 
-    [ZPRA_MF_D_MUSICEVENTUPDATED](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_d_musiceventupdated.bdef.asbdef)
+    [ZPRA_MF_D_MUSICEVENTUPDATED](../src/zpra_mf_service/zpra_mf_d_musiceventupdated.bdef.asbdef)
 
 8. Activate all the objects together.
 
@@ -70,11 +70,11 @@ Each event contains information in its payload. A parameter is assigned to each 
 ## Define an Event
 
 1. In ABAP Development Tools for Eclipse, call up the behavior definition of the services.
-2. Define the event with the key word `EVENT` in the respective entity, with the parameter as the abstract entity. https://github.tools.sap/erp4sme/abap-partner-reference-application/blob/f6c484091a693bdd855bdeea7270584704585fbb/objects/BDEF/ZPRA_MF_R_MUSICFESTIVAL/REPS%20ZPRA_MF_R_MUSICFESTIVAL%3D%3D%3D%3D%3D%3D%3DBD.abap#L103 
+2. Define the event with the key word `EVENT` in the respective entity, with the parameter as the abstract entity. https://github.com/SAP-samples/abap-partner-reference-application/blob/f230ffcea14241acde009cd49e17578ca01d0734/src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef#L103
 
     <img src="./images/43_event_mf.png" width="50%">
     
-3. Event definitions for child entities must be placed in the child behavior definition. https://github.tools.sap/erp4sme/abap-partner-reference-application/blob/f6c484091a693bdd855bdeea7270584704585fbb/objects/BDEF/ZPRA_MF_R_MUSICFESTIVAL/REPS%20ZPRA_MF_R_MUSICFESTIVAL%3D%3D%3D%3D%3D%3D%3DBD.abap#L156
+3. Event definitions for child entities must be placed in the child behavior definition. https://github.com/SAP-samples/abap-partner-reference-application/blob/f230ffcea14241acde009cd49e17578ca01d0734/src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef#L156
 
     <img src="./images/43_event_visit.png" width="50%">
 
@@ -98,7 +98,7 @@ Events must be triggered once the point of no return has passed and the business
     ```
 2. Raise the event in the `save_modified` method of the local class declared above with the keyword `RAISE ENTITY EVENT`.
 
-    [ZBP_PRA_MF_R_MUSICFESTIVAL](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap)
+    [ZBP_PRA_MF_R_MUSICFESTIVAL](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap)
 
 3. In the `save_modified` method, you can check whether the `create`, `update`, and `delete` variables are initial to determine if any changes were made. Based on this check, call `RAISE ENTITY EVENT` to trigger the event. When you call `RAISE ENTITY EVENT`, provide the instance key and the parameter values for the event. The following example shows how to raise the event for the creation of a music festival:
 ```
