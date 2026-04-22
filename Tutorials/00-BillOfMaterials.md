@@ -58,7 +58,7 @@ The Music Festival Manager application includes specific features that need addi
 
 ## Applications
 
-**Adobe LiveCycle Designer**: To develop the feature to [manage forms](./41-Forms-Feature.md), you need to download and install the Adobe LiveCycle Designer application on your local machine. This application is provided by SAP.
+**Adobe LiveCycle Designer**: To develop the feature to [manage forms](./41a-Forms-Feature.md), you need to download and install the Adobe LiveCycle Designer application on your local machine. This application is provided by SAP.
 
 ## Sample Setup for Music Festival Manager
 

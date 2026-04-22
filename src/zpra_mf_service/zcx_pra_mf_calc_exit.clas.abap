@@ -1,39 +1,38 @@
 CLASS zcx_pra_mf_calc_exit DEFINITION
   PUBLIC
-  INHERITING FROM cx_sadl_exit
-  FINAL
-  CREATE PUBLIC .
+  INHERITING FROM cx_sadl_exit FINAL
+  CREATE PUBLIC.
 
   PUBLIC SECTION.
-  CONSTANTS:
+    CONSTANTS:
       BEGIN OF exception_forms,
-        msgid TYPE symsgid VALUE 'ZPRA_MF_MSG_CLS',
-        msgno TYPE symsgno VALUE '011',
+        msgid TYPE symsgid      VALUE 'ZPRA_MF_MSG_CLS',
+        msgno TYPE symsgno      VALUE '011',
         attr1 TYPE scx_attrname VALUE '',
         attr2 TYPE scx_attrname VALUE '',
         attr3 TYPE scx_attrname VALUE '',
         attr4 TYPE scx_attrname VALUE '',
-      END OF exception_forms .
+      END OF exception_forms.
 
-   INTERFACES if_t100_dyn_msg .
-    INTERFACES if_t100_message .
+    INTERFACES if_t100_dyn_msg.
+    INTERFACES if_t100_message.
 
     METHODS constructor
-      IMPORTING
-        !textid   LIKE if_t100_message=>t100key OPTIONAL
-        !previous LIKE previous OPTIONAL .
+      IMPORTING textid    LIKE if_t100_message=>t100key OPTIONAL
+                !previous LIKE previous                 OPTIONAL.
 
   PROTECTED SECTION.
+
   PRIVATE SECTION.
 ENDCLASS.
 
 
 
-CLASS zcx_pra_mf_calc_exit IMPLEMENTATION.
- METHOD constructor ##ADT_SUPPRESS_GENERATION.
-    CALL METHOD super->constructor
-      EXPORTING
-        previous = previous.
+CLASS ZCX_PRA_MF_CALC_EXIT IMPLEMENTATION.
+
+
+  METHOD constructor ##ADT_SUPPRESS_GENERATION.
+    super->constructor( previous = previous ).
     CLEAR me->textid.
 
     IF textid IS INITIAL.

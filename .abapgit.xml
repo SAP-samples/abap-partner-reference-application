@@ -14,6 +14,10 @@
     <item>/.gitlab-ci.yml</item>
     <item>/abaplint.json</item>
     <item>/azure-pipelines.yml</item>
+    <item>/AGENTS.md</item>
+    <item>/CLAUDE.md</item>
+    <item>/.claude/</item>
+    <item>/.githooks/</item>
    </IGNORE>
   </DATA>
  </asx:values>

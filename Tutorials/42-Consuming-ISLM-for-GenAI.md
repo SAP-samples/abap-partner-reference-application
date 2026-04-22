@@ -161,7 +161,7 @@ For more information, refer to [Manage Gen AI Scenarios](https://help.sap.com/do
 
 ## Consuming ABAP AI SDK
 
-The ABAP AI SDK is a reuse library in an ABAP system that provides access to generative AI functionality through ISLM. Different factory classes are provided by the SDK to work with different capabilities like completion, prompt, etc. In our application, we have created a utility class called [`ZCL_PRA_MF_GEN_AI_UTIL`](../src/zpra_mf_service/zcl_pra_mf_gen_ai_util.clas.abap) for working with ABAP AI SDK.
+The ABAP AI SDK is a reuse library in an ABAP system that provides access to generative AI functionality through ISLM. Different factory classes are provided by the SDK to work with different capabilities like completion, prompt, etc. In our application, we have created a utility class called [`ZCL_PRA_MF_GEN_AI_UTIL`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zcl_pra_mf_gen_ai_util.clas.abap) for working with ABAP AI SDK.
 
 For more information, refer to [ABAP AI SDK](https://help.sap.com/docs/abap-ai/generative-ai-in-abap-cloud/developing-your-own-ai-enabled-applications).
 
@@ -254,18 +254,18 @@ The following snippets are illustrative samples to show the ABAP AI SDK syntax. 
 
 Up to now, we've set up ISLM and created the necessary configurations to enable GenAI in our ABAP system. Now, we'll integrate the GenAI functionality in the Music Festival application.
 
-1. To create an action with input parameter, you need to create an abstract entity view called [`ZPRA_MF_AE_CREATEMFWITHAI`](../src/zpra_mf_service/zpra_mf_ae_createmfwithai.ddls.asddls) and a behavior definition called [`ZPRA_MF_AE_CREATEMFWITHAI`](../src/zpra_mf_service/zpra_mf_ae_createmfwithai.bdef.asbdef). To accept user inputs for tags and rhyme, new data elements are created in the data dictionary:
+1. To create an action with input parameter, you need to create an abstract entity view called [`ZPRA_MF_AE_CREATEMFWITHAI`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_ae_createmfwithai.ddls.asddls) and a behavior definition called [`ZPRA_MF_AE_CREATEMFWITHAI`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_ae_createmfwithai.bdef.asbdef). To accept user inputs for tags and rhyme, new data elements are created in the data dictionary:
 
    | Data Element            | Category        | Data Type    | Length | Description |
    | :---------------------- | :-------------- | :----------- | :----- | :---------- |
    | ZPRA_MF_TAGS            | Predefined Type | String       | 256    | Tags        |
    | ZPRA_MF_RHYME_INDICATOR | Domain          | ABAP_BOOLEAN | 1      | Rhyme       |
 
-2. Create an action called **createWithAI** on the music festival list report for the AI create flow. This involves adding a definition in [`ZPRA_MF_R_MUSICFESTIVAL`](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef), and implementation in [`ZBP_PRA_MF_R_MUSICFESTIVAL`](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap). The action opens a popup to get user inputs (tags, rhyme, language) for generating title and description using GenAI.
+2. Create an action called **createWithAI** on the music festival list report for the AI create flow. This involves adding a definition in [`ZPRA_MF_R_MUSICFESTIVAL`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef), and implementation in [`ZBP_PRA_MF_R_MUSICFESTIVAL`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap). The action opens a popup to get user inputs (tags, rhyme, language) for generating title and description using GenAI.
 
-3. The action button then needs to be added in the SAP Fiori UI by adding reference of the **createWithAI** action on the list report page in the metadata extension file [`ZPRA_MF_C_MUSICFESTIVALTP`](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddlx.asddlxs).
+3. The action button then needs to be added in the SAP Fiori UI by adding reference of the **createWithAI** action on the list report page in the metadata extension file [`ZPRA_MF_C_MUSICFESTIVALTP`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddlx.asddlxs).
 
-4. Next, we need to implement the action logic in the behavior definition class called [`ZBP_PRA_MF_R_MUSICFESTIVAL`](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) to call the utility class called [`ZCL_PRA_MF_GEN_AI_UTIL`](../src/zpra_mf_service/zcl_pra_mf_gen_ai_util.clas.abap). The utility class uses ABAP AI SDK to call the GenAI intelligent scenario and prompts created earlier and get the generated title and description.
+4. Next, we need to implement the action logic in the behavior definition class called [`ZBP_PRA_MF_R_MUSICFESTIVAL`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) to call the utility class called [`ZCL_PRA_MF_GEN_AI_UTIL`](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zcl_pra_mf_gen_ai_util.clas.abap). The utility class uses ABAP AI SDK to call the GenAI intelligent scenario and prompts created earlier and get the generated title and description.
 
 5. Finally, we need to test the integration by running the Music Festival application and triggering the **createWithAI** action. Provide an input for tags, rhyme, and language, and verify that the AI-generated title and description are displayed correctly on the UI.
 

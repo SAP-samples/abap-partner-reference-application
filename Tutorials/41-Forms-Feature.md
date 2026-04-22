@@ -181,7 +181,7 @@ The Adobe Document Services (ADS) can render Adobe XML Forms (XFA) into PDF docu
     <img src="./images/41_Data_Provider_Forms.png" width=50%>
 
 11. Save and activate the form.
-12. Create a util class called [zcl_pra_mf_form_util]() by right-clicking on **Source Code Library** and choosing **New ABAP Class** to process the forms in SAP Forms service. We use the PDF generation service with the **CL_FP_FDP_SERVICES** class.
+12. Create a util class called [zcl_pra_mf_form_util](https://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zcl_pra_mf_form_util.clas.abap) by right-clicking on **Source Code Library** and choosing **New ABAP Class** to process the forms in SAP Forms service. We use the PDF generation service with the **CL_FP_FDP_SERVICES** class.
 
 > [!NOTE]
 > The CL_FP_FDP_SERVICES class provides the ABAP API to receive the data in xml format for the use in print forms and the XML Schema Definition (XSD) used for the design of print forms in the Adobe LiveCycle Designer.

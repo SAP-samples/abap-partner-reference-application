@@ -1,0 +1,21 @@
+{
+  "formatVersion": "1",
+  "header": {
+    "description": "Music Festival Visit Booked Event",
+    "originalLanguage": "en",
+    "abapLanguageVersion": "cloudDevelopment"
+  },
+  "producerNamespace": "zpra.bel.s4",
+  "producer": "PE6FB29B8901D828544FC5AF500A49C21",
+  "producerVersion": "0001",
+  "boName": "ZPRA_MF_A_MF",
+  "boOperation": "visit_booked",
+  "producerType": "zpra.bel.s4.ZPRAxMFxAxMF.visitxbooked.v*",
+  "events": [
+    {
+      "eventVersion": "0001",
+      "entityName": "ZPRA_MF_R_VISIT",
+      "entityEventName": "VISITBOOKED"
+    }
+  ]
+}

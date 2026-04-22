@@ -6,12 +6,12 @@
 define view entity ZPRA_MF_C_VISITTP
   as projection on ZPRA_MF_R_VISIT
 {
-          @Search.defaultSearchElement: true
-          @Search.fuzzinessThreshold: 0.90
+
+          @Search.defaultSearchElement: false
   key     Uuid,
           ParentUuid,
           @ObjectModel.text.element: ['VisitorName']
-          @Search.defaultSearchElement: true
+          @Search.defaultSearchElement: false
           @Consumption.valueHelpDefinition: [
             { entity: {
                 name: 'ZPRA_MF_I_VISITOR_VH',
@@ -22,9 +22,15 @@ define view entity ZPRA_MF_C_VISITTP
                 usage: #FILTER_AND_RESULT }],
               useForValidation: true }]
           VisitorUuid,
+          @Search.defaultSearchElement: true
+          @Search.fuzzinessThreshold: 0.90
           _VisitorVH.VisitorName          as VisitorName,
+          @Search.defaultSearchElement: true
+          @Search.fuzzinessThreshold: 0.90
           _VisitorVH.VisitorEmail         as VisitorEmail,
-
+          
+          @Search.defaultSearchElement: true
+          @Search.fuzzinessThreshold: 0.90
           _MusicFestival.Title         as MusicFestivalTitle,
           _MusicFestival.EventDateTime as MusicFestivalEventDateTime,
 

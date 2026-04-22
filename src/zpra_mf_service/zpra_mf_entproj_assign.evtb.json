@@ -1,0 +1,21 @@
+{
+  "formatVersion": "1",
+  "header": {
+    "description": "Music Festival Enterprise Project Assigned Event",
+    "originalLanguage": "en",
+    "abapLanguageVersion": "cloudDevelopment"
+  },
+  "producerNamespace": "zsap.bel.s4",
+  "producer": "P82E559749C29E117737028D6C972286C",
+  "producerVersion": "0001",
+  "boName": "ZPRA_MF_A_MF",
+  "boOperation": "entprjassign",
+  "producerType": "zsap.bel.s4.ZPRAxMFxAxMF.entprjassign.v*",
+  "events": [
+    {
+      "eventVersion": "0001",
+      "entityName": "ZPRA_MF_R_MUSICFESTIVAL",
+      "entityEventName": "ENTPROJECTASSIGNED"
+    }
+  ]
+}
