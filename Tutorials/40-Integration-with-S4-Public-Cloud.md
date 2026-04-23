@@ -249,6 +249,7 @@ Configure the communication system to trust the OAuth 2.0 Identity Provider of t
    2. Choose **Upload Signing Certificate** button
 
     <img src="./images/40_upload_signing_certificate.png" width="75%">
+    
    3. Upload the certificate obtained in [Previous Step](#obtain-signing-certificate).
 
 5. Save the changes
