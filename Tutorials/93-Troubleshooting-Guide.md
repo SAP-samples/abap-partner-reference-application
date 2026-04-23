@@ -16,7 +16,7 @@ If you're upgrading from a previous version where `ZPRA_MF_NAME` was defined as 
 
 4. Verify that all dependent CDS views and behavior definitions are active without errors.
 
-> **Note**: For detailed guidance on choosing between `STRING` and `CHAR` data types, see the [Data Elements section](./Tutorials/12-Develop-BTP-ABAP-RAP-Application.md#data-elements) in Developing BTP ABAP RAP Applications - Data Modeling and OData Service Generation.
+> **Note**: For detailed guidance on choosing between `STRING` and `CHAR` data types, see the [Data Elements section](12-Develop-BTP-ABAP-RAP-Application.md#data-elements) in Developing BTP ABAP RAP Applications - Data Modeling and OData Service Generation.
 ## Updating the Music Festival Application after 2604 release
 
 No change required for Database adoption
