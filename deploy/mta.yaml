@@ -94,6 +94,7 @@ resources:
           onSubscription: https://cis${route-prefix}.${app-domain}/callback/v1.0/tenants/{tenantId}
         displayName: ${saas-display-name}
         description: ${saas-description}
+        category: 'Applications / Multi-Customer Partner Solutions'
 
   - name: abap-solution
     type: org.cloudfoundry.managed-service

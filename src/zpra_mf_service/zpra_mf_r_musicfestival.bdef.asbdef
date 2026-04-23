@@ -1,4 +1,4 @@
-managed implementation in class ZBP_PRA_MF_R_MusicFestival unique;
+managed with additional save implementation in class ZBP_PRA_MF_R_MusicFestival unique;
 strict ( 2 );
 with draft;
 
@@ -45,6 +45,7 @@ authorization master ( global, instance )
   action ( features : instance ) cancel result [1] $self;
   action ( features : instance ) publish result [1] $self;
   action ( features : instance ) CrProj result [1] $self;
+  action ( features : instance ) printGuestList parameter ZPRA_MF_AE_PrintGuestList result [1] $self;
 
   static action generateSampleData;
 
@@ -99,6 +100,11 @@ authorization master ( global, instance )
       LocalLastChangedAt  = local_last_changed_at;
     }
 
+    event MusicEventCreated parameter ZPRA_MF_D_MUSICEVENTCREATED;
+    event MusicEventUpdated deep parameter ZPRA_MF_D_MUSICEVENTUPDATED;
+    event MusicEventDeleted parameter ZPRA_MF_D_MUSICEVENTDELETED;
+    event EntProjectAssigned parameter ZPRA_MF_D_ENTPROJECTASSIGNED;
+
 }
 
 
@@ -146,5 +152,8 @@ etag master LocalLastChangedAt
       Status             = status;
       LocalLastChangedAt = local_last_changed_at;
     }
+
+    event VisitBooked parameter ZPRA_MF_D_VISIT;
+    event VisitCancelled parameter ZPRA_MF_D_VISIT;
 
  }

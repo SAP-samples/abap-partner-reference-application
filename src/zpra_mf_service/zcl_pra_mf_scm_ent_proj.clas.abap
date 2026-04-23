@@ -7,7 +7,6 @@ CLASS zcl_pra_mf_scm_ent_proj DEFINITION
   CREATE PUBLIC.
 
   PUBLIC SECTION.
-
     TYPES:
       "! <p class="shorttext synchronized">Types for "OData Primitive Types"</p>
       BEGIN OF tys_types_for_prim_types,
@@ -824,7 +823,6 @@ CLASS zcl_pra_mf_scm_ent_proj DEFINITION
       "! <p class="shorttext synchronized">List of A_EntTeamMemberEntitlementType</p>
       tyt_a_ent_team_member_entitl_2 TYPE STANDARD TABLE OF tys_a_ent_team_member_entitl_2 WITH DEFAULT KEY.
 
-
     CONSTANTS:
       "! <p class="shorttext synchronized">Internal Names of the entity sets</p>
       BEGIN OF gcs_entity_set,
@@ -873,7 +871,7 @@ CLASS zcl_pra_mf_scm_ent_proj DEFINITION
         "! A_EntTeamMemberEntitlement
         "! <br/> Collection of type 'A_EntTeamMemberEntitlementType'
         a_ent_team_member_entitlem TYPE /iwbep/if_cp_runtime_types=>ty_entity_set_name VALUE 'A_ENT_TEAM_MEMBER_ENTITLEM',
-      END OF gcs_entity_set .
+      END OF gcs_entity_set.
 
     CONSTANTS:
       "! <p class="shorttext synchronized">Internal Names of the function imports</p>
@@ -898,15 +896,15 @@ CLASS zcl_pra_mf_scm_ent_proj DEFINITION
     CONSTANTS:
       "! <p class="shorttext synchronized">Internal Names of the bound functions</p>
       BEGIN OF gcs_bound_function,
-         "! Dummy field - Structure must not be empty
-         dummy TYPE int1 VALUE 0,
+        "! Dummy field - Structure must not be empty
+        dummy TYPE int1 VALUE 0,
       END OF gcs_bound_function.
 
     CONSTANTS:
       "! <p class="shorttext synchronized">Internal names for complex types</p>
       BEGIN OF gcs_complex_type,
-         "! Dummy field - Structure must not be empty
-         dummy TYPE int1 VALUE 0,
+        "! Dummy field - Structure must not be empty
+        dummy TYPE int1 VALUE 0,
       END OF gcs_complex_type.
 
     CONSTANTS:
@@ -1091,15 +1089,11 @@ CLASS zcl_pra_mf_scm_ent_proj DEFINITION
         END OF a_ent_team_member_entitl_2,
       END OF gcs_entity_type.
 
-
     METHODS /iwbep/if_v4_mp_basic_pm~define REDEFINITION.
 
-
   PRIVATE SECTION.
-
     "! <p class="shorttext synchronized">Model</p>
     DATA mo_model TYPE REF TO /iwbep/if_v4_pm_model.
-
 
     "! <p class="shorttext synchronized">Define A_EnterpriseProjectElementType</p>
     "! @raising /iwbep/cx_gateway | <p class="shorttext synchronized">Gateway Exception</p>
@@ -1193,7 +1187,6 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
 
 
   METHOD /iwbep/if_v4_mp_basic_pm~define.
-
     mo_model = io_model.
     mo_model->set_schema_namespace( 'API_ENTERPRISE_PROJECT_SRV' ) ##NO_TEXT.
 
@@ -1218,14 +1211,11 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     def_change_period_distribution( ).
     def_copy_to_active_document( ).
     define_primitive_types( ).
-
   ENDMETHOD.
 
 
   METHOD define_primitive_types.
-
     DATA lo_primitive_type TYPE REF TO /iwbep/if_v4_pm_prim_type.
-
 
     lo_primitive_type = mo_model->create_primitive_type_by_elem(
                             iv_primitive_type_name = 'CUSTOMER_UUID'
@@ -1376,33 +1366,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
                             iv_element             = VALUE tys_types_for_prim_types-restricted_time_posting( ) ).
     lo_primitive_type->set_edm_type( 'String' ) ##NO_TEXT.
     lo_primitive_type->set_scale_variable( ).
-
   ENDMETHOD.
 
 
   METHOD def_a_enterprise_project_ele_2.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENTERPRISE_PROJECT_ELE_2'
-                                    is_structure              = VALUE tys_a_enterprise_project_ele_2( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENTERPRISE_PROJECT_ELE_2'
+                         is_structure                 = VALUE tys_a_enterprise_project_ele_2( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EnterpriseProjectElementType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENTERPRISE_PROJECT_ELEME' ).
     lo_entity_set->set_edm_name( 'A_EnterpriseProjectElement' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'CHANGE_ENT_PROJ_ELMNT_POSI' ).
     lo_primitive_property->set_edm_name( 'ChangeEntProjElmntPosition_ac' ) ##NO_TEXT.
@@ -1816,33 +1799,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_SubProjElement' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENTERPRISE_PROJECT_ELE_2' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_many_optional ).
-
   ENDMETHOD.
 
 
   METHOD def_a_enterprise_project_jvaty.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENTERPRISE_PROJECT_JVATY'
-                                    is_structure              = VALUE tys_a_enterprise_project_jvaty( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENTERPRISE_PROJECT_JVATY'
+                         is_structure                 = VALUE tys_a_enterprise_project_jvaty( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EnterpriseProjectJVAType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENTERPRISE_PROJECT_JVA' ).
     lo_entity_set->set_edm_name( 'A_EnterpriseProjectJVA' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'JNT_INTRST_BILLG_CLASS_FC' ).
     lo_primitive_property->set_edm_name( 'JntIntrstBillgClass_fc' ) ##NO_TEXT.
@@ -1924,33 +1900,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_EnterpriseProject' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENTERPRISE_PROJECT_TYPE' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_one ).
-
   ENDMETHOD.
 
 
   METHOD def_a_enterprise_project_rol_2.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENTERPRISE_PROJECT_ROL_2'
-                                    is_structure              = VALUE tys_a_enterprise_project_rol_2( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENTERPRISE_PROJECT_ROL_2'
+                         is_structure                 = VALUE tys_a_enterprise_project_rol_2( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EnterpriseProjectRoleType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENTERPRISE_PROJECT_ROLE' ).
     lo_entity_set->set_edm_name( 'A_EnterpriseProjectRole' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'PROJECT_ROLE_UUID' ).
     lo_primitive_property->set_edm_name( 'ProjectRoleUUID' ) ##NO_TEXT.
@@ -2006,33 +1975,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_EnterpriseProject' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENTERPRISE_PROJECT_TYPE' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_one ).
-
   ENDMETHOD.
 
 
   METHOD def_a_enterprise_project_tea_2.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENTERPRISE_PROJECT_TEA_2'
-                                    is_structure              = VALUE tys_a_enterprise_project_tea_2( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENTERPRISE_PROJECT_TEA_2'
+                         is_structure                 = VALUE tys_a_enterprise_project_tea_2( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EnterpriseProjectTeamMemberType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENTERPRISE_PROJECT_TEAM' ).
     lo_entity_set->set_edm_name( 'A_EnterpriseProjectTeamMember' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'TO_ENT_PROJ_ENTITLEMENT_OC' ).
     lo_primitive_property->set_edm_name( 'to_EntProjEntitlement_oc' ) ##NO_TEXT.
@@ -2085,33 +2047,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_EntProjEntitlement' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENT_TEAM_MEMBER_ENTITL_2' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_many_optional ).
-
   ENDMETHOD.
 
 
   METHOD def_a_enterprise_project_type.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENTERPRISE_PROJECT_TYPE'
-                                    is_structure              = VALUE tys_a_enterprise_project_type( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENTERPRISE_PROJECT_TYPE'
+                         is_structure                 = VALUE tys_a_enterprise_project_type( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EnterpriseProjectType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENTERPRISE_PROJECT' ).
     lo_entity_set->set_edm_name( 'A_EnterpriseProject' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'CHANGE_ENT_PROJ_PROCG_STAT' ).
     lo_primitive_property->set_edm_name( 'ChangeEntProjProcgStatus_ac' ) ##NO_TEXT.
@@ -2521,33 +2476,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_EntProjTeamMember' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENTERPRISE_PROJECT_TEA_2' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_many_optional ).
-
   ENDMETHOD.
 
 
   METHOD def_a_enterprise_proj_blk_fu_2.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENTERPRISE_PROJ_BLK_FU_2'
-                                    is_structure              = VALUE tys_a_enterprise_proj_blk_fu_2( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENTERPRISE_PROJ_BLK_FU_2'
+                         is_structure                 = VALUE tys_a_enterprise_proj_blk_fu_2( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EnterpriseProjBlkFuncType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENTERPRISE_PROJ_BLK_FUNC' ).
     lo_entity_set->set_edm_name( 'A_EnterpriseProjBlkFunc' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'UPDATE_MC' ).
     lo_primitive_property->set_edm_name( 'Update_mc' ) ##NO_TEXT.
@@ -2588,33 +2536,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_EnterpriseProject' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENTERPRISE_PROJECT_TYPE' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_one ).
-
   ENDMETHOD.
 
 
   METHOD def_a_ent_project_element_jvat.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENT_PROJECT_ELEMENT_JVAT'
-                                    is_structure              = VALUE tys_a_ent_project_element_jvat( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENT_PROJECT_ELEMENT_JVAT'
+                         is_structure                 = VALUE tys_a_ent_project_element_jvat( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EntProjectElementJVAType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENT_PROJECT_ELEMENT_JVA' ).
     lo_entity_set->set_edm_name( 'A_EntProjectElementJVA' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'JNT_INTRST_BILLG_CLASS_FC' ).
     lo_primitive_property->set_edm_name( 'JntIntrstBillgClass_fc' ) ##NO_TEXT.
@@ -2706,33 +2647,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_EnterpriseProjectElement' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENTERPRISE_PROJECT_ELE_2' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_one ).
-
   ENDMETHOD.
 
 
   METHOD def_a_ent_project_elmnt_publ_2.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENT_PROJECT_ELMNT_PUBL_2'
-                                    is_structure              = VALUE tys_a_ent_project_elmnt_publ_2( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENT_PROJECT_ELMNT_PUBL_2'
+                         is_structure                 = VALUE tys_a_ent_project_elmnt_publ_2( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EntProjectElmntPublicSectorType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENT_PROJECT_ELMNT_PUBLIC' ).
     lo_entity_set->set_edm_name( 'A_EntProjectElmntPublicSector' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'FUNCTIONAL_AREA_IS_FIX_ASS' ).
     lo_primitive_property->set_edm_name( 'FunctionalAreaIsFixAssigned_fc' ) ##NO_TEXT.
@@ -2821,33 +2755,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_EnterpriseProjectElement' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENTERPRISE_PROJECT_ELE_2' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_one ).
-
   ENDMETHOD.
 
 
   METHOD def_a_ent_project_public_sec_2.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENT_PROJECT_PUBLIC_SEC_2'
-                                    is_structure              = VALUE tys_a_ent_project_public_sec_2( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENT_PROJECT_PUBLIC_SEC_2'
+                         is_structure                 = VALUE tys_a_ent_project_public_sec_2( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EntProjectPublicSectorType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENT_PROJECT_PUBLIC_SECTO' ).
     lo_entity_set->set_edm_name( 'A_EntProjectPublicSector' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'FUNCTIONAL_AREA_IS_FIX_ASS' ).
     lo_primitive_property->set_edm_name( 'FunctionalAreaIsFixAssigned_fc' ) ##NO_TEXT.
@@ -2926,33 +2853,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_EnterpriseProject' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENTERPRISE_PROJECT_TYPE' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_one ).
-
   ENDMETHOD.
 
 
   METHOD def_a_ent_proj_elmnt_block_f_2.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENT_PROJ_ELMNT_BLOCK_F_2'
-                                    is_structure              = VALUE tys_a_ent_proj_elmnt_block_f_2( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENT_PROJ_ELMNT_BLOCK_F_2'
+                         is_structure                 = VALUE tys_a_ent_proj_elmnt_block_f_2( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EntProjElmntBlockFuncType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENT_PROJ_ELMNT_BLOCK_FUN' ).
     lo_entity_set->set_edm_name( 'A_EntProjElmntBlockFunc' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'ENT_PROJ_OTHER_EXPENSE_POS' ).
     lo_primitive_property->set_edm_name( 'EntProjOtherExpensePostgIsBlkd_fc' ) ##NO_TEXT.
@@ -3028,33 +2948,25 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_EnterpriseProjectElement' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENTERPRISE_PROJECT_ELE_2' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_one ).
-
   ENDMETHOD.
 
 
   METHOD def_a_ent_proj_elmnt_cnfgrd__2.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type        TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set         TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_primitive_property TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENT_PROJ_ELMNT_CNFGRD__2'
-                                    is_structure              = VALUE tys_a_ent_proj_elmnt_cnfgrd__2( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENT_PROJ_ELMNT_CNFGRD__2'
+                         is_structure                 = VALUE tys_a_ent_proj_elmnt_cnfgrd__2( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EntProjElmntCnfgrdWrkItmTxtType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENT_PROJ_ELMNT_CNFGRD_WR' ).
     lo_entity_set->set_edm_name( 'A_EntProjElmntCnfgrdWrkItmTxt' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'ENT_PROJ_ELMNT_WORK_ITEM' ).
     lo_primitive_property->set_edm_name( 'EntProjElmntWorkItem' ) ##NO_TEXT.
@@ -3073,33 +2985,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_primitive_property->set_edm_type( 'String' ) ##NO_TEXT.
     lo_primitive_property->set_max_length( 40 ) ##NUMBER_OK.
     lo_primitive_property->set_is_nullable( ).
-
   ENDMETHOD.
 
 
   METHOD def_a_ent_proj_elmnt_dlvbrl_ty.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENT_PROJ_ELMNT_DLVBRL_TY'
-                                    is_structure              = VALUE tys_a_ent_proj_elmnt_dlvbrl_ty( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENT_PROJ_ELMNT_DLVBRL_TY'
+                         is_structure                 = VALUE tys_a_ent_proj_elmnt_dlvbrl_ty( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EntProjElmntDlvbrlType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENT_PROJ_ELMNT_DLVBRL' ).
     lo_entity_set->set_edm_name( 'A_EntProjElmntDlvbrl' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'UPDATE_MC' ).
     lo_primitive_property->set_edm_name( 'Update_mc' ) ##NO_TEXT.
@@ -3176,33 +3081,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_EntProjElmntDlvDistr' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENT_PROJ_ELMNT_DLVBRL__2' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_many_optional ).
-
   ENDMETHOD.
 
 
   METHOD def_a_ent_proj_elmnt_dlvbrl__2.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENT_PROJ_ELMNT_DLVBRL__2'
-                                    is_structure              = VALUE tys_a_ent_proj_elmnt_dlvbrl__2( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENT_PROJ_ELMNT_DLVBRL__2'
+                         is_structure                 = VALUE tys_a_ent_proj_elmnt_dlvbrl__2( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EntProjElmntDlvbrlDistrType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENT_PROJ_ELMNT_DLVBRL_DI' ).
     lo_entity_set->set_edm_name( 'A_EntProjElmntDlvbrlDistr' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'UPDATE_MC' ).
     lo_primitive_property->set_edm_name( 'Update_mc' ) ##NO_TEXT.
@@ -3258,33 +3156,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_EntProjElmntDlvbrl' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENT_PROJ_ELMNT_DLVBRL_TY' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_one ).
-
   ENDMETHOD.
 
 
   METHOD def_a_ent_proj_elmnt_work_it_2.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENT_PROJ_ELMNT_WORK_IT_2'
-                                    is_structure              = VALUE tys_a_ent_proj_elmnt_work_it_2( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENT_PROJ_ELMNT_WORK_IT_2'
+                         is_structure                 = VALUE tys_a_ent_proj_elmnt_work_it_2( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EntProjElmntWorkItemType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENT_PROJ_ELMNT_WORK_ITEM' ).
     lo_entity_set->set_edm_name( 'A_EntProjElmntWorkItem' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'DELETE_MC' ).
     lo_primitive_property->set_edm_name( 'Delete_mc' ) ##NO_TEXT.
@@ -3374,33 +3265,26 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_EnterpriseProjectElement' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENTERPRISE_PROJECT_ELE_2' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_one ).
-
   ENDMETHOD.
 
 
   METHOD def_a_ent_team_member_entitl_2.
-
-    DATA:
-      lo_complex_property    TYPE REF TO /iwbep/if_v4_pm_cplx_prop,
-      lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type,
-      lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set,
-      lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop,
-      lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
-
+    DATA lo_entity_type         TYPE REF TO /iwbep/if_v4_pm_entity_type.
+    DATA lo_entity_set          TYPE REF TO /iwbep/if_v4_pm_entity_set.
+    DATA lo_navigation_property TYPE REF TO /iwbep/if_v4_pm_nav_prop.
+    DATA lo_primitive_property  TYPE REF TO /iwbep/if_v4_pm_prim_prop.
 
     lo_entity_type = mo_model->create_entity_type_by_struct(
-                                    iv_entity_type_name       = 'A_ENT_TEAM_MEMBER_ENTITL_2'
-                                    is_structure              = VALUE tys_a_ent_team_member_entitl_2( )
-                                    iv_do_gen_prim_props         = abap_true
-                                    iv_do_gen_prim_prop_colls    = abap_true
-                                    iv_do_add_conv_to_prim_props = abap_true ).
+                         iv_entity_type_name          = 'A_ENT_TEAM_MEMBER_ENTITL_2'
+                         is_structure                 = VALUE tys_a_ent_team_member_entitl_2( )
+                         iv_do_gen_prim_props         = abap_true
+                         iv_do_gen_prim_prop_colls    = abap_true
+                         iv_do_add_conv_to_prim_props = abap_true ).
 
     lo_entity_type->set_edm_name( 'A_EntTeamMemberEntitlementType' ) ##NO_TEXT.
 
-
     lo_entity_set = lo_entity_type->create_entity_set( 'A_ENT_TEAM_MEMBER_ENTITLEM' ).
     lo_entity_set->set_edm_name( 'A_EntTeamMemberEntitlement' ) ##NO_TEXT.
-
 
     lo_primitive_property = lo_entity_type->get_primitive_property( 'DELETE_MC' ).
     lo_primitive_property->set_edm_name( 'Delete_mc' ) ##NO_TEXT.
@@ -3474,18 +3358,14 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_navigation_property->set_edm_name( 'to_TeamMember' ) ##NO_TEXT.
     lo_navigation_property->set_target_entity_type_name( 'A_ENTERPRISE_PROJECT_TEA_2' ).
     lo_navigation_property->set_target_multiplicity( /iwbep/if_v4_pm_types=>gcs_nav_multiplicity-to_one ).
-
   ENDMETHOD.
 
 
   METHOD def_change_ent_proj_elmnt_posi.
-
-    DATA:
-      lo_function        TYPE REF TO /iwbep/if_v4_pm_function,
-      lo_function_import TYPE REF TO /iwbep/if_v4_pm_func_imp,
-      lo_parameter       TYPE REF TO /iwbep/if_v4_pm_func_param,
-      lo_return          TYPE REF TO /iwbep/if_v4_pm_func_return.
-
+    DATA lo_function        TYPE REF TO /iwbep/if_v4_pm_function.
+    DATA lo_function_import TYPE REF TO /iwbep/if_v4_pm_func_imp.
+    DATA lo_parameter       TYPE REF TO /iwbep/if_v4_pm_func_param.
+    DATA lo_return          TYPE REF TO /iwbep/if_v4_pm_func_return.
 
     lo_function = mo_model->create_function( 'CHANGE_ENT_PROJ_ELMNT_POSI' ).
     lo_function->set_edm_name( 'ChangeEntProjElmntPosition' ) ##NO_TEXT.
@@ -3496,7 +3376,6 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_function_import = lo_function->create_function_import( 'CHANGE_ENT_PROJ_ELMNT_POSI' ).
     lo_function_import->set_edm_name( 'ChangeEntProjElmntPosition' ) ##NO_TEXT.
     lo_function_import->/iwbep/if_v4_pm_func_imp_v2~set_http_method( 'POST' ).
-
 
     lo_parameter = lo_function->create_parameter( 'PROJECT_ELEMENT_UUID' ).
     lo_parameter->set_edm_name( 'ProjectElementUUID' ) ##NO_TEXT.
@@ -3515,18 +3394,14 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
 
     lo_return = lo_function->create_return( ).
     lo_return->set_entity_type( 'A_ENTERPRISE_PROJECT_ELE_2' ).
-
   ENDMETHOD.
 
 
   METHOD def_change_ent_proj_elmnt_proc.
-
-    DATA:
-      lo_function        TYPE REF TO /iwbep/if_v4_pm_function,
-      lo_function_import TYPE REF TO /iwbep/if_v4_pm_func_imp,
-      lo_parameter       TYPE REF TO /iwbep/if_v4_pm_func_param,
-      lo_return          TYPE REF TO /iwbep/if_v4_pm_func_return.
-
+    DATA lo_function        TYPE REF TO /iwbep/if_v4_pm_function.
+    DATA lo_function_import TYPE REF TO /iwbep/if_v4_pm_func_imp.
+    DATA lo_parameter       TYPE REF TO /iwbep/if_v4_pm_func_param.
+    DATA lo_return          TYPE REF TO /iwbep/if_v4_pm_func_return.
 
     lo_function = mo_model->create_function( 'CHANGE_ENT_PROJ_ELMNT_PROC' ).
     lo_function->set_edm_name( 'ChangeEntProjElmntProcgStatus' ) ##NO_TEXT.
@@ -3537,7 +3412,6 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_function_import = lo_function->create_function_import( 'CHANGE_ENT_PROJ_ELMNT_PROC' ).
     lo_function_import->set_edm_name( 'ChangeEntProjElmntProcgStatus' ) ##NO_TEXT.
     lo_function_import->/iwbep/if_v4_pm_func_imp_v2~set_http_method( 'POST' ).
-
 
     lo_parameter = lo_function->create_parameter( 'PROJECT_ELEMENT_UUID' ).
     lo_parameter->set_edm_name( 'ProjectElementUUID' ) ##NO_TEXT.
@@ -3551,18 +3425,14 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
 
     lo_return = lo_function->create_return( ).
     lo_return->set_entity_type( 'A_ENTERPRISE_PROJECT_ELE_2' ).
-
   ENDMETHOD.
 
 
   METHOD def_change_ent_proj_procg_stat.
-
-    DATA:
-      lo_function        TYPE REF TO /iwbep/if_v4_pm_function,
-      lo_function_import TYPE REF TO /iwbep/if_v4_pm_func_imp,
-      lo_parameter       TYPE REF TO /iwbep/if_v4_pm_func_param,
-      lo_return          TYPE REF TO /iwbep/if_v4_pm_func_return.
-
+    DATA lo_function        TYPE REF TO /iwbep/if_v4_pm_function.
+    DATA lo_function_import TYPE REF TO /iwbep/if_v4_pm_func_imp.
+    DATA lo_parameter       TYPE REF TO /iwbep/if_v4_pm_func_param.
+    DATA lo_return          TYPE REF TO /iwbep/if_v4_pm_func_return.
 
     lo_function = mo_model->create_function( 'CHANGE_ENT_PROJ_PROCG_STAT' ).
     lo_function->set_edm_name( 'ChangeEntProjProcgStatus' ) ##NO_TEXT.
@@ -3573,7 +3443,6 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_function_import = lo_function->create_function_import( 'CHANGE_ENT_PROJ_PROCG_STAT' ).
     lo_function_import->set_edm_name( 'ChangeEntProjProcgStatus' ) ##NO_TEXT.
     lo_function_import->/iwbep/if_v4_pm_func_imp_v2~set_http_method( 'POST' ).
-
 
     lo_parameter = lo_function->create_parameter( 'PROJECT_UUID' ).
     lo_parameter->set_edm_name( 'ProjectUUID' ) ##NO_TEXT.
@@ -3587,18 +3456,14 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
 
     lo_return = lo_function->create_return( ).
     lo_return->set_entity_type( 'A_ENTERPRISE_PROJECT_TYPE' ).
-
   ENDMETHOD.
 
 
   METHOD def_change_period_distribution.
-
-    DATA:
-      lo_function        TYPE REF TO /iwbep/if_v4_pm_function,
-      lo_function_import TYPE REF TO /iwbep/if_v4_pm_func_imp,
-      lo_parameter       TYPE REF TO /iwbep/if_v4_pm_func_param,
-      lo_return          TYPE REF TO /iwbep/if_v4_pm_func_return.
-
+    DATA lo_function        TYPE REF TO /iwbep/if_v4_pm_function.
+    DATA lo_function_import TYPE REF TO /iwbep/if_v4_pm_func_imp.
+    DATA lo_parameter       TYPE REF TO /iwbep/if_v4_pm_func_param.
+    DATA lo_return          TYPE REF TO /iwbep/if_v4_pm_func_return.
 
     lo_function = mo_model->create_function( 'CHANGE_PERIOD_DISTRIBUTION' ).
     lo_function->set_edm_name( 'ChangePeriodDistributionOption' ) ##NO_TEXT.
@@ -3609,7 +3474,6 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_function_import = lo_function->create_function_import( 'CHANGE_PERIOD_DISTRIBUTION' ).
     lo_function_import->set_edm_name( 'ChangePeriodDistributionOption' ) ##NO_TEXT.
     lo_function_import->/iwbep/if_v4_pm_func_imp_v2~set_http_method( 'POST' ).
-
 
     lo_parameter = lo_function->create_parameter( 'PROJECT_ELEMENT_UUID' ).
     lo_parameter->set_edm_name( 'ProjectElementUUID' ) ##NO_TEXT.
@@ -3633,18 +3497,14 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
 
     lo_return = lo_function->create_return( ).
     lo_return->set_entity_type( 'A_ENTERPRISE_PROJECT_ELE_2' ).
-
   ENDMETHOD.
 
 
   METHOD def_copy_to_active_document.
-
-    DATA:
-      lo_function        TYPE REF TO /iwbep/if_v4_pm_function,
-      lo_function_import TYPE REF TO /iwbep/if_v4_pm_func_imp,
-      lo_parameter       TYPE REF TO /iwbep/if_v4_pm_func_param,
-      lo_return          TYPE REF TO /iwbep/if_v4_pm_func_return.
-
+    DATA lo_function        TYPE REF TO /iwbep/if_v4_pm_function.
+    DATA lo_function_import TYPE REF TO /iwbep/if_v4_pm_func_imp.
+    DATA lo_parameter       TYPE REF TO /iwbep/if_v4_pm_func_param.
+    DATA lo_return          TYPE REF TO /iwbep/if_v4_pm_func_return.
 
     lo_function = mo_model->create_function( 'COPY_TO_ACTIVE_DOCUMENT' ).
     lo_function->set_edm_name( 'CopyToActiveDocument' ) ##NO_TEXT.
@@ -3655,7 +3515,6 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
     lo_function_import = lo_function->create_function_import( 'COPY_TO_ACTIVE_DOCUMENT' ).
     lo_function_import->set_edm_name( 'CopyToActiveDocument' ) ##NO_TEXT.
     lo_function_import->/iwbep/if_v4_pm_func_imp_v2~set_http_method( 'POST' ).
-
 
     lo_parameter = lo_function->create_parameter( 'PROJECT_UUID' ).
     lo_parameter->set_edm_name( 'ProjectUUID' ) ##NO_TEXT.
@@ -3729,6 +3588,5 @@ CLASS ZCL_PRA_MF_SCM_ENT_PROJ IMPLEMENTATION.
 
     lo_return = lo_function->create_return( ).
     lo_return->set_entity_type( 'A_ENTERPRISE_PROJECT_TYPE' ).
-
   ENDMETHOD.
 ENDCLASS.

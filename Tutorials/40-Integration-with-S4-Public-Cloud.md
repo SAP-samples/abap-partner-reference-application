@@ -49,7 +49,7 @@ Set up the trust relationship between the SAP BTP subaccount and the Identity Au
 > - For Single Sign On to work, always login in the Cloud ABAP Environment Instance using the right Custom Identity Provider that is linked to the IAS tenant of S/4HANA Cloud system.
 
 > [!NOTE]
-> Looking for more information on the SAP Authorization and Trust Management service? Go to [Building Side-By-Side Extensions Using SAP BTP](https://learning.sap.com/learning-journeys/build-side-by-side-extensions-on-sap-btp/describing-authorization-and-trust-management-xsuaa-_cbf0d0c5-29ec-4685-9cf4-487156b41284).
+> Looking for more information on the SAP Authorization and Trust Management service? Go to [Building Side-By-Side Extensions Using SAP BTP](https://learning.sap.com/courses/operating-sap-business-technology-platform/explaining-identity-and-access-management-on-sap-btp).
 
 #### Details
 
@@ -118,7 +118,7 @@ This section explains the setup process for both Basic Authentication and OAuth 
 
 3. Create a communication system using the **Communication Systems** application.
    1. Enter a system ID and system name of your choice and choose **Create**.
-   2. Under **Technical Data**, enter a destination system as host name. For example: \*\*\*.sap.
+   2. Under **Technical Data**, enter a destination system (the SAP S/4HANA Cloud Public Edition system as per this guide) as host name. For example: \*\*\*.sap.
       > **Caution**
       >
       > Don't include https://.
@@ -149,7 +149,7 @@ This section explains the setup process for both Basic Authentication and OAuth 
 
 2. Create a communication system using the **Communication Systems** application in the target system.
    1. Enter a system ID and system Name of your choice. Choose **Create**.
-   2. Under **Technical Data**, enter a destination system as host name. For example: \*\*\*.sap.
+   2. Under **Technical Data**, enter a destination system (the SAP S/4HANA Cloud Public Edition system as per this guide) as host name. For example: \*\*\*.sap.
 
       > **Caution**
       >
@@ -203,7 +203,7 @@ Adjust the **communication system** to support the OAuth 2.0 authentication meth
    1. Choose +
    2. Choose Authentication Method OAuth 2.0
    3. **Provide OAuth 2.0 Client ID**: Username of communication user created in previous step **‘Create a Communication User’**
-   4. **Provide Client Secret**: Password of communication user created in previous step **‘Create a Communication User’** 
+   4. **Provide Client Secret**: Password of communication user created in previous step **‘Create a Communication User’**
    5. Choose Create
    6. Choose Save to save the communication system
       <img src="./images/40_outbound_comm_syst_oauth.png" width="75%">
@@ -249,6 +249,7 @@ Configure the communication system to trust the OAuth 2.0 Identity Provider of t
    2. Choose **Upload Signing Certificate** button
 
     <img src="./images/40_upload_signing_certificate.png" width="75%">
+
    3. Upload the certificate obtained in [Previous Step](#obtain-signing-certificate).
 
 5. Save the changes
@@ -285,10 +286,10 @@ To determine the business catalogs, which enable your S/4HANA Cloud business use
 
 <img src="./images/40_Business_catalog.png" width="75%">
 
-5. The business catalog **SAP_PPM_BC_PROJ_MGMT_PC** is included in the business role **SAP_BR_PROJECTMANAGER**. In this tutorial, this role is used to authorize the business user to create an enterprise project. If the business role has not yet been created in SAP S/4HANA Cloud, Public Edition, create it using the **Maintain Business Roles** app and assign it to the business user via the **Maintain Business User** app.
+5. The business catalog **SAP_PPM_BC_PROJ_MGMT_PC** is included in the business role template **SAP_BR_PROJECTMANAGER**. In this tutorial, the roles created from the role templates **SAP_BR_PROJECTMANAGER** and **SAP_BR_PROJ_FIN_CONTROLLER** are required to authorize the business user to create an enterprise project. If the business roles have not yet been created in SAP S/4HANA Cloud Public Edition, create them using the **Maintain Business Roles** app and assign them to the business user in the **Maintain Business Users** app.
 
 > [!NOTE]
-> The user who creates the project in the SAP BTP ABAP Environment must also exist in SAP S/4HANA Cloud, Public Edition, with the same email ID in both environments, and must be assigned the SAP_BR_PROJECTMANAGER role.
+> The user who creates the project in the SAP BTP ABAP Environment must also exist in SAP S/4HANA Cloud Public Edition, with the same email ID in both environments, and must be assigned the roles created from the templates `SAP_BR_PROJECTMANAGER` and `SAP_BR_PROJ_FIN_CONTROLLER`.
 
 ## Enhance the Business Logic to Operate on SAP S/4HANA Cloud Public Edition Data
 

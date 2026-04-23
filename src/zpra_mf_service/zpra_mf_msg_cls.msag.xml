@@ -53,6 +53,12 @@
     <T100>
      <SPRSL>E</SPRSL>
      <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>007</MSGNR>
+     <TEXT>Error during background process creation. Error: &amp;1</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
      <MSGNR>009</MSGNR>
      <TEXT>Connection Error</TEXT>
     </T100>
@@ -67,6 +73,36 @@
      <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
      <MSGNR>011</MSGNR>
      <TEXT>Error while generating PDF</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>012</MSGNR>
+     <TEXT>Error during background process execution. Error: &amp;1</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>013</MSGNR>
+     <TEXT>Unable to establish the HTTP destination.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>014</MSGNR>
+     <TEXT>A system error occurred while processing the SAP Gateway request.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>015</MSGNR>
+     <TEXT>The required HTTP call for creating the destination failed.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>016</MSGNR>
+     <TEXT>A remote communication error occurred during destination creation.</TEXT>
     </T100>
    </T100>
   </asx:values>

@@ -1,13 +1,10 @@
 CLASS zcl_pra_mf_enum_criticality DEFINITION PUBLIC ABSTRACT FINAL.
 
   PUBLIC SECTION.
-    CONSTANTS:
-      neutral  TYPE int4 VALUE 0,
-      negative TYPE int4 VALUE 1,
-      critical TYPE int4 VALUE 2,
-      positive TYPE int4 VALUE 3.
-  PROTECTED SECTION.
-  PRIVATE SECTION.
+    CONSTANTS neutral  TYPE int4 VALUE 0.
+    CONSTANTS negative TYPE int4 VALUE 1.
+    CONSTANTS critical TYPE int4 VALUE 2.
+    CONSTANTS positive TYPE int4 VALUE 3.
 ENDCLASS.
 
 

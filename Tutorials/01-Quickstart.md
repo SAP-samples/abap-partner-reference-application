@@ -21,7 +21,7 @@ If you prefer a quick start without further explanation and want to the applicat
         - **Description**: Music Festivals
         - **Type**: Development
     5. Choose **Create**. The software component is created and a page with it opens.
-    6. Choose **Clone**. In the popup dialog, choose **OK**.
+    6. Choose **Clone**. In the popup dialog, choose **Clone**.
 
 4. After creating the software component, you [create an ABAP Cloud project](https://developers.sap.com/tutorials/abap-environment-create-abap-cloud-project.html) in Eclipse. Then, you onboard the software component in Eclipse ADT.
 
@@ -173,5 +173,13 @@ If you prefer a quick start without further explanation and want to the applicat
 19. [Create the business roles and assign the business users in the ABAP landscape](./22-Integration%20Application%20into%20Launchpad.md#creating-business-roles-and-assigning-business-users)
 
 20. To integrate your SAP BTP application with the SAP S/4HANA Cloud Public Edition, follow the steps outlined in this guide: [Integration with SAP S/4HANA Cloud Public Edition](./40-Integration-with-S4-Public-Cloud.md).
+
+> [!NOTE]
+> If you've followed this quickstart guide, you can skip the following sections from the [integration guide](./40-Integration-with-S4-Public-Cloud.md) in step 20:
+> 1. [Details](./40-Integration-with-S4-Public-Cloud.md#details) section under **Front-End Integration**
+> 2. [Import SAP S/4HANA Cloud Public Edition OData Services](./40-Integration-with-S4-Public-Cloud.md#import-sap-s4hana-cloud-public-edition-odata-services)
+> 3. Step 1 of [Outbound Communication Setup in SAP BTP Application](./40-Integration-with-S4-Public-Cloud.md#outbound-communication-setup-in-sap-btp-application)
+> 4. [Enhance the Business Logic to Operate on SAP S/4HANA Cloud Public Edition Data](./40-Integration-with-S4-Public-Cloud.md#enhance-the-business-logic-to-operate-on-sap-s4hana-cloud-public-edition-data)
+> 5. [Enhance the Web App to Display SAP S/4HANA Cloud Public Edition Data](./40-Integration-with-S4-Public-Cloud.md#enhance-the-web-app-to-display-sap-s4hana-cloud-public-edition-data)
 
 You've successfully deployed your SAP Fiori applications.

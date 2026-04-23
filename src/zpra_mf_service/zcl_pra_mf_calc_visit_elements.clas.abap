@@ -1,25 +1,24 @@
 CLASS zcl_pra_mf_calc_visit_elements DEFINITION
-  PUBLIC
-  FINAL
-  CREATE PUBLIC .
+  PUBLIC FINAL
+  CREATE PUBLIC.
 
   PUBLIC SECTION.
     INTERFACES if_sadl_exit_calc_element_read.
-  PROTECTED SECTION.
+
   PRIVATE SECTION.
     CLASS-METHODS calculate_status_criticality
-      IMPORTING status                    TYPE zpra_mf_c_visittp-status
-      RETURNING VALUE(status_criticality) TYPE zpra_mf_c_visittp-statuscriticality.
+      IMPORTING !status                   TYPE zpra_mf_c_visittp-Status
+      RETURNING VALUE(status_criticality) TYPE zpra_mf_c_visittp-StatusCriticality.
 ENDCLASS.
 
 
 
-CLASS zcl_pra_mf_calc_visit_elements IMPLEMENTATION.
+CLASS ZCL_PRA_MF_CALC_VISIT_ELEMENTS IMPLEMENTATION.
 
 
   METHOD if_sadl_exit_calc_element_read~calculate.
+    DATA visits TYPE STANDARD TABLE OF zpra_mf_c_visittp WITH EMPTY KEY.
 
-    DATA visits TYPE STANDARD TABLE OF zpra_mf_c_visittp WITH DEFAULT KEY.
     visits = CORRESPONDING #( it_original_data ).
 
     LOOP AT visits REFERENCE INTO DATA(visit).
@@ -31,19 +30,16 @@ CLASS zcl_pra_mf_calc_visit_elements IMPLEMENTATION.
 
             visit->StatusCriticality = zcl_pra_mf_calc_visit_elements=>calculate_status_criticality( visit->status ).
 
-
         ENDCASE.
       ENDLOOP.
     ENDLOOP.
 
     ct_calculated_data = CORRESPONDING #( visits ).
-
   ENDMETHOD.
 
 
   METHOD if_sadl_exit_calc_element_read~get_calculation_info.
-
-    IF iv_entity EQ 'ZPRA_MF_C_VISITTP'.
+    IF iv_entity = 'ZPRA_MF_C_VISITTP'.
       LOOP AT it_requested_calc_elements ASSIGNING FIELD-SYMBOL(<requested_calc_elements>).
         CASE <requested_calc_elements>.
           WHEN 'STATUSCRITICALITY'.
@@ -51,12 +47,10 @@ CLASS zcl_pra_mf_calc_visit_elements IMPLEMENTATION.
         ENDCASE.
       ENDLOOP.
     ENDIF.
-
   ENDMETHOD.
 
 
   METHOD calculate_status_criticality.
-
     CASE status.
       WHEN zcl_pra_mf_enum_visit_status=>cancelled.
         status_criticality = zcl_pra_mf_enum_criticality=>negative.
@@ -67,6 +61,5 @@ CLASS zcl_pra_mf_calc_visit_elements IMPLEMENTATION.
       WHEN OTHERS.
         status_criticality = zcl_pra_mf_enum_criticality=>neutral.
     ENDCASE.
-
   ENDMETHOD.
 ENDCLASS.

@@ -55,6 +55,13 @@
      </item>
     </BUCAPP>
     <PUBLISH_STATUS>p</PUBLISH_STATUS>
+    <PLUGIN_CONFIG>
+     <item>
+      <UI_OBJECT>ext_app_rtypes_available</UI_OBJECT>
+      <INVISIBLE>X</INVISIBLE>
+      <INACTIVE>X</INACTIVE>
+     </item>
+    </PLUGIN_CONFIG>
    </SIA1>
   </asx:values>
  </asx:abap>

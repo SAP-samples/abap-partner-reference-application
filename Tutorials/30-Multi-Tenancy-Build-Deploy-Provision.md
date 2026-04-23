@@ -12,7 +12,7 @@ Multitenancy in the ABAP environment enables application providers to develop an
 
 ## Subaccounts, Entitlements, and Services
 
-As a SaaS application, you have to configure the global account for development, and entitle the required services in the corresponding subaccounts. For more information, see [Set Up a Global Account for Development](https://help.sap.com/docs/btp/sap-business-technology-platform/prepare?locale=en-US&version=Cloud#set-up-a-global-account-for-development).
+As a SaaS application, you have to configure the global account for development, and entitle the required services in the corresponding subaccounts. For more information, see [Set Up a Global Account for Development](https://help.sap.com/docs/btp/sap-business-technology-platform/set-up-global-account-for-development?version=Cloud).
 
 ## Delivery Options - `Add-On Delivery` or `gCTS-Transport-Based Delivery`
 

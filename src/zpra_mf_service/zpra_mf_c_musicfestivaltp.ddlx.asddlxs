@@ -135,6 +135,12 @@ annotate view ZPRA_MF_C_MUSICFESTIVALTP with
       dataAction: 'cancel',
       position: 30,
       label: 'Cancel'
+     },
+     {
+      type: #FOR_ACTION,
+      dataAction: 'printGuestList',
+      position: 40,
+      label: 'Print Guest List'
      }],
     hidden: true
     }

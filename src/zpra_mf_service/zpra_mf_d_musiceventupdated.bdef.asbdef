@@ -1,0 +1,11 @@
+abstract;
+strict ( 2 );
+with hierarchy;
+define behavior for ZPRA_MF_D_MUSICEVENTUPDATED alias NewValue
+{
+  association __before;
+}
+define behavior for zpra_mf_d_musiceventupdtd_old alias OldValue
+{
+  association _parent;
+}

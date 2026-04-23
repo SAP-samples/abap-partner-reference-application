@@ -21,9 +21,9 @@ For production use, add-on development requires a reserved namespace to ensure u
 However, for the Music Festival Manager application, you're using the Customer (Z) namespace as this is sample application that can be easily imported into any ABAP Cloud system for testing and evaluation. Therefore, when following the steps in this tutorial, **you don't need to register a namespace**.
 
 > [!NOTE]
-> For more information about registering a namespace, see [Register a Namespace](https://help.sap.com/docs/btp/sap-business-technology-platform/prepare?locale=en-US&version=Cloud#register-a-namespace) on SAP Help Portal.
+> For more information about registering a namespace, see [Register a Namespace](https://help.sap.com/docs/btp/sap-business-technology-platform/register-namespace?version=Cloud) on SAP Help Portal.
 >
-> If you want to try out the **Delivery Using Add-On** option, you have to register your own namespace as described in the [Register a Namespace](https://help.sap.com/docs/btp/sap-business-technology-platform/prepare?locale=en-US&version=Cloud#register-a-namespace) documentation. If you are just getting started or exploring the Music Festival Manager application, you can continue using the Z-namespace as shown in the tutorials.
+> If you want to try out the **Delivery Using Add-On** option, you have to register your own namespace as described in the [Register a Namespace](https://help.sap.com/docs/btp/sap-business-technology-platform/register-namespace?version=Cloud) documentation. If you are just getting started or exploring the Music Festival Manager application, you can continue using the Z-namespace as shown in the tutorials.
 
 ### Subaccounts
 
@@ -38,13 +38,13 @@ You need two global accounts on SAP Business Technology Platform:
 
 As a SaaS solution operator, you must configure the global account for development (used for development, testing, and demo purposes), and entitle the required services in the corresponding subaccounts.
 
-For more information about the recommended subaccount structure and list of entitlements required, see [Set Up a Global Account for Development](https://help.sap.com/docs/btp/sap-business-technology-platform/prepare?locale=en-US&version=Cloud#set-up-a-global-account-for-development) on SAP Help Portal.
+For more information about the recommended subaccount structure and list of entitlements required, see [Set Up a Global Account for Development](https://help.sap.com/docs/btp/sap-business-technology-platform/set-up-global-account-for-development?version=Cloud) on SAP Help Portal.
 
 #### Production Global Account Setup
 
 As a SaaS solution operator, you must configure the global account for production. In the provider subaccount, the add-on product is provided as a SaaS solution for production purposes in the production phase. The solution is consumed by your customers from consumer subaccounts.
 
-For more information about the recommended subaccount structure and list of entitlements required, see [Set Up a Global Account for Production](https://help.sap.com/docs/btp/sap-business-technology-platform/prepare?locale=en-US&version=Cloud#set-up-a-global-account-for-production) on SAP Help Portal.
+For more information about the recommended subaccount structure and list of entitlements required, see [Set Up a Global Account for Production](https://help.sap.com/docs/btp/sap-business-technology-platform/set-up-global-account-for-production?version=Cloud) on SAP Help Portal.
 
 ## Additional Entitlements
 
@@ -58,7 +58,7 @@ The Music Festival Manager application includes specific features that need addi
 
 ## Applications
 
-**Adobe LiveCycle Designer**: To develop the feature to [manage forms](./41-Forms-Feature.md), you need to download and install the Adobe LiveCycle Designer application on your local machine. This application is provided by SAP.
+**Adobe LiveCycle Designer**: To develop the feature to [manage forms](./41a-Forms-Feature.md), you need to download and install the Adobe LiveCycle Designer application on your local machine. This application is provided by SAP.
 
 ## Sample Setup for Music Festival Manager
 

@@ -30,7 +30,7 @@ In our application, we have defined different kinds of actions to handle various
   static action generateSampleData;
   ```
 
-A complete set of [actions](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) can be found in the behavior definitions of the respective business objects.
+A complete set of [actions](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) can be found in the behavior definitions of the respective business objects.
 
 See [Behavior Definition for Music Festival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) for more information.
 

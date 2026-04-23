@@ -23,6 +23,7 @@ use etag
   use action CrProj;
   use action generateSampleData;
   use action createWithAI;
+  use action printGuestList;
   use association _Visits { create; with draft; }
 
   side effects

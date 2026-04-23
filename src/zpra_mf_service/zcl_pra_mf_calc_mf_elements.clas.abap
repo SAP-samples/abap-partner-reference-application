@@ -1,31 +1,31 @@
 CLASS zcl_pra_mf_calc_mf_elements DEFINITION
-  PUBLIC
-  FINAL
-  CREATE PUBLIC .
+  PUBLIC FINAL
+  CREATE PUBLIC.
 
   PUBLIC SECTION.
     INTERFACES if_sadl_exit_calc_element_read.
-    CLASS-DATA: skip TYPE abap_bool VALUE  abap_false.
 
-  PROTECTED SECTION.
+    CLASS-DATA skip TYPE abap_bool VALUE abap_false.
+
   PRIVATE SECTION.
     CONSTANTS mc_mime_type TYPE string VALUE 'application/pdf'.
 
-    CLASS-METHODS calculate_event_status_ind
-      IMPORTING status                    TYPE zpra_mf_c_musicfestivaltp-status
-      RETURNING VALUE(status_criticality) TYPE zpra_mf_c_musicfestivaltp-statuscriticality.
+    DATA form_util TYPE REF TO zif_pra_mf_form_util.
+
+    METHODS calculate_event_status_ind
+      IMPORTING !status                   TYPE zpra_mf_c_musicfestivaltp-Status
+      RETURNING VALUE(result) TYPE zpra_mf_c_musicfestivaltp-StatusCriticality.
 
 ENDCLASS.
 
 
 
-CLASS zcl_pra_mf_calc_mf_elements IMPLEMENTATION.
+CLASS ZCL_PRA_MF_CALC_MF_ELEMENTS IMPLEMENTATION.
 
 
   METHOD if_sadl_exit_calc_element_read~calculate.
+    DATA events TYPE STANDARD TABLE OF ZPRA_MF_C_MusicFestivalTP WITH EMPTY KEY.
 
-
-    DATA events TYPE STANDARD TABLE OF ZPRA_MF_C_MusicFestivalTP WITH DEFAULT KEY.
     events = CORRESPONDING #( it_original_data ).
     LOOP AT events REFERENCE INTO DATA(event).
       LOOP AT it_requested_calc_elements REFERENCE INTO DATA(req_calc_elements).
@@ -35,9 +35,8 @@ CLASS zcl_pra_mf_calc_mf_elements IMPLEMENTATION.
           WHEN 'BOOKEDSEATS'.
             event->BookedSeats = event->MaxVisitorsNumber - event->FreeVisitorSeats.
 
-
           WHEN 'STATUSCRITICALITY'.
-            event->StatusCriticality = zcl_pra_mf_calc_mf_elements=>calculate_event_status_ind( event->status ).
+            event->StatusCriticality = calculate_event_status_ind( event->status ).
 
           WHEN 'MIMETYPE'.
             event->MimeType = mc_mime_type.
@@ -47,10 +46,11 @@ CLASS zcl_pra_mf_calc_mf_elements IMPLEMENTATION.
 
           WHEN 'OUTPUTPDFDATA'.
 
-            IF NEW zcl_pra_mf_com_util(  )->is_scenario_configured( 'SAP_COM_0503' ) EQ abap_true.
+            IF NEW zcl_pra_mf_com_util( )->zif_pra_mf_com_util~is_scenario_configured( 'SAP_COM_0503' ) = abap_true.
               TRY.
-                  DATA form_util TYPE REF TO zcl_pra_mf_form_util.
-                  CREATE OBJECT form_util.
+                  IF form_util IS NOT BOUND.
+                    form_util = NEW zcl_pra_mf_form_util( ).
+                  ENDIF.
                   DATA(fp_fdp_service) = form_util->get_fp_fdp_service( 'ZPRA_MF_MUSICFESTIVAL' ).
                   event->OutputPdfData = form_util->render_form_for_preview( id             = event->Uuid
                                                                              form_template  = 'ZPRA_MF_PDF_FORM_MF'
@@ -60,61 +60,52 @@ CLASS zcl_pra_mf_calc_mf_elements IMPLEMENTATION.
                       cx_fp_form_reader
                       cx_fp_ads_util INTO DATA(exception).
 
-
-                  Raise EXCEPTION type zcx_pra_mf_calc_exit
-                    EXPORTING
-                      previous = exception
-                      textid = zcx_pra_mf_calc_exit=>exception_forms.
+                  RAISE EXCEPTION NEW zcx_pra_mf_calc_exit( previous = exception
+                                                            textid   = zcx_pra_mf_calc_exit=>exception_forms ).
 
               ENDTRY.
             ENDIF.
 
-          ENDCASE.
+        ENDCASE.
       ENDLOOP.
     ENDLOOP.
 
     ct_calculated_data = CORRESPONDING #( events ).
-
-
   ENDMETHOD.
 
 
   METHOD if_sadl_exit_calc_element_read~get_calculation_info.
+    CLEAR et_requested_orig_elements.
 
-    CLEAR: et_requested_orig_elements.
-
-    IF iv_entity EQ `ZPRA_MF_C_MUSICFESTIVALTP`.
-      IF line_exists( it_requested_calc_elements[ table_line = `BOOKEDSEATS` ] ).
-        INSERT `MAXVISITORSNUMBER` INTO TABLE et_requested_orig_elements.
-        INSERT `FREEVISITORSEATS` INTO TABLE et_requested_orig_elements.
-      ENDIF.
-
-      IF line_exists( it_requested_calc_elements[ table_line = `STATUSCRITICALITY` ] ).
-        INSERT `STATUS` INTO TABLE et_requested_orig_elements.
-      ENDIF.
-
-      IF line_exists( it_requested_calc_elements[ table_line = `OUTPUTPDFDATA` ] ).
-        INSERT `UUID` INTO TABLE et_requested_orig_elements.
-      ENDIF.
-
+    IF iv_entity <> `ZPRA_MF_C_MUSICFESTIVALTP`.
+      RETURN.
     ENDIF.
 
+    IF line_exists( it_requested_calc_elements[ table_line = `BOOKEDSEATS` ] ).
+      INSERT `MAXVISITORSNUMBER` INTO TABLE et_requested_orig_elements.
+      INSERT `FREEVISITORSEATS` INTO TABLE et_requested_orig_elements.
+    ENDIF.
+
+    IF line_exists( it_requested_calc_elements[ table_line = `STATUSCRITICALITY` ] ).
+      INSERT `STATUS` INTO TABLE et_requested_orig_elements.
+    ENDIF.
+
+    IF line_exists( it_requested_calc_elements[ table_line = `OUTPUTPDFDATA` ] ).
+      INSERT `UUID` INTO TABLE et_requested_orig_elements.
+    ENDIF.
   ENDMETHOD.
 
 
   METHOD calculate_event_status_ind.
-
     CASE status.
       WHEN zcl_pra_mf_enum_mf_status=>cancelled.
-        status_criticality = zcl_pra_mf_enum_criticality=>negative.
+        result = zcl_pra_mf_enum_criticality=>negative.
       WHEN zcl_pra_mf_enum_mf_status=>fully_booked.
-        status_criticality = zcl_pra_mf_enum_criticality=>critical.
+        result = zcl_pra_mf_enum_criticality=>critical.
       WHEN zcl_pra_mf_enum_mf_status=>published.
-        status_criticality = zcl_pra_mf_enum_criticality=>positive.
+        result = zcl_pra_mf_enum_criticality=>positive.
       WHEN OTHERS.
-        status_criticality = zcl_pra_mf_enum_criticality=>neutral.
+        result = zcl_pra_mf_enum_criticality=>neutral.
     ENDCASE.
-
   ENDMETHOD.
-
 ENDCLASS.

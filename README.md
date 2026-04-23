@@ -95,9 +95,11 @@ If you prefer a quick start with a deployment of the music festival manager appl
     1. [Learn about multitenancy, and how to build, deploy, and provision your application to consumers](./Tutorials/30-Multi-Tenancy-Build-Deploy-Provision.md)
 3. Integrate the application with SAP S/4HANA Cloud
     1. [Integrate the application with SAP S/4HANA Cloud Public Edition](./Tutorials/40-Integration-with-S4-Public-Cloud.md)
+    2. [Add SAP BTP Applications to SAP S/4HANA Cloud Public Edition Launchpad](./Tutorials/40a-Add-BTP-App-into-S4-Public-Cloud-Launchpad.md)
 4. Additional features and capabilities
     1. Add capabilities for output management to your application
-       1. [Manage Forms](./Tutorials/41-Forms-Feature.md)
+       1. [Manage Forms](./Tutorials/41a-Forms-Feature.md)
+       2. [Print Documents](./Tutorials/41b-Print-Documents.md)
     2. [Consuming ISLM for Generative AI capabilities](./Tutorials/42-Consuming-ISLM-for-GenAI.md)
 
 ## More Information
@@ -115,7 +117,18 @@ There aren't any known issues.
 
 ## Get Support
 
-This repository is provided "as-is", we don't offer support. For questions and comments, [join the SAP Community](https://answers.sap.com/questions/ask.html).
+This repository is provided "as-is". For questions, feedback, or feature requests, please fill out our [Partner Feedback](../../issues/new?template=partner-survey.yml) — we'd be happy to assist you!
+
+**How to submit feedback:**
+1. Go to *Issues* → *New Issue*
+2. Select the *Partner Feedback* template
+3. Complete the form and submit
+
+For general questions, you can also [join the SAP Community](https://answers.sap.com/questions/ask.html).
+
+## Join our community!
+
+Would you like to share your own ideas and best practices? Join our discussions about the ABAP Partner Reference Application in our [SAP Community](https://community.sap.com/t5/enterprise-resource-planning-blog-posts-by-sap/how-sap-s-abap-cloud-partner-reference-app-simplifies-multi-tenant-side-by/ba-p/14223705).
 
 ## License
 
