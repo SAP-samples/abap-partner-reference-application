@@ -49,7 +49,7 @@ Set up the trust relationship between the SAP BTP subaccount and the Identity Au
 > - For Single Sign On to work, always login in the Cloud ABAP Environment Instance using the right Custom Identity Provider that is linked to the IAS tenant of S/4HANA Cloud system.
 
 > [!NOTE]
-> Looking for more information on the SAP Authorization and Trust Management service? Go to [Building Side-By-Side Extensions Using SAP BTP](https://learning.sap.com/learning-journeys/build-side-by-side-extensions-on-sap-btp/describing-authorization-and-trust-management-xsuaa-_cbf0d0c5-29ec-4685-9cf4-487156b41284).
+> Looking for more information on the SAP Authorization and Trust Management service? Go to [Building Side-By-Side Extensions Using SAP BTP](https://learning.sap.com/courses/operating-sap-business-technology-platform/explaining-identity-and-access-management-on-sap-btp).
 
 #### Details
 
@@ -249,7 +249,7 @@ Configure the communication system to trust the OAuth 2.0 Identity Provider of t
    2. Choose **Upload Signing Certificate** button
 
     <img src="./images/40_upload_signing_certificate.png" width="75%">
-    
+
    3. Upload the certificate obtained in [Previous Step](#obtain-signing-certificate).
 
 5. Save the changes
