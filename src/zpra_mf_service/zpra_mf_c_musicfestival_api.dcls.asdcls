@@ -1,0 +1,10 @@
+@EndUserText.label: 'Access Control for Music Festival API'
+@MappingRole: true
+define role ZPRA_MF_C_MUSICFESTIVAL_API {
+  grant
+    select
+      on
+        ZPRA_MF_C_MUSICFESTIVAL_API
+            where inheriting conditions from entity ZPRA_MF_R_MUSICFESTIVAL; 
+            
+}

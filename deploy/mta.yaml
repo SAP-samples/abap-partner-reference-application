@@ -26,6 +26,7 @@ parameters:
   send-x-frame-options:
   consumer-tenant-limit:
   sap-system-name:
+  extended-login-csp:
 
 modules:
   - name: approuter
@@ -45,6 +46,7 @@ modules:
       SAP_JWT_TRUST_ACL:
         - clientid: "*"
           identityzone: sap-provisioning
+      EXTENDED_LOGIN_CSP: ${extended-login-csp}
     requires:
       - name: xsuaa
       - name: saas-registry

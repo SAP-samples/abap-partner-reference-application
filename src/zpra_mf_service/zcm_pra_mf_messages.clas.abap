@@ -15,6 +15,7 @@ CLASS zcm_pra_mf_messages DEFINITION
                  validate_visitors       TYPE String VALUE 'VALIDATE_VISITORS',
                  validate_date           TYPE string VALUE 'VALIDATE_DATE',
                  validate_publish_action TYPE string VALUE 'VALIDATE_PUBLISH_ACTION',
+                 validate_visit          TYPE string VALUE 'VALIDATE_VISIT',
                END OF state_area.
 
     CONSTANTS: BEGIN OF default,
@@ -101,11 +102,38 @@ CLASS zcm_pra_mf_messages DEFINITION
     CONSTANTS: BEGIN OF error_in_proj_creation,
                  msgid TYPE symsgid      VALUE 'ZPRA_MF_MSG_CLS',
                  msgno TYPE symsgno      VALUE '010',
-                 attr1 TYPE scx_attrname VALUE 'TITLE',
+                 attr1 TYPE scx_attrname VALUE '',
                  attr2 TYPE scx_attrname VALUE '',
                  attr3 TYPE scx_attrname VALUE '',
                  attr4 TYPE scx_attrname VALUE '',
                END OF error_in_proj_creation.
+
+    CONSTANTS: BEGIN OF visitor_invalid,
+                 msgid TYPE symsgid      VALUE 'ZPRA_MF_MSG_CLS',
+                 msgno TYPE symsgno      VALUE '017',
+                 attr1 TYPE scx_attrname VALUE '',
+                 attr2 TYPE scx_attrname VALUE '',
+                 attr3 TYPE scx_attrname VALUE '',
+                 attr4 TYPE scx_attrname VALUE '',
+               END OF visitor_invalid.
+
+    CONSTANTS: BEGIN OF mass_update_not_supported,
+                 msgid TYPE symsgid      VALUE 'ZPRA_MF_MSG_CLS',
+                 msgno TYPE symsgno      VALUE '018',
+                 attr1 TYPE scx_attrname VALUE '',
+                 attr2 TYPE scx_attrname VALUE '',
+                 attr3 TYPE scx_attrname VALUE '',
+                 attr4 TYPE scx_attrname VALUE '',
+               END OF mass_update_not_supported.
+
+    CONSTANTS: BEGIN OF proj_creation_triggered,
+                 msgid TYPE symsgid VALUE 'ZPRA_MF_MSG_CLS',
+                 msgno TYPE symsgno VALUE '019',
+                 attr1 TYPE scx_attrname VALUE '',
+                 attr2 TYPE scx_attrname VALUE '',
+                 attr3 TYPE scx_attrname VALUE '',
+                 attr4 TYPE scx_attrname VALUE '',
+               END OF proj_creation_triggered.
 
     METHODS constructor
       IMPORTING textid         LIKE if_t100_message=>t100key             OPTIONAL

@@ -2,7 +2,7 @@
 
 - [Introduction](#introduction)
 - [Consume SAP S/4HANA Cloud Public Edition OData APIs](#consume-sap-s4hana-cloud-public-edition-odata-apis)
-- [Authentication](#Authentication)
+- [Authentication](#authentication)
 - [Basic Authentication](#basic-authentication)
   - [Outbound Communication Setup in SAP BTP Application](#outbound-communication-setup-in-sap-btp-application)
   - [Inbound Communication Setup in SAP S/4HANA Cloud Public Edition](#inbound-communication-setup-in-sap-s4hana-cloud-public-edition)
@@ -118,6 +118,9 @@ This section explains the setup process for both Basic Authentication and OAuth 
 
 3. Create a communication system using the **Communication Systems** application.
    1. Enter a system ID and system name of your choice and choose **Create**.
+      > **Note**
+      > 
+      > If you are following the quickstart guide, either name the communication system as `TEST_SAP_COM_0308_PRA_2`, or in *ADT* update the communication system name to the name you have given. For more information, refer to point 1.i.b. [here](#enhance-the-business-logic-to-operate-on-sap-s4hana-cloud-public-edition-data).
    2. Under **Technical Data**, enter a destination system (the SAP S/4HANA Cloud Public Edition system as per this guide) as host name. For example: \*\*\*.sap.
       > **Caution**
       >
@@ -249,7 +252,6 @@ Configure the communication system to trust the OAuth 2.0 Identity Provider of t
    2. Choose **Upload Signing Certificate** button
 
     <img src="./images/40_upload_signing_certificate.png" width="75%">
-
    3. Upload the certificate obtained in [Previous Step](#obtain-signing-certificate).
 
 5. Save the changes
@@ -266,7 +268,7 @@ Configure the communication arrangement to use the authentication method OAuth 2
 3. In the **Inbound Communication section** select newly maintained inbound communication user of type OAuth 2.0 for Inbound Communication.
 
 <img src="./images/51_I_Comm_Arran.png" width="75%">
-<img src="./images/40_comm_arrang_inbound_user.png" width="75%">
+<img src="./images/40_comm_arrange_inbound_user.png" width="75%">
 
 4. Choose Save to save the Communication Arrangement
 5. A new button appears: **OAuth 2.0 Details** this will be needed in the next step
@@ -293,9 +295,12 @@ To determine the business catalogs, which enable your S/4HANA Cloud business use
 
 ## Enhance the Business Logic to Operate on SAP S/4HANA Cloud Public Edition Data
 
-### Create a Class for Project Creation
+### Create a Class for Enterprise Project Creation
 
-1.  Prepare the client proxy for outbound communication.
+Prepare the class to establish outbound communication and post the enterprise project data:
+
+1.  Enable background-driven enterprise project creation by implementing a dedicated class that declares the `IF_BGMC_OP_SINGLE` interface and defines the end-to-end logic in the `IF_BGMC_OP_SINGLE~EXECUTE` method.
+2.  Prepare the client proxy for outbound communication.
     1. Use the **CL_HTTP_DESTINATION_PROVIDER=>CREATE_BY_COMM_ARRANGEMENT** method with the following parameters to obtain the destination object reference:
        1. COMM_SCENARIO: Use the communication scenario created in the outbound setup.
        2. COMM_SYSTEM_ID: Use the communication system from the outbound setup.
@@ -305,12 +310,14 @@ To determine the business catalogs, which enable your S/4HANA Cloud business use
        1. IS_PROXY_MODEL_KEY = VALUE #( REPOSITORY_ID = 'DEFAULT' PROXY_MODEL_ID = [service consumption model from step 2] PROXY_MODEL_VERSION = '001')
        1. IO_HTTP_CLIENT: HTTP client object from the previous step.
        1. IV_RELATIVE_SERVICE_ROOT = '/sap/opu/odata/sap/API_ENTERPRISE_PROJECT_SRV;v=0002/'.
-2.  The structure of an enterprise project can be crafted using the class generated during setting up the service consumption model in the [Import SAP S/4HANA Cloud Public Edition OData Services](#import-sap-s4hana-cloud-public-edition-odata-services) section.
-3.  Populate the enterprise project structure with values, then use the action method to perform the creation process.
-4.  Pass the `A_ENTERPRISE_PROJECT` entity to the `CREATE_RESOURCE_FOR_ENTITY_SET` method using the client proxy reference, and subsequently invoke the `CREATE_REQUEST_FOR_CREATE` method to instantiate the request object.
-5.  Use the `CREATE_DATA_DESCRIPTION_NODE` method on the request object created in the previous step to instantiate the data description node object.
-6.  Pass the enterprise project structure to the `SET_DEEP_BUSINESS_DATA` method on the request object along with the data description node object and execute the request.
-7.  You can have a look at the [reference code](../src/zpra_mf_service/zcl_pra_mf_ent_proj_outb_integ.clas.abap).
+3.  The structure of an enterprise project can be crafted using the class generated during setting up the service consumption model in the [Import SAP S/4HANA Cloud Public Edition OData Services](#import-sap-s4hana-cloud-public-edition-odata-services) section.
+4.  Populate the enterprise project structure with values, then use the action method to perform the creation process.
+5.  Pass the `A_ENTERPRISE_PROJECT` entity to the `CREATE_RESOURCE_FOR_ENTITY_SET` method using the client proxy reference, and subsequently invoke the `CREATE_REQUEST_FOR_CREATE` method to instantiate the request object.
+6.  Use the `CREATE_DATA_DESCRIPTION_NODE` method on the request object created in the previous step to instantiate the data description node object.
+7.  Pass the enterprise project structure to the `SET_DEEP_BUSINESS_DATA` method on the request object along with the data description node object and execute the request.
+8.  Review the [reference implementation](../src/zpra_mf_service/zcl_pra_mf_ent_proj_bgpf.clas.abap) and replicate the logic in your solution.
+
+
 
 ## Enhance the Web App to Display SAP S/4HANA Cloud Public Edition Data
 
@@ -318,13 +325,15 @@ The behavior definition is adjusted to add a button in the web application, whil
 
 1. Make adjustments in the behaviour definition.
    1. Define and expose a button to create a project in the behavior definition.
-   2. Create a method in the behavior implementation class to call the method to [create a project](#create-a-class-for-project-creation).
-   3. You can have a look at the [reference code](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap).
+   2. Define and expose side effects in the behavior definition to refresh the Project Information facet.
+   3. Create a method in the behavior implementation class to call the method to [create a project](#create-a-class-for-enterprise-project-creation). 
+   4. Review the [reference implementation](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap). Focus on the `createproject` and `save_modified` methods and replicate the logic in your solution.
 2. Create a custom entity for fetching the project. Refer to the code [here](../src/zpra_mf_service/zpra_mf_ae_remote_proj.ddls.asddls).
 3. There's a class in the custom entity where the code to fetch the project is implemented. Refer to the code [here](../src/zpra_mf_service/zcl_pra_mf_fetch_proj.clas.abap).
 4. The custom entity is then associated with the projection view to the fetched project. Refer to the code [here](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddls.asddls).
 5. Expose the custom entity in the service definition.
-6. The images below show a preview of the application UI.
+
+The images below show a preview of the application UI.
 
 <img src="./images/51_Musical_Fest_Application.png" width="75%">
 <img src="./images/51_Musical_Fest_PI.png" width="75%">

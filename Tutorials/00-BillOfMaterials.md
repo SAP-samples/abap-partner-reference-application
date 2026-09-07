@@ -12,7 +12,7 @@ The required landscape setup and components are outlined below.
 ## Landscape Overview
 
 > [!NOTE]
-> SAP Help Portal provides comprehensive details of the preliminary steps you need to perform before you can proceed with the development of the add-on. For more information, see [Prepare](https://help.sap.com/docs/btp/sap-business-technology-platform/prepare?locale=en-US&version=Cloud) on SAP Help Portal.
+> SAP Help Portal provides comprehensive details of the preliminary steps you need to perform before you can proceed with the development of the add-on. For more information, see [Prepare](https://help.sap.com/docs/btp/sap-business-technology-platform/prepare?version=Cloud) on SAP Help Portal.
 
 ### Namespace Registration
 
@@ -74,9 +74,9 @@ The example setup serves three sample customers:
 
 For information about defining the sizing of your application, you can refer to the following resources:
 
-- [**ABAP System Sizing**](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/abap-system-sizing?locale=en-US) on SAP Help Portal - This documentation describes the principles of system sizing for custom applications in the ABAP environment. It covers several key areas: sizing fundamentals, preparation steps, and measurements using the Capture Request Statistics app. Additionally, you'll learn about the **Perform System Sizing** app.
-- [**Sizing for SaaS Applications**](https://help.sap.com/docs/btp/sap-business-technology-platform/saas-apps-order-and-provide?locale=en-US&version=Cloud#deploy) on SAP Help Portal - See the **Sizing** section for information about multitenant application sizing properties including tenant limits, ABAP compute units (runtime), and HANA compute units (persistence) for SaaS offerings.
+- [**ABAP System Sizing**](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/abap-system-sizing) on SAP Help Portal - This documentation describes the principles of system sizing for custom applications in the ABAP environment. It covers several key areas: sizing fundamentals, preparation steps, and measurements using the Capture Request Statistics app. Additionally, you'll learn about the **Perform System Sizing** app.
+- [**Sizing for SaaS Applications**](https://help.sap.com/docs/btp/sap-business-technology-platform/saas-apps-order-and-provide?version=Cloud#deploy) on SAP Help Portal - See the **Sizing** section for information about multitenant application sizing properties including tenant limits, ABAP compute units (runtime), and HANA compute units (persistence) for SaaS offerings.
 
 ## Information on Versions and What's New
 
-You can subscribe to updates on the [What's New for SAP Business Technology Platform](https://help.sap.com/whats-new/cf0cb2cb149647329b5d02aa96303f56?clear=all&locale=en-US) on SAP Help Portal.
+You can subscribe to updates on the [What's New for SAP Business Technology Platform](https://help.sap.com/whats-new/cf0cb2cb149647329b5d02aa96303f56?clear=all) on SAP Help Portal.

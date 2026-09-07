@@ -107,12 +107,12 @@ Similarly, you can create a web application for managing Visitors.
 
 ## Fine-Tune the User Interface
 
-To adapt the generated user interface to your needs, you can either use the [SAP Fiori tools, application modeler](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/a9c004397af5461fbf765419fc1d606a.html?locale=en-US) or you can change the generated files manually.
+To adapt the generated user interface to your needs, you can either use the [SAP Fiori tools, application modeler](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/a9c004397af5461fbf765419fc1d606a.html) or you can change the generated files manually.
 
 The SAP Fiori tools - Application Modeler includes two tools that help you create new pages or adjusting existing ones:
 
-- [Page Editor](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/047507c86afa4e96bb3d284adb9f4726.html?locale=en-US): Create and maintain annotation-based UI elements.
-- [Page Map](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/bae38e6216754a76896b926a3d6ac3a9.html?locale=en-US): Change the structure of pages and application-wide settings.
+- [Page Editor](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/047507c86afa4e96bb3d284adb9f4726.html): Create and maintain annotation-based UI elements.
+- [Page Map](https://help.sap.com/docs/SAP_FIORI_tools/17d50220bcd848aa854c9c182d65b699/bae38e6216754a76896b926a3d6ac3a9.html): Change the structure of pages and application-wide settings.
 
 > [!NOTE]
 > The recommendation is to use SAP Fiori tools to create new pages or to enhance existing ones with additional features. These tools generate the required annotations in the annotations file. For better readability, you can restructure the annotations afterward.

@@ -36,7 +36,7 @@ To protect your service from activities such as create, update, or delete by una
 
 For more information on BDEFs, see - [zpra_mf_r_musicfestival](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) and [zpra_mf_r_visitor](../src/zpra_mf_service/zpra_mf_r_visitor.bdef.asbdef).
 
-3. With the **authorization master ( global, instance )** line, an authorization check for the standard operations create, update, delete, and for non-standard operations is defined. Implement the authorization check using a method with addition **FOR GLOBAL AUTHORIZATION** and **FOR INSTANCE AUTHORIZATION** in the [behavior implementation](https://help.sap.com/docs/ABAP_PLATFORM_NEW/fc4c71aa50014fd1b43721701471913d/b915e9d784734ec088ac2cb51a0c18e6.html?locale=en-US&state=PRODUCTION&version=202310.003).
+3. With the **authorization master ( global, instance )** line, an authorization check for the standard operations create, update, delete, and for non-standard operations is defined. Implement the authorization check using a method with addition **FOR GLOBAL AUTHORIZATION** and **FOR INSTANCE AUTHORIZATION** in the [behavior implementation](https://help.sap.com/docs/ABAP_PLATFORM_NEW/fc4c71aa50014fd1b43721701471913d/b915e9d784734ec088ac2cb51a0c18e6.html?state=PRODUCTION&version=202310.003).
 
 Refer to the sample code in the **get_global_authorizations** method using [this link](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap).
 
@@ -58,7 +58,7 @@ Authorization default values are automatically created when creating service bin
 
 ## Creating Access Controls
 
-[Access controls](https://help.sap.com/docs/abap-cloud/abap-development-tools-user-guide/access-controls?version=sap_btp&locale=en-US) ensure that only authorized users access specific system data and functions, protecting information and maintaining security.
+[Access controls](https://help.sap.com/docs/abap-cloud/abap-development-tools-user-guide/access-controls?version=sap_btp) ensure that only authorized users access specific system data and functions, protecting information and maintaining security.
 
 1. Create an access control object for the root CDS views **ZPRA_MF_R_MUSICFESTIVAL** and **ZPRA_MF_R_VISITOR**. This restricts access to data using the **ZPRA_MF_AO** authorization object for display/read access ('ACTVT' EQ '03').
 2. Create an access control object for the consumption views **ZPRA_MF_C_MUSICFESTIVALTP** and **ZPRA_MF_C_VISITORTP**.

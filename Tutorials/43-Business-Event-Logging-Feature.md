@@ -70,11 +70,11 @@ Each event contains information in its payload. A parameter is assigned to each 
 ## Define an Event
 
 1. In ABAP Development Tools for Eclipse, call up the behavior definition of the services.
-2. Define the event with the key word `EVENT` in the respective entity, with the parameter as the abstract entity. https://github.com/SAP-samples/abap-partner-reference-application/blob/f230ffcea14241acde009cd49e17578ca01d0734/src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef#L103
+2. Define the event with the key word `EVENT` in the respective entity, with the parameter as the abstract entity in behavior definition. Refer to [ZPRA_MF_R_MUSICFESTIVAL](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) for an example.
 
     <img src="./images/43_event_mf.png" width="50%">
     
-3. Event definitions for child entities must be placed in the child behavior definition. https://github.com/SAP-samples/abap-partner-reference-application/blob/f230ffcea14241acde009cd49e17578ca01d0734/src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef#L156
+3. Event definitions for child entities must be placed in the child behavior definition. Refer to [ZPRA_MF_R_MUSICFESTIVAL](../src/zpra_mf_service/zpra_mf_r_musicfestival.bdef.asbdef) for an example.
 
     <img src="./images/43_event_visit.png" width="50%">
 

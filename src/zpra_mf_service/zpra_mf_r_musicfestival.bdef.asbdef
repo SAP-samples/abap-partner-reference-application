@@ -22,19 +22,26 @@ authorization master ( global, instance )
   field ( mandatory ) Title, EventDateTime, MaxVisitorsNumber;
   field ( readonly )
   Uuid,
+  ID,
   FreeVisitorSeats,
   Status,
-  project_id,
+  //  project_id,
   CreatedBy,
   CreatedAt,
   LastChangedBy,
   LastChangedAt,
   LocalLastChangedAt;
 
+  field ( readonly : create )
+  project_id,
+  is_project_created,
+  project_log_handle,
+  is_project_crea_trig;
+
   association _Visits { create ( features : instance, authorization : update ); with draft; }
 
-  create { default function GetDefaultsForCreate; }
-  update;
+  create ( precheck ) { default function GetDefaultsForCreate; }
+  update ( precheck );
   delete ( features : instance );
 
   draft action Activate optimized;
@@ -56,7 +63,9 @@ authorization master ( global, instance )
   validation validateMandatoryValue on save { create; field Title, MaxVisitorsNumber, EventDateTime; }
   validation validateMaxVisitors on save { field FreeVisitorSeats, MaxVisitorsNumber; }
   validation validateDate on save { field EventDateTime; }
+  validation validateCustomFields on save { create; update; }
 
+  determination determineID on save { create; }
   determination determineStatus on modify { create; field MaxVisitorsNumber, FreeVisitorSeats; }
   determination determineAvailableSeats on modify { field MaxVisitorsNumber; }
 
@@ -64,11 +73,14 @@ authorization master ( global, instance )
   determine action validateMaxVisitorsNumber { validation validateMaxVisitors; }
   determine action validateEventDate { validation validateDate; }
 
+  event ProjectCreated for side effects;
+
   side effects
   {
     field MaxVisitorsNumber affects field ( FreeVisitorSeats, Status );
     action publish affects field Status;
     action cancel affects field Status;
+    event ProjectCreated affects entity _Proj , field ( Status );
     determine action validateMandatoryFields executed on field ( Title, EventDateTime, MaxVisitorsNumber ) affects messages;
     determine action validateMaxVisitorsNumber executed on field ( FreeVisitorSeats, MaxVisitorsNumber ) affects messages;
     determine action validateEventDate executed on field EventDateTime affects messages;
@@ -79,12 +91,17 @@ authorization master ( global, instance )
     validation validateMandatoryValue;
     validation validateMaxVisitors;
     validation validateDate;
+    validation validateCustomFields;
+    validation Visits~validateVisitor;
   }
 
+  define pure key AlternativeKey { id; }
+  key ( AlternativeKey ) function GetByAltKey;
 
   mapping for zpra_mf_a_mf corresponding extensible
     {
       Uuid                = uuid;
+      ID                  = id;
       Title               = title;
       Description         = description;
       EventDateTime       = event_date_time;
@@ -98,12 +115,15 @@ authorization master ( global, instance )
       LastChangedAt       = last_changed_at;
       LastChangedBy       = last_changed_by;
       LocalLastChangedAt  = local_last_changed_at;
+      SalesOrderId        = sales_order_id;
+      BusinessPartnerId   = business_partner_id;
+      BusinessPartnerName = business_partner_name;
     }
 
-    event MusicEventCreated parameter ZPRA_MF_D_MUSICEVENTCREATED;
-    event MusicEventUpdated deep parameter ZPRA_MF_D_MUSICEVENTUPDATED;
-    event MusicEventDeleted parameter ZPRA_MF_D_MUSICEVENTDELETED;
-    event EntProjectAssigned parameter ZPRA_MF_D_ENTPROJECTASSIGNED;
+  event MusicEventCreated parameter ZPRA_MF_D_MUSICEVENTCREATED;
+  event MusicEventUpdated deep parameter ZPRA_MF_D_MUSICEVENTUPDATED;
+  event MusicEventDeleted parameter ZPRA_MF_D_MUSICEVENTDELETED;
+  event EntProjectAssigned parameter ZPRA_MF_D_ENTPROJECTASSIGNED;
 
 }
 
@@ -136,6 +156,9 @@ etag master LocalLastChangedAt
 
   action ( features : instance ) book result [1] $self;
   action ( features : instance ) cancel result [1] $self;
+  action sendUpdate result [0..*] $self;
+
+  validation validateVisitor on save { create; update; field VisitorUuid; }
 
   side effects
   {
@@ -153,7 +176,7 @@ etag master LocalLastChangedAt
       LocalLastChangedAt = local_last_changed_at;
     }
 
-    event VisitBooked parameter ZPRA_MF_D_VISIT;
-    event VisitCancelled parameter ZPRA_MF_D_VISIT;
+  event VisitBooked parameter ZPRA_MF_D_VISIT;
+  event VisitCancelled parameter ZPRA_MF_D_VISIT;
 
- }
+}

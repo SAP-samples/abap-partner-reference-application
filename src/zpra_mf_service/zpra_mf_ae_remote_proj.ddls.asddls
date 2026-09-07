@@ -61,16 +61,20 @@ define custom entity ZPRA_MF_AE_REMOTE_PROJ
 
       CostCenter     : abap.char(10);
 
-      @UI         : {
-      lineItem    : [{position: 270, importance: #HIGH}],
-      identification      : [{position: 270}],
-      fieldGroup  :[{groupLabel: 'Project Information', qualifier:'Fieldgroup3',position:270, importance: #HIGH }]
-      }
-      @EndUserText.label  : 'Processing Status'
-
+      @UI.hidden  : true
       Status     : abap.char(10);
       
-    
-      
-      
+      @EndUserText.label: 'Status'
+      @Semantics.imageUrl: true
+      @UI.lineItem: [{ position:280, importance:#HIGH }] 
+      @UI.identification: [{position:280}]
+      @UI.fieldGroup: [{groupLabel: 'Project Information', qualifier:'Fieldgroup3', position:280, importance: #HIGH }]
+      StatusIcon  : abap.string;
+
+      @UI.lineItem: [{ position:270, importance:#HIGH }]
+      @UI.identification: [{position:270}]      
+      @UI.fieldGroup: [{groupLabel: 'Project Information', qualifier:'Fieldgroup3', position:270, importance: #HIGH }]
+      @EndUserText.label: 'Status text'
+      StatusText  : abap.char(100);
+          
 }

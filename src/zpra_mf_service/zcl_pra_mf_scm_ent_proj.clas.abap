@@ -1,4 +1,4 @@
-"! <p class="shorttext synchronized">Consumption model for client proxy - generated</p>
+"! <p class="shorttext synchronized">Consumption model for client proxy - generated.</p>
 "! This class has been generated based on the metadata with namespace
 "! <em>API_ENTERPRISE_PROJECT_SRV</em>
 CLASS zcl_pra_mf_scm_ent_proj DEFINITION

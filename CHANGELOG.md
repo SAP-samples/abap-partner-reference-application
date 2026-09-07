@@ -1,6 +1,19 @@
 # Changes
 
-## Current Version - April 2026
+## Current Version - September 2026
+
+The tutorials and sample application code are available in the main branch.
+
+The current version includes:
+
+- [Develop and Publish API for External System Integration](./Tutorials/51-Develop-OData-V4-API-Service.md): Expose RAP business objects as an OData V4 API for external system consumption with support for Basic Authentication and OAuth 2.0 Principal Propagation.
+- [Key User Field Extensibility](./Tutorials/31-Key-User-Field-Extensibility.md): Extend the Music Festival application with custom fields using key user extensibility and the Adapt UI capability.
+- [Email Functionality](./Tutorials/44-Email-Functionality.md): Added manual and automated email notification functionality using communication system and communication arrangement via SAP Cloud Connector.
+- [Background Processing of Enterprise Project Creation](./Tutorials/40-Integration-with-S4-Public-Cloud.md#enhance-the-business-logic-to-operate-on-sap-s4hana-cloud-public-edition-data): Enterprise Project creation in SAP S/4HANA Cloud Public Edition now runs as a background process using the background processing framework (bgRFC), paired with automatic refreshing of the Project Information facet.
+- [SAP S/4HANA Cloud Sponsoring Integration](./Tutorials/52-S4HANA-Sponsoring-Integration.md): Integrate the side-by-side application with SAP S/4HANA Cloud Public Edition for sponsoring scenarios.
+- [Alternative Keys](./Tutorials/13-Develop-Business-Logic.md#alternative-keys-addition): Enable external systems to access entities using human-readable identifiers (such as a Music Festival ID) instead of technical UUIDs, simplifying integration scenarios.
+
+## Version - April 2026
 
 The tutorials and sample application code are available in the main branch.
 
@@ -12,6 +25,8 @@ The current version includes:
 - Clean Code: Comprehensive clean code refactoring across the codebase following [SAP Clean ABAP guidelines](https://github.com/SAP/styleguides/blob/main/clean-abap/CleanABAP.md).
 - [Data Element Type Change](./objects/DTEL/ZPRA_MF_NAME): The `ZPRA_MF_NAME` data element type has been changed from `STRING(256)` to `CHAR(255)` for better compatibility with database operations and OData services.
 > **Note**: For detailed guidance on the adoption kindly follow [Troubleshoot Guide](./Tutorials/93-Troubleshooting-Guide.md).
+
+- Tag: release-2604
 
 ## Version - February 2026
 

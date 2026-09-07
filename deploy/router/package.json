@@ -3,9 +3,9 @@
   "version": "1.0.1",
   "description": "This component provides dependency management for ABAP based SaaS Solutions",
   "dependencies": {
-    "@sap/approuter": "^20.2.0",
-    "@sap/asp-middleware": "^1.0.18",
-    "@sap/xsenv": "^4.2.0"
+    "@sap/approuter": "^22.0",
+    "@sap/asp-middleware": "^1.0",
+    "@sap/xsenv": "^6.2"
   },
   "scripts": {
     "start": "node start.js"

@@ -2,6 +2,9 @@
 
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/abap-partner-reference-application)](https://api.reuse.software/info/github.com/SAP-samples/abap-partner-reference-application)
 
+> [!NOTE]
+> As an SAP Partner, you can also follow our [discovery center mission](https://discovery-center.cloud.sap/protected/index.html#/missiondetail/4689) to design, build, and operate a side-by-side, multi-tenant application with ABAP Cloud (RAP) on the SAP BTP ABAP environment.
+
 ## Description
 
 Partner Reference Application is a reference application which provides the guidelines to a “golden path” for becoming a SaaS provider of multi-tenant applications. It is based on the SAP Business Technology Platform (SAP BTP) ABAP environment and extends SAP S/4HANA Cloud.
@@ -91,8 +94,9 @@ If you prefer a quick start with a deployment of the music festival manager appl
     6. [Integrating your SAP Fiori application into the launchpad](./Tutorials/22-Integration%20Application%20into%20Launchpad.md)
     7. [Core Data Services](./Tutorials/90-Core-Data-Services.md)
     8. [Message Handling](./Tutorials/91-Message-Handling.md)
-2. Multitenancy and IAM
+2. Multitenancy and features
     1. [Learn about multitenancy, and how to build, deploy, and provision your application to consumers](./Tutorials/30-Multi-Tenancy-Build-Deploy-Provision.md)
+    2. [Key User Field Extensibility](./Tutorials/31-Key-User-Field-Extensibility.md)
 3. Integrate the application with SAP S/4HANA Cloud
     1. [Integrate the application with SAP S/4HANA Cloud Public Edition](./Tutorials/40-Integration-with-S4-Public-Cloud.md)
     2. [Add SAP BTP Applications to SAP S/4HANA Cloud Public Edition Launchpad](./Tutorials/40a-Add-BTP-App-into-S4-Public-Cloud-Launchpad.md)
@@ -101,14 +105,19 @@ If you prefer a quick start with a deployment of the music festival manager appl
        1. [Manage Forms](./Tutorials/41a-Forms-Feature.md)
        2. [Print Documents](./Tutorials/41b-Print-Documents.md)
     2. [Consuming ISLM for Generative AI capabilities](./Tutorials/42-Consuming-ISLM-for-GenAI.md)
+5. Enable the application for third-party integrations and extensibility
+    1. Open the APIs of the SAP BTP application for third-party integrations:
+        1. [Create an API service for remote integrations without draft handling](./Tutorials/51-Develop-OData-V4-API-Service.md)
+    2. Embed the application in a SAP S/4HANA Cloud Public Edition developer extensibility scenario:
+        1. [Enhance the application to look up the latest sales order information](./Tutorials/52-S4HANA-Sponsoring-Integration.md)
 
 ## More Information
 
-- [SAP BTP ABAP environment](https://help.sap.com/docs/sap-btp-abap-environment?locale=en-US)
+- [SAP BTP ABAP environment](https://help.sap.com/docs/sap-btp-abap-environment)
 - [SAP ABAP RESTful Application Programming (RAP) Model](https://help.sap.com/docs/ABAP_PLATFORM_NEW/fc4c71aa50014fd1b43721701471913d/289477a81eec4d4e84c0302fb6835035.html)
 - [SAP Community - ABAP RESTful Application Programming Model (RAP)](https://pages.community.sap.com/topics/abap/rap)
 - [SAP Discovery Center](https://discovery-center.cloud.sap/missionssearch)
-- [What's New for SAP BTP ABAP environment](https://help.sap.com/whats-new/7a822d3bcaa74f31b98fa315601e9c96?locale=en-US)
+- [What's New for SAP BTP ABAP environment](https://help.sap.com/whats-new/7a822d3bcaa74f31b98fa315601e9c96)
 - [The Secure Software Development and Operations Lifecycle (secure SDOL) at SAP](https://www.sap.com/documents/2016/03/a248a699-627c-0010-82c7-eda71af511fa.html)
 
 ## Known Issues

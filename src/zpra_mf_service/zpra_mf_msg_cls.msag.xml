@@ -104,6 +104,36 @@
      <MSGNR>016</MSGNR>
      <TEXT>A remote communication error occurred during destination creation.</TEXT>
     </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>017</MSGNR>
+     <TEXT>Selected visitor is invalid or missing.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>018</MSGNR>
+     <TEXT>Email notifications are not supported for batch updates.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>019</MSGNR>
+     <TEXT>Project Creation triggered in background.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>020</MSGNR>
+     <TEXT>Success.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZPRA_MF_MSG_CLS</ARBGB>
+     <MSGNR>021</MSGNR>
+     <TEXT>Communication Failure. Check the Communication Scenario or Communication.</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

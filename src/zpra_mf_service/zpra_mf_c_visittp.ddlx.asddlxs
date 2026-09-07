@@ -41,6 +41,13 @@ annotate entity ZPRA_MF_C_VISITTP with
       dataAction: 'Cancel',
       position: 20,
       label: 'Cancel'
+      },
+      {
+      qualifier: 'MaintainVisits',
+      type: #FOR_ACTION,
+      dataAction: 'sendUpdate',
+      position: 30,
+      label: 'Send Confirmation Notification'
       }],
     identification: [{
       position: 10 ,

@@ -241,7 +241,7 @@ It is described here how actions and associations are defined.
 
 ### 3. Metadata Extension
 
-In SAP BTP ABAP RESTful Application Programming Model, a metadata extension is a way to annotate CDS views externally, providing UI-related annotations without modifying the original CDS view itself. This is particularly useful when you want to enrich the UI presentation layer, for example, how fields are shown in SAP Fiori elements applications without touching the base CDS artifacts. This maintains separation of concerns and enhances reusability. For a reference of a sample application, see [Enhance the Business Object Data Model and Enable OData Streams](https://developers.sap.com/tutorials/abap-environment-rap100-enhance-data-model.html?utm_source=chatgpt.com).
+In SAP BTP ABAP RESTful Application Programming Model, a metadata extension is a way to annotate CDS views externally, providing UI-related annotations without modifying the original CDS view itself. This is particularly useful when you want to enrich the UI presentation layer, for example, how fields are shown in SAP Fiori elements applications without touching the base CDS artifacts. This maintains separation of concerns and enhances reusability. For a reference of a sample application, see [Enhance the Business Object Data Model and Enable OData Streams](https://developers.sap.com/tutorials/abap-environment-rap100-enhance-data-model.html).
 
 A CDS metadata extension is a CDS object that is defined and transported in a separate piece of DDLX source code. These pieces of DDLX source code can only be edited in ADT.
 

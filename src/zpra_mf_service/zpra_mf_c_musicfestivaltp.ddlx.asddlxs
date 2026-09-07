@@ -81,7 +81,7 @@ annotate view ZPRA_MF_C_MUSICFESTIVALTP with
     id: 'Fieldgroup3',
     type: #FIELDGROUP_REFERENCE,
     targetQualifier: 'Fieldgroup3',
-    targetElement: '_proj',
+    targetElement: '_Proj',
     position: 30,
     label: 'Project Information'
   },
@@ -91,6 +91,16 @@ annotate view ZPRA_MF_C_MUSICFESTIVALTP with
     targetQualifier: 'AdminData',
     position: 100,
     label: 'Administrative Data'
+  },
+  {
+    id: 'SponsoringData',             
+    purpose: #STANDARD,
+    type: #FIELDGROUP_REFERENCE,
+    targetQualifier: 'SponsoringDataGroup', 
+    position: 120,                   
+    label: 'Sponsoring Data',
+    hidden: #(HideSponsoringData)
+           
   }]
 
   @UI: {
@@ -145,17 +155,31 @@ annotate view ZPRA_MF_C_MUSICFESTIVALTP with
     hidden: true
     }
   Uuid;
+  
+  @UI:{
+     lineItem: [{
+       importance: #HIGH,
+       position: 10
+       }],
+     identification: [{
+       position: 10
+       }],
+     selectionField: [{
+       position: 10
+       }]
+     }
+  ID;
 
   @UI:{
    lineItem: [{
      importance: #HIGH,
-     position: 10
+     position: 20
      }],
    identification: [{
-     position: 10
+     position: 20
      }],
    selectionField: [{
-     position: 10
+     position: 20
      }]
    }
   Title;
@@ -326,9 +350,25 @@ annotate view ZPRA_MF_C_MUSICFESTIVALTP with
 
   @UI.hidden: true
   LocalLastChangedAt;
+  
+  @UI.hidden: true
+  SalesOrderUrl;
 
   @UI.fieldGroup: [{
     qualifier: 'Fieldgroup3',
     position: 10 }]
-  _proj;
+  _Proj;
+  
+  @EndUserText.label: 'Advertising Sales Order'
+  @UI.fieldGroup: [{ qualifier: 'SponsoringDataGroup',type: #WITH_URL, url:'SalesOrderUrl', position: 10 }]
+  @Consumption.semanticObject: 'SalesOrder'
+  SalesOrderId;
+
+  @EndUserText.label: 'Sponsoring Business Partner'
+  @UI.fieldGroup: [{ qualifier: 'SponsoringDataGroup', position: 20 }]
+  BusinessPartnerId;
+
+  @EndUserText.label: 'Sponsoring Business Partner Name'
+  @UI.fieldGroup: [{ qualifier: 'SponsoringDataGroup', position: 30 }]
+  BusinessPartnerName;
 }

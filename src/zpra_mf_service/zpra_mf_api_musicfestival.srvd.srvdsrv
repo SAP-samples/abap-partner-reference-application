@@ -1,0 +1,13 @@
+@EndUserText: {
+  label: 'Music Festival API Service'
+}
+@ObjectModel: {
+  leadingEntity: {
+    name: 'ZPRA_MF_C_MUSICFESTIVAL_API'
+  }
+}
+define service ZPRA_MF_API_MUSICFESTIVAL {
+  expose ZPRA_MF_C_MUSICFESTIVAL_API as MusicFestival;
+  expose ZPRA_MF_C_VISITOR_API       as Visitor;
+  expose ZPRA_MF_C_VISIT_API         as Visit;
+}
