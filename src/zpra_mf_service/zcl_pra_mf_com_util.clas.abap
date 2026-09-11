@@ -4,6 +4,8 @@ CLASS zcl_pra_mf_com_util DEFINITION
 
   PUBLIC SECTION.
     INTERFACES zif_pra_mf_com_util.
+
+
 ENDCLASS.
 
 
@@ -39,5 +41,42 @@ CLASS ZCL_PRA_MF_COM_UTIL IMPLEMENTATION.
       ENDLOOP.
 
     ENDLOOP.
+  ENDMETHOD.
+
+
+  METHOD zif_pra_mf_com_util~get_host_from_comm_arrangement.
+    DATA lt_ca TYPE STANDARD TABLE OF REF TO if_com_arrangement.
+
+    DATA(lo_ca_factory) = cl_com_arrangement_factory=>create_instance( ).
+
+    lo_ca_factory->query_ca(
+      EXPORTING is_query           = VALUE #( cscn_id_range = VALUE #( ( sign = 'I' option = 'EQ' low = iv_scenario ) ) )
+      IMPORTING et_com_arrangement = lt_ca ).
+
+    IF lt_ca IS NOT INITIAL.
+      DATA(lo_ca) = lt_ca[ 1 ].
+      DATA(outb_services) = lo_ca->get_outbound_services( ).
+
+      IF outb_services IS NOT INITIAL.
+        result = outb_services[ 1 ]-url.
+      ENDIF.
+    ENDIF.
+  ENDMETHOD.
+
+
+  METHOD zif_pra_mf_com_util~get_host_from_comm_system.
+    DATA(lo_com_sys_factory) = cl_com_system_factory=>create_instance( ).
+
+    lo_com_sys_factory->get_cs_by_id(
+      EXPORTING iv_id         = iv_system_id
+      IMPORTING eo_com_system = DATA(lo_com_system) ).
+
+    IF lo_com_system IS BOUND.
+      DATA(comm_sys_host) = lo_com_system->get_hostname( ).
+      IF comm_sys_host IS NOT INITIAL.
+        " Dynamically construct the URL
+        result = |https://{ comm_sys_host }|.
+      ENDIF.
+    ENDIF.
   ENDMETHOD.
 ENDCLASS.

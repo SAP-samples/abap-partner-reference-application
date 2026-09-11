@@ -26,11 +26,14 @@ use etag
   use action printGuestList;
   use association _Visits { create; with draft; }
 
+  use event ProjectCreated;
+
   side effects
   {
     field MaxVisitorsNumber affects field StatusCriticality, field StatusText;
     action publish affects field StatusCriticality, field StatusText;
     action cancel affects field StatusCriticality, field StatusText;
+    event ProjectCreated affects entity _Proj;
   }
 
 }
@@ -42,6 +45,7 @@ use etag
   use delete;
   use action book;
   use action cancel;
+  use action sendUpdate;
   use association _MusicFestival { with draft; }
   use association _Visitor;
 

@@ -5,6 +5,8 @@ CLASS zbp_pra_mf_r_musicfestival DEFINITION
   FOR BEHAVIOR OF zpra_mf_r_musicfestival .
 
   PUBLIC SECTION.
+      CLASS-DATA:
+      bgmc_email_processes TYPE STANDARD TABLE OF REF TO if_bgmc_process.
   PROTECTED SECTION.
   PRIVATE SECTION.
     CLASS-DATA:

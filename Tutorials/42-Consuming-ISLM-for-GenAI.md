@@ -173,7 +173,7 @@ The following snippets are illustrative samples to show the ABAP AI SDK syntax. 
   FINAL(completion_api) = cl_aic_islm_compl_api_factory=>get( )->create_instance( <your intelligent scenario name> ).
   ```
 
-  For more information, refer to this [guide](https://help.sap.com/docs/abap-ai/generative-ai-in-abap-cloud/completion-api?locale=en-US#instantiation).
+  For more information, refer to this [guide](https://help.sap.com/docs/abap-ai/generative-ai-in-abap-cloud/completion-api#instantiation).
 
 - To configure LLM parameters, see the sample code:
 
@@ -185,7 +185,7 @@ The following snippets are illustrative samples to show the ABAP AI SDK syntax. 
                                        value = <parameter value> ).
   ```
 
-  For more information, refer to this [guide](https://help.sap.com/docs/abap-ai/generative-ai-in-abap-cloud/completion-api?locale=en-US#setting-model-parameters).
+  For more information, refer to this [guide](https://help.sap.com/docs/abap-ai/generative-ai-in-abap-cloud/completion-api#setting-model-parameters).
 
 - To call the completion API, there are different scenarios:
   - Simple scenarios, where you just want to get a response for a given prompt, for example, question and answer use cases.

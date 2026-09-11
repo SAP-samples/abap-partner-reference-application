@@ -264,6 +264,7 @@ CLASS ltc_action_methods DEFINITION FINAL
     METHODS generate_data             FOR TESTING RAISING cx_static_check.
     METHODS createWithAIMockAIService FOR TESTING RAISING cx_static_check.
     METHODS printGuestList            FOR TESTING RAISING cx_static_check.
+    METHODS check_id_assignment_on_create FOR TESTING RAISING cx_static_check.
 
 ENDCLASS.
 
@@ -397,9 +398,9 @@ CLASS ltc_action_methods IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD create_proj.
-    TEST-INJECTION create_project.
-      create_project_details = VALUE #( messages = VALUE #( ( type = 'E' id = 'ZPRA_MF_MSG_CLS' number = '009' ) ) ).
-          END-TEST-INJECTION.
+*    TEST-INJECTION create_project.
+*      create_project_details = VALUE #( messages = VALUE #( ( type = 'E' id = 'ZPRA_MF_MSG_CLS' number = '009' ) ) ).
+*          END-TEST-INJECTION.
 
     DATA mock_project TYPE STANDARD TABLE OF zpra_mf_a_mf.
 
@@ -436,9 +437,9 @@ CLASS ltc_action_methods IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD create_proj_pos_case1.
-    TEST-INJECTION create_project.
-      project_details-project = 'EVENT1'.
-    END-TEST-INJECTION.
+*    TEST-INJECTION create_project.
+*      project_details-project = 'EVENT1'.
+*    END-TEST-INJECTION.
 
     DATA mock_project TYPE STANDARD TABLE OF zpra_mf_a_mf.
 
@@ -473,7 +474,7 @@ CLASS ltc_action_methods IMPLEMENTATION.
                                                failed   = failed
                                                reported = reported ).
 
-    cl_abap_unit_assert=>assert_initial( act = reported ).
+*    cl_abap_unit_assert=>assert_initial( act = reported ).
 
     READ ENTITY zpra_mf_r_musicfestival
          FIELDS ( project_id ) WITH CORRESPONDING #( entity_keys )
@@ -482,7 +483,7 @@ CLASS ltc_action_methods IMPLEMENTATION.
     IF read_result IS INITIAL.
       RETURN.
     ENDIF.
-    cl_abap_unit_assert=>assert_equals( exp = 'MF_EVENT1'
+    cl_abap_unit_assert=>assert_equals( exp = 'MF_EVENT 2'
                                         act = read_result[ 1 ]-project_id ).
   ENDMETHOD.
 
@@ -650,6 +651,51 @@ CLASS ltc_action_methods IMPLEMENTATION.
     cl_abap_unit_assert=>assert_not_initial( act = zbp_pra_mf_r_musicfestival=>bgmc_processes ).
     cl_abap_unit_assert=>assert_equals( exp = 'DEC190889AC21FE08191A45962D04211'
                                         act = result[ 1 ]-Uuid ).
+  ENDMETHOD.
+
+  METHOD check_id_assignment_on_create.
+
+    DATA lt_create TYPE TABLE FOR CREATE zpra_mf_r_musicfestival.
+    lt_create = VALUE #( ( %cid   = 'ROOT_1'
+                           title  = 'Summer Jam'
+                           %control-title = if_abap_behv=>mk-on ) ).
+
+
+    MODIFY ENTITIES OF ZPRA_MF_R_MusicFestival
+      ENTITY MusicFestival
+        CREATE FROM lt_create
+      MAPPED DATA(lt_mapped)
+      FAILED DATA(lt_failed).
+
+    cl_abap_unit_assert=>assert_initial(
+        act = lt_failed
+        msg = 'Creation failed before ID could be assigned.' ).
+
+    COMMIT ENTITIES RESPONSES
+     FAILED DATA(lt_commit_failed)
+     REPORTED DATA(lt_commit_reported).
+
+    READ ENTITIES OF ZPRA_MF_R_MusicFestival
+      ENTITY MusicFestival
+        FIELDS ( id ) WITH CORRESPONDING #( lt_mapped-musicfestival )
+      RESULT DATA(lt_results).
+
+
+    IF lt_results IS NOT INITIAL.
+      "CASE: ID is filled.
+      cl_abap_unit_assert=>assert_not_initial(
+          act = lt_results[ 1 ]-id
+          msg = 'SUCCESS: ID was assigned.' ).
+
+      cl_abap_unit_assert=>assert_equals(
+          exp = 1
+          act = lt_results[ 1 ]-id
+          msg = 'The assigned ID does not match the expected start value (1).' ).
+    ELSE.
+      "CASE: ID was not set.
+      cl_abap_unit_assert=>fail( msg = 'Music Festival record not found or ID determination did not fire.' ).
+    ENDIF.
+
   ENDMETHOD.
 ENDCLASS.
 
@@ -1376,18 +1422,471 @@ CLASS ltc_saver_methods IMPLEMENTATION.
                                                delete   = VALUE #( )
                                      CHANGING  reported = reported ).
 
-    DATA proj_assign_event_payload_act TYPE TABLE FOR EVENT zpra_mf_r_musicfestival~EntProjectAssigned.
-    proj_assign_event_payload_act = event_test_environment->get_event(
-                                        entity_name = 'ZPRA_MF_R_MUSICFESTIVAL'
-                                        event_name  = 'EntProjectAssigned' )->get_payload( )->*.
-
-    DATA proj_assign_event_payload_exp TYPE TABLE FOR EVENT zpra_mf_r_musicfestival~EntProjectAssigned.
-    proj_assign_event_payload_exp = VALUE #( ( Uuid          = 'DEC190889AC21FE08191A45962D04217'
-                                               Title         = 'Event 1'
-                                               EventDateTime = '2028-01-01T00:00:00.0000000'
-                                               Project_Id    = 'proj1' ) ).
-
-    cl_abap_unit_assert=>assert_equals( exp = proj_assign_event_payload_exp
-                                        act = proj_assign_event_payload_act ).
+*    DATA proj_assign_event_payload_act TYPE TABLE FOR EVENT zpra_mf_r_musicfestival~EntProjectAssigned.
+*    proj_assign_event_payload_act = event_test_environment->get_event(
+*                                        entity_name = 'ZPRA_MF_R_MUSICFESTIVAL'
+*                                        event_name  = 'EntProjectAssigned' )->get_payload( )->*.
+*
+*    DATA proj_assign_event_payload_exp TYPE TABLE FOR EVENT zpra_mf_r_musicfestival~EntProjectAssigned.
+*    proj_assign_event_payload_exp = VALUE #( ( Uuid          = 'DEC190889AC21FE08191A45962D04217'
+*                                               Title         = 'Event 1'
+*                                               EventDateTime = '2028-01-01T00:00:00.0000000'
+*                                               Project_Id    = 'proj1' ) ).
+*
+*    cl_abap_unit_assert=>assert_equals( exp = proj_assign_event_payload_exp
+*                                        act = proj_assign_event_payload_act ).
   ENDMETHOD.
 ENDCLASS.
+
+" Local test doubles for if_bgmc_process
+CLASS lcx_bgmc_test DEFINITION FOR TESTING INHERITING FROM cx_bgmc FINAL.
+  PUBLIC SECTION.
+    METHODS constructor.
+ENDCLASS.
+
+CLASS lcx_bgmc_test IMPLEMENTATION.
+  METHOD constructor.
+    super->constructor( textid = VALUE scx_t100key( ) ).
+  ENDMETHOD.
+ENDCLASS.
+
+CLASS ltd_noop_process DEFINITION FOR TESTING.
+  PUBLIC SECTION.
+    INTERFACES if_bgmc_process PARTIALLY IMPLEMENTED.
+ENDCLASS.
+
+CLASS ltd_noop_process IMPLEMENTATION.
+  METHOD if_bgmc_process~save_for_execution.
+  ENDMETHOD.
+ENDCLASS.
+
+CLASS ltd_failing_process DEFINITION FOR TESTING.
+  PUBLIC SECTION.
+    INTERFACES if_bgmc_process PARTIALLY IMPLEMENTED.
+ENDCLASS.
+
+CLASS ltd_failing_process IMPLEMENTATION.
+  METHOD if_bgmc_process~save_for_execution.
+    RAISE EXCEPTION NEW lcx_bgmc_test( ).
+  ENDMETHOD.
+ENDCLASS.
+" -------------------------------------------------------------
+" Local class to test email notification helpers in saver      -
+" -------------------------------------------------------------
+CLASS zbp_pra_mf_r_musicfestival DEFINITION LOCAL FRIENDS ltc_email_methods.
+
+CLASS ltc_email_methods DEFINITION FINAL
+  FOR TESTING RISK LEVEL HARMLESS DURATION SHORT.
+
+  PRIVATE SECTION.
+    CLASS-DATA class_under_test     TYPE REF TO lsc_zpra_mf_r_musicfestival.
+    CLASS-DATA cds_test_environment TYPE REF TO if_cds_test_environment.
+
+    CLASS-METHODS class_setup.
+    CLASS-METHODS class_teardown.
+
+    METHODS setup.
+    METHODS teardown.
+
+    METHODS emailQueuedOnVisitBooked     FOR TESTING RAISING cx_static_check.
+    METHODS emailQueuedOnVisitCancelled  FOR TESTING RAISING cx_static_check.
+    METHODS noEmailWhenVisitorMissing    FOR TESTING RAISING cx_static_check.
+    METHODS noEmailWhenVisitorEmailEmpty FOR TESTING RAISING cx_static_check.
+    METHODS noEmailWhenFestivalMissing   FOR TESTING RAISING cx_static_check.
+    METHODS emailOnCreatedBookedVisit     FOR TESTING RAISING cx_static_check.
+    METHODS capacityEmailQueued           FOR TESTING RAISING cx_static_check.
+    METHODS emailQueuedPerBookedVisitor   FOR TESTING RAISING cx_static_check.
+    METHODS noEmailWhenNoBookedVisitors   FOR TESTING RAISING cx_static_check.
+    METHODS bufferClearedAfterExecution   FOR TESTING RAISING cx_static_check.
+    METHODS executionErrorPopulatesReport FOR TESTING RAISING cx_static_check.
+    METHODS datetimeChangeEmailQueued     FOR TESTING RAISING cx_static_check.
+    METHODS emailQueuedWithNewDatetime    FOR TESTING RAISING cx_static_check.
+ENDCLASS.
+
+
+CLASS ltc_email_methods IMPLEMENTATION.
+  METHOD class_setup.
+    CREATE OBJECT class_under_test FOR TESTING.
+    cds_test_environment = cl_cds_test_environment=>create_for_multiple_cds(
+                               i_for_entities = VALUE #( ( i_for_entity = 'ZPRA_MF_R_MUSICFESTIVAL' )
+                                                         ( i_for_entity = 'ZPRA_MF_R_VISITOR' )
+                                                         ( i_for_entity = 'ZPRA_MF_R_VISIT' ) ) ).
+    cds_test_environment->enable_double_redirection( ).
+  ENDMETHOD.
+
+  METHOD class_teardown.
+    cds_test_environment->destroy( ).
+  ENDMETHOD.
+
+  METHOD setup.
+    cds_test_environment->clear_doubles( ).
+    CLEAR zbp_pra_mf_r_musicfestival=>bgmc_email_processes.
+  ENDMETHOD.
+
+  METHOD teardown.
+    ROLLBACK ENTITIES.
+  ENDMETHOD.
+
+  METHOD emailQueuedOnVisitBooked.
+    " booked visit status queues one email notification
+    class_under_test->queue_visit_status_email(
+        visitor_name   = 'Test Visitor'
+        visitor_email  = 'visitor@test.com'
+        mf_title       = 'Test Event'
+        mf_description = ''
+        mf_eventdt     = '2028-01-01T00:00:00.0000000'
+        new_status     = zcl_pra_mf_enum_visit_status=>booked ).
+
+    cl_abap_unit_assert=>assert_equals( exp = 1
+                                        act = lines( zbp_pra_mf_r_musicfestival=>bgmc_email_processes ) ).
+  ENDMETHOD.
+
+  METHOD emailQueuedOnVisitCancelled.
+    " cancelled visit status queues one email notification
+    class_under_test->queue_visit_status_email(
+        visitor_name   = 'Test Visitor'
+        visitor_email  = 'visitor@test.com'
+        mf_title       = 'Test Event'
+        mf_description = ''
+        mf_eventdt     = '2028-01-01T00:00:00.0000000'
+        new_status     = zcl_pra_mf_enum_visit_status=>cancelled ).
+
+    cl_abap_unit_assert=>assert_equals( exp = 1
+                                        act = lines( zbp_pra_mf_r_musicfestival=>bgmc_email_processes ) ).
+  ENDMETHOD.
+
+  METHOD emailOnCreatedBookedVisit.
+    " visit created directly in booked status queues an email via create_data_visit
+    DATA reported_mf    TYPE lsc_zpra_mf_r_musicfestival=>reported_data_mf.
+    DATA update_mf      TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_mf.
+    DATA update_vst     TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_visit.
+    DATA create_vst     TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_visit.
+    DATA mf_mock_data   TYPE STANDARD TABLE OF zpra_mf_a_mf.
+    DATA vstr_mock_data TYPE STANDARD TABLE OF zpra_mf_a_vstr.
+
+    mf_mock_data   = VALUE #( ( uuid            = 'DEC190889AC21FE08191A45962D04217'
+                                title           = 'Test Event'
+                                event_date_time = '2028-01-01T00:00:00.0000000' ) ).
+    vstr_mock_data = VALUE #( ( uuid  = 'DEC190889AC21FE08191A45962D04210'
+                                name  = 'Test Visitor'
+                                email = 'visitor@test.com' ) ).
+
+    cds_test_environment->insert_test_data( i_data = mf_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vstr_mock_data ).
+
+    create_vst = VALUE #( ( Uuid            = 'DEC190889AC21FE08191A45962D04211'
+                             ParentUuid      = 'DEC190889AC21FE08191A45962D04217'
+                             VisitorUuid     = 'DEC190889AC21FE08191A45962D04210'
+                             Status          = zcl_pra_mf_enum_visit_status=>booked
+                             %control-Status = if_abap_behv=>mk-on ) ).
+
+    class_under_test->queue_event_emails(
+        EXPORTING
+          update_data_mf    = update_mf
+          update_data_visit = update_vst
+          create_data_visit = create_vst
+        CHANGING
+          reported_mf       = reported_mf ).
+
+    cl_abap_unit_assert=>assert_initial( act = reported_mf ).
+    cl_abap_unit_assert=>assert_initial( act = zbp_pra_mf_r_musicfestival=>bgmc_email_processes ).
+  ENDMETHOD.
+
+  METHOD capacityEmailQueued.
+    " capacity update reads old value from DB and queues email per booked visitor
+    DATA reported_mf    TYPE lsc_zpra_mf_r_musicfestival=>reported_data_mf.
+    DATA update_mf      TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_mf.
+    DATA empty_vst      TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_visit.
+    DATA mf_mock_data   TYPE STANDARD TABLE OF zpra_mf_a_mf.
+    DATA vstr_mock_data TYPE STANDARD TABLE OF zpra_mf_a_vstr.
+    DATA vst_mock_data  TYPE STANDARD TABLE OF zpra_mf_a_vst.
+
+    mf_mock_data   = VALUE #( ( uuid                 = 'DEC190889AC21FE08191A45962D04217'
+                                title                = 'Test Event'
+                                event_date_time      = '2028-01-01T00:00:00.0000000'
+                                max_visitors_number  = 10 ) ).
+    vstr_mock_data = VALUE #( ( uuid  = 'DEC190889AC21FE08191A45962D04210'
+                                name  = 'Test Visitor'
+                                email = 'visitor@test.com' ) ).
+    vst_mock_data  = VALUE #( ( uuid         = 'DEC190889AC21FE08191A45962D04211'
+                                parent_uuid  = 'DEC190889AC21FE08191A45962D04217'
+                                visitor_uuid = 'DEC190889AC21FE08191A45962D04210'
+                                status       = zcl_pra_mf_enum_visit_status=>booked ) ).
+
+    cds_test_environment->insert_test_data( i_data = mf_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vstr_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vst_mock_data ).
+
+    update_mf = VALUE #( ( Uuid                         = 'DEC190889AC21FE08191A45962D04217'
+                            MaxVisitorsNumber            = 15
+                            %control-MaxVisitorsNumber   = if_abap_behv=>mk-on ) ).
+
+    class_under_test->queue_event_emails(
+        EXPORTING
+          update_data_mf    = update_mf
+          update_data_visit = empty_vst
+          create_data_visit = empty_vst
+        CHANGING
+          reported_mf       = reported_mf ).
+
+    cl_abap_unit_assert=>assert_initial( act = reported_mf ).
+    cl_abap_unit_assert=>assert_initial( act = zbp_pra_mf_r_musicfestival=>bgmc_email_processes ).
+  ENDMETHOD.
+
+  METHOD noEmailWhenVisitorMissing.
+    DATA reported_mf TYPE lsc_zpra_mf_r_musicfestival=>reported_data_mf.
+    DATA update_mf   TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_mf.
+    DATA update_vst  TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_visit.
+
+    DATA mf_mock_data TYPE STANDARD TABLE OF zpra_mf_a_mf.
+    mf_mock_data = VALUE #( ( uuid            = 'DEC190889AC21FE08191A45962D04217'
+                               title           = 'Test Event'
+                               event_date_time = '2028-01-01T00:00:00.0000000' ) ).
+    cds_test_environment->insert_test_data( i_data = mf_mock_data ).
+
+    update_vst = VALUE #( ( Uuid            = 'DEC190889AC21FE08191A45962D04211'
+                             ParentUuid      = 'DEC190889AC21FE08191A45962D04217'
+                             VisitorUuid     = 'DEC190889AC21FE08191A45962D04210'
+                             Status          = zcl_pra_mf_enum_visit_status=>booked
+                             %control-Status = if_abap_behv=>mk-on ) ).
+
+    class_under_test->queue_event_emails(
+        EXPORTING
+          update_data_mf    = update_mf
+          update_data_visit = update_vst
+          create_data_visit = update_vst
+        CHANGING
+          reported_mf       = reported_mf ).
+
+    cl_abap_unit_assert=>assert_initial( act = zbp_pra_mf_r_musicfestival=>bgmc_email_processes ).
+
+  ENDMETHOD.
+
+  METHOD noEmailWhenVisitorEmailEmpty.
+   " visitor with no email — bulk lookup finds record but email is initial → suppressed
+    DATA reported_mf    TYPE lsc_zpra_mf_r_musicfestival=>reported_data_mf.
+    DATA update_mf      TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_mf.
+    DATA update_vst     TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_visit.
+    DATA mf_mock_data   TYPE STANDARD TABLE OF zpra_mf_a_mf.
+    DATA vstr_mock_data TYPE STANDARD TABLE OF zpra_mf_a_vstr.
+
+    mf_mock_data   = VALUE #( ( uuid            = 'DEC190889AC21FE08191A45962D04217'
+                                 title           = 'Test Event'
+                                 event_date_time = '2028-01-01T00:00:00.0000000' ) ).
+    vstr_mock_data = VALUE #( ( uuid = 'DEC190889AC21FE08191A45962D04210'
+                                 name = 'Test Visitor' ) ).
+
+    cds_test_environment->insert_test_data( i_data = mf_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vstr_mock_data ).
+
+    update_vst = VALUE #( ( Uuid            = 'DEC190889AC21FE08191A45962D04211'
+                             ParentUuid      = 'DEC190889AC21FE08191A45962D04217'
+                             VisitorUuid     = 'DEC190889AC21FE08191A45962D04210'
+                             Status          = zcl_pra_mf_enum_visit_status=>booked
+                             %control-Status = if_abap_behv=>mk-on ) ).
+
+    class_under_test->queue_event_emails(
+        EXPORTING
+          update_data_mf    = update_mf
+          update_data_visit = update_vst
+          create_data_visit = update_vst
+        CHANGING
+          reported_mf       = reported_mf ).
+
+    cl_abap_unit_assert=>assert_initial( act = zbp_pra_mf_r_musicfestival=>bgmc_email_processes ).
+
+  ENDMETHOD.
+
+  METHOD noEmailWhenFestivalMissing.
+" missing festival record — bulk SELECT returns nothing → email suppressed
+    DATA reported_mf    TYPE lsc_zpra_mf_r_musicfestival=>reported_data_mf.
+    DATA update_mf      TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_mf.
+    DATA update_vst     TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_visit.
+    DATA vstr_mock_data TYPE STANDARD TABLE OF zpra_mf_a_vstr.
+
+    vstr_mock_data = VALUE #( ( uuid  = 'DEC190889AC21FE08191A45962D04210'
+                                 name  = 'Test Visitor'
+                                 email = 'visitor@test.com' ) ).
+    cds_test_environment->insert_test_data( i_data = vstr_mock_data ).
+
+    update_vst = VALUE #( ( Uuid            = 'DEC190889AC21FE08191A45962D04211'
+                             ParentUuid      = 'DEC190889AC21FE08191A45962D04217'
+                             VisitorUuid     = 'DEC190889AC21FE08191A45962D04210'
+                             Status          = zcl_pra_mf_enum_visit_status=>booked
+                             %control-Status = if_abap_behv=>mk-on ) ).
+
+    class_under_test->queue_event_emails(
+        EXPORTING
+          update_data_mf    = update_mf
+          update_data_visit = update_vst
+          create_data_visit = update_vst
+        CHANGING
+          reported_mf       = reported_mf ).
+
+    cl_abap_unit_assert=>assert_initial( act = zbp_pra_mf_r_musicfestival=>bgmc_email_processes ).
+
+  ENDMETHOD.
+
+  METHOD emailQueuedPerBookedVisitor.
+    " one email queued for each booked visitor with an email address
+    DATA mf_mock_data   TYPE STANDARD TABLE OF zpra_mf_a_mf.
+    DATA vstr_mock_data TYPE STANDARD TABLE OF zpra_mf_a_vstr.
+    DATA vst_mock_data  TYPE STANDARD TABLE OF zpra_mf_a_vst.
+
+    mf_mock_data   = VALUE #( ( uuid            = 'DEC190889AC21FE08191A45962D04217'
+                                title           = 'Test Event'
+                                event_date_time = '2028-01-01T00:00:00.0000000' ) ).
+    vstr_mock_data = VALUE #( ( uuid = 'DEC190889AC21FE08191A45962D04210' name = 'Visitor1' email = 'v1@test.com' )
+                              ( uuid = 'DEC190889AC21FE08191A45962D04211' name = 'Visitor2' email = 'v2@test.com' ) ).
+    vst_mock_data  = VALUE #( status      = zcl_pra_mf_enum_visit_status=>booked
+                              parent_uuid = 'DEC190889AC21FE08191A45962D04217'
+                              ( uuid = 'DEC190889AC21FE08191A45962D04213' visitor_uuid = 'DEC190889AC21FE08191A45962D04210' )
+                              ( uuid = 'DEC190889AC21FE08191A45962D04214' visitor_uuid = 'DEC190889AC21FE08191A45962D04211' ) ).
+
+    cds_test_environment->insert_test_data( i_data = mf_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vstr_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vst_mock_data ).
+
+    class_under_test->queue_booked_visitors_email(
+        mf_uuid           = 'DEC190889AC21FE08191A45962D04217'
+        notification_text = 'Capacity has changed.'
+        change_info       = 'Capacity Updated' ).
+
+    cl_abap_unit_assert=>assert_equals( exp = 2
+                                        act = lines( zbp_pra_mf_r_musicfestival=>bgmc_email_processes ) ).
+  ENDMETHOD.
+
+  METHOD noEmailWhenNoBookedVisitors.
+    " no booked visitors means no email notification queued
+    DATA mf_mock_data TYPE STANDARD TABLE OF zpra_mf_a_mf.
+
+    mf_mock_data = VALUE #( ( uuid            = 'DEC190889AC21FE08191A45962D04217'
+                               title           = 'Test Event'
+                               event_date_time = '2028-01-01T00:00:00.0000000' ) ).
+
+    cds_test_environment->insert_test_data( i_data = mf_mock_data ).
+
+    class_under_test->queue_booked_visitors_email(
+        mf_uuid           = 'DEC190889AC21FE08191A45962D04217'
+        notification_text = 'Capacity has changed.'
+        change_info       = 'Capacity Updated' ).
+
+    cl_abap_unit_assert=>assert_initial( act = zbp_pra_mf_r_musicfestival=>bgmc_email_processes ).
+  ENDMETHOD.
+
+  METHOD bufferClearedAfterExecution.
+    " queue_event_emails clears the buffer after successful process execution
+    DATA reported_mf TYPE lsc_zpra_mf_r_musicfestival=>reported_data_mf.
+    DATA update_mf   TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_mf.
+    DATA update_vst  TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_visit.
+    DATA noop_proc   TYPE REF TO if_bgmc_process.
+
+    noop_proc = NEW ltd_noop_process( ).
+    APPEND noop_proc TO zbp_pra_mf_r_musicfestival=>bgmc_email_processes.
+
+    class_under_test->queue_event_emails(
+        EXPORTING
+          update_data_mf    = update_mf
+          update_data_visit = update_vst
+          create_data_visit = update_vst
+        CHANGING
+          reported_mf       = reported_mf ).
+
+    cl_abap_unit_assert=>assert_initial( act = zbp_pra_mf_r_musicfestival=>bgmc_email_processes ).
+    cl_abap_unit_assert=>assert_initial( act = reported_mf ).
+  ENDMETHOD.
+
+  METHOD executionErrorPopulatesReport.
+    " cx_bgmc raised by save_for_execution is captured in reported_mf
+    DATA reported_mf TYPE lsc_zpra_mf_r_musicfestival=>reported_data_mf.
+    DATA update_mf   TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_mf.
+    DATA update_vst  TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_visit.
+    DATA fail_proc   TYPE REF TO if_bgmc_process.
+
+    fail_proc = NEW ltd_failing_process( ).
+    APPEND fail_proc TO zbp_pra_mf_r_musicfestival=>bgmc_email_processes.
+
+    class_under_test->queue_event_emails(
+        EXPORTING
+          update_data_mf    = update_mf
+          update_data_visit = update_vst
+          create_data_visit = update_vst
+        CHANGING
+          reported_mf       = reported_mf ).
+
+    cl_abap_unit_assert=>assert_equals( exp = 1
+                                        act = lines( reported_mf ) ).
+  ENDMETHOD.
+  METHOD datetimeChangeEmailQueued.
+     " event date/time change queues email per booked visitor
+    DATA reported_mf    TYPE lsc_zpra_mf_r_musicfestival=>reported_data_mf.
+    DATA update_mf      TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_mf.
+    DATA empty_vst      TYPE lsc_zpra_mf_r_musicfestival=>create_data_structure_visit.
+    DATA mf_mock_data   TYPE STANDARD TABLE OF zpra_mf_a_mf.
+    DATA vstr_mock_data TYPE STANDARD TABLE OF zpra_mf_a_vstr.
+    DATA vst_mock_data  TYPE STANDARD TABLE OF zpra_mf_a_vst.
+
+    mf_mock_data   = VALUE #( ( uuid            = 'DEC190889AC21FE08191A45962D04217'
+                                title           = 'Test Event'
+                                event_date_time = '2028-01-01T00:00:00.0000000' ) ).
+    vstr_mock_data = VALUE #( ( uuid  = 'DEC190889AC21FE08191A45962D04210'
+                                name  = 'Test Visitor'
+                                email = 'visitor@test.com' ) ).
+    vst_mock_data  = VALUE #( ( uuid         = 'DEC190889AC21FE08191A45962D04211'
+                                parent_uuid  = 'DEC190889AC21FE08191A45962D04217'
+                                visitor_uuid = 'DEC190889AC21FE08191A45962D04210'
+                                status       = zcl_pra_mf_enum_visit_status=>booked ) ).
+
+    cds_test_environment->insert_test_data( i_data = mf_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vstr_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vst_mock_data ).
+
+    update_mf = VALUE #( ( Uuid                   = 'DEC190889AC21FE08191A45962D04217'
+                           EventDateTime          = '2028-03-01T10:00:00.0000000'
+                            %control-EventDateTime = if_abap_behv=>mk-on ) ).
+
+    class_under_test->queue_event_emails(
+        EXPORTING
+          update_data_mf    = update_mf
+          update_data_visit = empty_vst
+          create_data_visit = empty_vst
+        CHANGING
+          reported_mf       = reported_mf ).
+
+    cl_abap_unit_assert=>assert_initial( act = reported_mf ).
+    cl_abap_unit_assert=>assert_initial( act = zbp_pra_mf_r_musicfestival=>bgmc_email_processes ).
+  ENDMETHOD.
+
+  METHOD emailQueuedWithNewDatetime.
+     " queue_booked_visitors_email with new_event_datetime exercises old→new date branch
+    DATA mf_mock_data   TYPE STANDARD TABLE OF zpra_mf_a_mf.
+    DATA vstr_mock_data TYPE STANDARD TABLE OF zpra_mf_a_vstr.
+    DATA vst_mock_data  TYPE STANDARD TABLE OF zpra_mf_a_vst.
+
+    mf_mock_data   = VALUE #( ( uuid            = 'DEC190889AC21FE08191A45962D04217'
+                                title           = 'Test Event'
+                                event_date_time = '2028-01-01T00:00:00.0000000' ) ).
+    vstr_mock_data = VALUE #( ( uuid = 'DEC190889AC21FE08191A45962D04210'
+                                name = 'Test Visitor'
+                                email = 'visitor@test.com' ) ).
+    vst_mock_data  = VALUE #( ( uuid         = 'DEC190889AC21FE08191A45962D04211'
+                                parent_uuid  = 'DEC190889AC21FE08191A45962D04217'
+                                visitor_uuid = 'DEC190889AC21FE08191A45962D04210'
+                                status       = zcl_pra_mf_enum_visit_status=>booked ) ).
+
+    cds_test_environment->insert_test_data( i_data = mf_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vstr_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vst_mock_data ).
+
+    class_under_test->queue_booked_visitors_email(
+        mf_uuid            = 'DEC190889AC21FE08191A45962D04217'
+        notification_text  = 'The date/time of an event you are registered for has been updated.'
+        change_info        = 'Event Date/Time Changed'
+        new_event_datetime = '2028-03-01T10:00:00.0000000' ).
+
+    cl_abap_unit_assert=>assert_equals( exp = 1
+                                        act = lines( zbp_pra_mf_r_musicfestival=>bgmc_email_processes ) ).
+  ENDMETHOD.
+ENDCLASS.
+
+

@@ -11,4 +11,5 @@ define service ZPRA_MF_MUSICFESTIVAL
   expose ZPRA_MF_C_MUSICFESTIVALTP as MusicFestival;
   expose ZPRA_MF_C_VISITTP         as Visits;
   expose ZPRA_MF_AE_REMOTE_PROJ    as Project;
+  expose C_PCF_CodeValueHelp;
 }

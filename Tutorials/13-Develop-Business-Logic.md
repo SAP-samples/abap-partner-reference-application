@@ -76,7 +76,7 @@ use action publish;
 
 ### More Information
 
-- [Actions on SAP Help Portal](https://help.sap.com/docs/abap-cloud/abap-rap/actions?locale=en-US&version=sap_btp)
+- [Actions on SAP Help Portal](https://help.sap.com/docs/abap-cloud/abap-rap/actions?version=sap_btp)
 - [Actions ABAP EML](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENBDL_ACTION.html)
 - Detailed developing actions example:
   - [Flight Scenario](https://help.sap.com/docs/abap-cloud/abap-rap/developing-actions?version=sap_btp)
@@ -116,7 +116,7 @@ In our application, we define different kinds of validations to handle various s
   - _Trigger Operations_ - Triggered when the _Event Date Time_ field is modified.
 
 > [!NOTE]
-> The [trigger time](https://help.sap.com/docs/ABAP_PLATFORM_NEW/fc4c71aa50014fd1b43721701471913d/f70e8ef245dc4bda8353a4a113843361.html?locale=en-US&q=association#trigger-time) defines at what time the trigger condition of a validation is evaluated. For validations, only the trigger time on save can be stated. They are executed during the **checkBeforeSave** method as part of the save sequence in the behavior implementation.
+> The [trigger time](https://help.sap.com/docs/ABAP_PLATFORM_NEW/fc4c71aa50014fd1b43721701471913d/f70e8ef245dc4bda8353a4a113843361.html?q=association#trigger-time) defines at what time the trigger condition of a validation is evaluated. For validations, only the trigger time on save can be stated. They are executed during the **checkBeforeSave** method as part of the save sequence in the behavior implementation.
 
 > [!NOTE]
 > In case of validation failures, messages are raised to inform users about the issues. For more information on message handling, refer to the [Message Handling tutorial](./91-Message-Handling.md).
@@ -237,6 +237,41 @@ Go to [Local Class with implementation for all determination ](../src/zpra_mf_se
   - [Flight Scenario](https://help.sap.com/docs/abap-cloud/abap-rap/developing-determinations?version=sap_btp)
   - [RAP100](https://github.com/SAP-samples/abap-platform-rap100/tree/main/exercises/ex04)
 
+## Alternative Keys Addition
+
+Alternative keys allow external systems to access entities using human-readable identifiers (like a Music Festival ID) instead of technical UUIDs. This simplifies integration scenarios and provides semantic meaning to identifiers. 
+
+For more details on alternative keys in RAP, see the [documentation on defining keys](https://help.sap.com/doc/abapdocu_cp_index_htm/CLOUD/en-US/ABENBDL_DEFINE_KEY.html) on SAP Help Portal.
+
+The alternative key functionality requires the following:
+
+1. **Definition in Base BDEF**: Define the alternative key and its associated function in the base behavior definition. This declares which fields constitute the alternative key and provides a function to retrieve entities by that key.
+
+   ```cds
+   define pure key AlternativeKey { id; }
+   key ( AlternativeKey ) function GetByAltKey;
+   ```
+
+   The `define pure key` statement creates a named alternative key using the `id` field. The `key ( AlternativeKey ) function GetByAltKey` associates a function that allows external consumers to retrieve entities using this alternative key.
+
+2. **Exposure in Projection BDEF**: Use the key and function in projection behavior definitions to expose them through the OData service. This makes the alternative key available to consumers of the service.
+
+   ```cds
+   use key AlternativeKey;
+   use function GetByAltKey;
+   ```
+
+   Without these `use` statements in the projection, the alternative key would not be accessible through the OData API or web application.
+
+3. **ID Generation Logic**: A determination to automatically generate IDs on save. For the implementation, refer to the [determineID method](../src/zpra_mf_service/zbp_pra_mf_r_musicfestival.clas.locals_imp.abap) in the Music Festival behavior implementation.
+
+> [!NOTE]
+> **Race Condition Warning**
+>
+> The ID generation implementation uses a MAX+1 pattern to generate sequential IDs. This approach is acceptable for reference applications but is **not production-safe** due to potential race conditions when multiple users create records simultaneously. 
+>
+> For production scenarios, consider using [number ranges](https://community.sap.com/t5/technology-blog-posts-by-members/early-numbering-with-number-range-object-in-rap/ba-p/14329393): they provide thread-safe, gap-free number generation. Note that number range objects are not available in SAP BTP ABAP environment. They are available in on-premise and SAP S/4HANA Cloud Private Edition environments.
+
 ## Unit Tests
 
 Unit testing in ABAP RAP applications ensures that your business logic, determinations, validations, and actions work as expected before running them through SAP Fiori UIs or integration tests.
@@ -254,7 +289,7 @@ EML unit tests validate the complete RAP behavior by simulating runtime using th
 
 #### More Information
 
-- [SAP ABAP RAP - Unit Tests](https://help.sap.com/docs/btp/sap-abap-restful-application-programming-model/unit-tests?version=Cloud&locale=en-US)
+- [SAP ABAP RAP - Unit Tests](https://help.sap.com/docs/btp/sap-abap-restful-application-programming-model/unit-tests?version=Cloud)
 - [SAP Samples - RAP400 - Writing ABAP Unit Tests for Apps built with the ABAP RESTful Application Programming Model (RAP)](https://github.com/SAP-samples/abap-platform-rap-workshops/tree/main/rap4xx/rap400#readme)
 - [SAP Samples - Write local ABAP Unit Tests using Method Invocation](https://github.com/SAP-samples/abap-platform-rap-workshops/tree/main/rap4xx/rap400/exercises/ex2)
 - [SAP Samples - Write ABAP Unit Tests using EML](https://github.com/SAP-samples/abap-platform-rap-workshops/tree/main/rap4xx/rap400/exercises/ex3)

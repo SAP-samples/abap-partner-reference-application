@@ -12,7 +12,7 @@ To start with this tutorial, you need an SAP Business Technology Platform (SAP B
 2. Create a new *Multi-Environment* subaccount with the name `MusicFestivals` and choose a *Region* and *Service Provider*.
 
 > [!NOTE]
-> - Refer to the official [SAP Regions and API Endpoints for the ABAP Environment](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/regions-and-api-endpoints-for-abap-environment?locale=en-US) to choose the appropriate Region and Service Provider for your ABAP environment.
+> - Refer to the official [SAP Regions and API Endpoints for the ABAP Environment](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/regions-and-api-endpoints-for-abap-environment) to choose the appropriate Region and Service Provider for your ABAP environment.
 
 > [!IMPORTANT]
 > The subdomain must be unique across the whole region. Therefore, include an abbreviation that uniquely identifies your company. Don't use special characters or capital letters. In addition, keep it short to avoid length restriction issues.

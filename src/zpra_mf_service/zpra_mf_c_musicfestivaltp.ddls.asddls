@@ -2,35 +2,39 @@
 @EndUserText.label: 'Music Fest Manage App'
 @AccessControl.authorizationCheck: #CHECK
 @ObjectModel.sapObjectNodeType.name: 'ZPRA_MF_A_MF'
-@ObjectModel.semanticKey: ['Title']
+@ObjectModel.semanticKey: ['ID']
 @ObjectModel.supportedCapabilities: [ #OUTPUT_FORM_DATA_PROVIDER  ]
+@AbapCatalog.extensibility: {
+  extensible: true,
+  dataSources: ['MusicFestivalBase']
+}
 
 define root view entity ZPRA_MF_C_MUSICFESTIVALTP
   provider contract transactional_query
-  as projection on ZPRA_MF_R_MUSICFESTIVAL as _music
-  association to ZPRA_MF_AE_REMOTE_PROJ as _proj on _proj.ProjectID = _music.project_id
+  as projection on ZPRA_MF_R_MUSICFESTIVAL as MusicFestivalBase
 {
   key     Uuid,
+          ID,
           Title,
           Description,
           EventDateTime,
           MaxVisitorsNumber,
           @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_PRA_MF_CALC_MF_ELEMENTS'
           @Semantics.mimeType: true
-  virtual MimeType          : abap.char(32),
+  virtual MimeType           : abap.char(32),
 
           @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_PRA_MF_CALC_MF_ELEMENTS'
           @Semantics.mimeType: true
-  virtual HyperLinkText     : zpra_mf_title,
+  virtual HyperLinkText      : zpra_mf_title,
 
           @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_PRA_MF_CALC_MF_ELEMENTS'
           @Semantics.largeObject.contentDispositionPreference: #INLINE
           @Semantics.largeObject.mimeType: 'mimeType'
           @Semantics.largeObject.fileName: 'HyperLinkText'
-  virtual OutputPdfData     : zpra_mf_form,
+  virtual OutputPdfData      : zpra_mf_form,
 
           @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_PRA_MF_CALC_MF_ELEMENTS'
-  virtual BookedSeats       : abap.int4,
+  virtual BookedSeats        : abap.int4,
           FreeVisitorSeats,
           VisitorsFeeAmount,
           @Semantics.currencyCode: true
@@ -42,7 +46,7 @@ define root view entity ZPRA_MF_C_MUSICFESTIVALTP
           _Status.Description as StatusText,
 
           @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_PRA_MF_CALC_MF_ELEMENTS'
-  virtual StatusCriticality : abap.int4,
+  virtual StatusCriticality  : abap.int4,
 
           CreatedBy,
           CreatedAt,
@@ -51,10 +55,20 @@ define root view entity ZPRA_MF_C_MUSICFESTIVALTP
           LocalLastChangedAt,
 
           project_id,
+          SalesOrderId,
+
+          @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_PRA_MF_CALC_MF_ELEMENTS'
+  virtual SalesOrderUrl      : abap.string( 256 ),
+
+          BusinessPartnerId,
+          BusinessPartnerName,
+          @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_PRA_MF_CALC_MF_ELEMENTS'
+  virtual HideSponsoringData : abap_boolean,
+
           @UI.hidden: false
           @ObjectModel.filter.enabled: false
           @ObjectModel.sort.enabled: false
-          _proj,
+          _Proj,
           _Visits : redirected to composition child ZPRA_MF_C_VISITTP
 
 }

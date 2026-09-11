@@ -8,7 +8,7 @@ ENDCLASS.
 
 
 
-CLASS ZCL_PRA_MF_FETCH_PROJ IMPLEMENTATION.
+CLASS zcl_pra_mf_fetch_proj IMPLEMENTATION.
 
 
   METHOD if_rap_query_provider~select.
@@ -20,6 +20,8 @@ CLASS ZCL_PRA_MF_FETCH_PROJ IMPLEMENTATION.
               CostCenter  TYPE c LENGTH 10,
               Status      TYPE c LENGTH 10,
               Nav         TYPE c LENGTH 120,
+              StatusIcon  TYPE string,
+              Statustext  TYPE c LENGTH 100,
             END OF project_details.
 
     TYPES : BEGIN OF range,
@@ -31,6 +33,7 @@ CLASS ZCL_PRA_MF_FETCH_PROJ IMPLEMENTATION.
     TYPES ranges TYPE STANDARD TABLE OF range WITH EMPTY KEY.
 
     DATA http_client        TYPE REF TO if_web_http_client.
+    DATA proj_data    TYPE TABLE OF project_details.
     DATA client_proxy       TYPE REF TO /iwbep/if_cp_client_proxy.
     DATA s4_project_details TYPE TABLE OF zcl_pra_mf_scm_ent_proj=>tys_a_enterprise_project_type.
     DATA project_details    TYPE TABLE OF project_details.
@@ -47,7 +50,7 @@ CLASS ZCL_PRA_MF_FETCH_PROJ IMPLEMENTATION.
     " find Communication Arrangement by scenario ID
     ca_range = VALUE #( ( sign = 'I' option = 'EQ' low = 'ZPRA_MF_CS_ENT_PROJ' ) ).
 
-    TEST-SEAM comm_arrang. "#EC TEST_SEAM_USAGE
+    TEST-SEAM comm_arrang.                         "#EC TEST_SEAM_USAGE
       DATA(factory) = cl_com_arrangement_factory=>create_instance( ).
       factory->query_ca( EXPORTING is_query           = VALUE #( cscn_id_range = ca_range  )
                          IMPORTING et_com_arrangement = comm_arrang ).
@@ -80,7 +83,7 @@ CLASS ZCL_PRA_MF_FETCH_PROJ IMPLEMENTATION.
 
         IF destination IS BOUND.
 
-          TEST-SEAM http_client. "#EC TEST_SEAM_USAGE
+          TEST-SEAM http_client.                   "#EC TEST_SEAM_USAGE
             http_client = cl_web_http_client_manager=>create_by_http_destination( destination ).
           END-TEST-SEAM.
 
@@ -123,7 +126,7 @@ CLASS ZCL_PRA_MF_FETCH_PROJ IMPLEMENTATION.
                                                     iv_property_path = 'PROJECT'
                                                     it_range         = ranges[ 1 ]-range ) ).
 
-          TEST-SEAM execute_request. "#EC TEST_SEAM_USAGE
+          TEST-SEAM execute_request.               "#EC TEST_SEAM_USAGE
             request->execute( ).
 
             DATA(response) = request->get_response( ).
@@ -137,18 +140,42 @@ CLASS ZCL_PRA_MF_FETCH_PROJ IMPLEMENTATION.
       CATCH /iwbep/cx_gateway INTO gateway_error.
         MESSAGE e009(zpra_mf_msg_cls) INTO message.
     ENDTRY.
+    IF s4_project_details IS NOT INITIAL.
+      MESSAGE s020(zpra_mf_msg_cls) INTO DATA(success_text).
+      LOOP AT s4_project_details ASSIGNING FIELD-SYMBOL(<s4_project_details>).
+        project_details = VALUE #(
+            BASE project_details
+            ( projectid   = <s4_project_details>-project
+              projectname = <s4_project_details>-project_description
+              startdate   = <s4_project_details>-project_start_date
+              enddate     = <s4_project_details>-project_end_date
+              costcenter  = <s4_project_details>-responsible_cost_center
+              statusicon = success
+              statustext = success_text
+              Nav         = |{ url }{ <s4_project_details>-project }| ) ).
+      ENDLOOP.
 
-    LOOP AT s4_project_details ASSIGNING FIELD-SYMBOL(<s4_project_details>).
-      project_details = VALUE #(
-          BASE project_details
-          ( projectid   = <s4_project_details>-project
-            projectname = <s4_project_details>-project_description
-            startdate   = <s4_project_details>-project_start_date
-            enddate     = <s4_project_details>-project_end_date
-            costcenter  = <s4_project_details>-responsible_cost_center
-            status      = COND #( WHEN <s4_project_details>-processing_status = '00' THEN 'Created' )
-            Nav         = |{ url }{ <s4_project_details>-project }| ) ).
-    ENDLOOP.
+    ELSE.
+
+      DATA(project_id) = VALUE #( ranges[ 1 ]-range[ 1 ]-low OPTIONAL ).
+      SELECT SINGLE is_project_created,
+                    project_log_handle
+                    FROM zpra_mf_a_mf
+                    WHERE project_id = @project_id
+                    INTO @DATA(active_music_fest).
+
+      IF active_music_fest-project_log_handle IS NOT INITIAL
+      AND active_music_fest-is_project_created EQ abap_false.
+        MESSAGE e021(zpra_mf_msg_cls) INTO DATA(failure_text).
+        project_details = VALUE #( BASE proj_data (
+                                            projectid = ranges[ 1 ]-range[ 1 ]-low
+                                            statusicon = failure
+                                            statustext = failure_text
+                                             ) ).
+      ENDIF.
+
+    ENDIF.
+
     io_response->set_data( it_data = project_details ).
     io_response->set_total_number_of_records( CONV int8( lines( project_details ) ) ).
   ENDMETHOD.

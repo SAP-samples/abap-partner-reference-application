@@ -29,6 +29,7 @@ parameters:
   send-x-frame-options: true
   consumer-tenant-limit: 100
   sap-system-name: ""
+  extended-login-csp: true
 
 modules:
   - name: approuter

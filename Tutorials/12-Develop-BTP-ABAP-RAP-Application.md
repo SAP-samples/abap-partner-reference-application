@@ -247,6 +247,7 @@ Similarly, you can create other data elements for the entire application. Below 
 > | Key fields | CHAR (STRING not allowed) |
 > | Fields used in OData $filter with contains() | CHAR |
 >
+
 ### Database Table Creation
 
 You need to create a DB table to store the music festivals and visitor data.

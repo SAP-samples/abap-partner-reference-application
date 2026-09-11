@@ -60,6 +60,7 @@ If you prefer a quick start without further explanation and want to the applicat
     1. **Activate Dictionary Objects**: Start by activating all dictionary objects. These include:
         - Domains
         - Data elements
+        - Structures
         - Database tables
     2. **Activate Core Data Services**: Start by activating all core data services. These include:
         - Data Definitions
@@ -71,8 +72,10 @@ If you prefer a quick start without further explanation and want to the applicat
         - Activate all objects except the following:
             - `ZPRA_MF_MusicFestival`
             - `ZPRA_MF_Visitor`
+            - `ZPRA_MF_API_MUSICFESTIVAL`
             - `ZPRA_MF_UI_MUSICFESTIVAL_O4`
             - `ZPRA_MF_UI_VISITOR_O4`
+            - `ZPRA_MF_API_MUSICFESTIVAL_04`
             - `ZPRA_MF_LST`
             - `ZPRA_MF_LPT`
     5. Activate all remaining objects except `ZPRA_MF_LST` and `ZPRA_MF_LPT`.
@@ -89,6 +92,7 @@ If you prefer a quick start without further explanation and want to the applicat
     2. Use the search functionality to locate the following service bindings:
         - `ZPRA_MF_UI_MUSICFESTIVAL_O4`
         - `ZPRA_MF_UI_VISITOR_O4`
+        - `ZPRA_MF_API_MUSICFESTIVAL_04`
     3. Select each and choose **Publish**.
 
 > [!TIP]
@@ -138,6 +142,7 @@ If you prefer a quick start without further explanation and want to the applicat
         - `ZPRA_MF_VSTR_UI5R`
         - `ZPRA_MF_UI_MUSICFESTIVAL__00001_IBS`
         - `ZPRA_MF_UI_VISITOR_O4_0001_G4BA_IBS`
+        - `ZPRA_MF_API_MUSICFESTIVAL_00001_IBS`
     - Verify that all remaining objects are successfully pulled into the ABAP environment.
     
 > [!NOTE]
@@ -160,7 +165,7 @@ If you prefer a quick start without further explanation and want to the applicat
         - Communication scenario `ZPRA_MF_CS_ENT_PROJ`
     3. Select each and choose **Publish Locally**.
 
-17. The Service Consumption Model as explained in [Integration with SAP S/4HANA Cloud Public Edition](./40-Integration-with-S4-Public-Cloud.md#set-up-a-service-consumption-model) guide needs to be created as this is not imported by abapGit.
+17. The Service Consumption Model as explained in [Integration with SAP S/4HANA Cloud Public Edition](./40-Integration-with-S4-Public-Cloud.md#import-sap-s4hana-cloud-public-edition-odata-services) guide needs to be created as this is not imported by abapGit.
     1. First, delete the imported class `ZCL_PRA_MF_SCM_ENT_PROJ` as this will be generated in the next step.
     2. Please follow steps 1 and 2 of section [Import SAP S/4HANA Cloud Public Edition OData Services](./40-Integration-with-S4-Public-Cloud.md#import-sap-s4hana-cloud-public-edition-odata-services) and then continue with step 17 here.
 

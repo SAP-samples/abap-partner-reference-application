@@ -21,6 +21,8 @@ CLASS ltcl_methods DEFINITION FINAL
     METHODS determineAvailableSeats      FOR TESTING RAISING cx_static_check.
     METHODS actionBook                   FOR TESTING RAISING cx_static_check.
     METHODS actionCancel                 FOR TESTING RAISING cx_static_check.
+    METHODS validateVisitorInvalid       FOR TESTING RAISING cx_static_check.
+    METHODS validateVisitorValid         FOR TESTING RAISING cx_static_check.
 
     METHODS instanceFeatsActiveBooked    FOR TESTING RAISING cx_static_check.
     METHODS instanceFeatsActiveCancelled FOR TESTING RAISING cx_static_check.
@@ -31,7 +33,8 @@ CLASS ltcl_methods DEFINITION FINAL
     METHODS detAvailSeatsOnlyPending     FOR TESTING RAISING cx_static_check.
     METHODS globalAuth                   FOR TESTING RAISING cx_static_check.
     METHODS instanceAuth                 FOR TESTING RAISING cx_static_check.
-
+    METHODS sendUpdateQueuesEmail        FOR TESTING RAISING cx_static_check.
+    METHODS sendUpdateSkipsNoEmail       FOR TESTING RAISING cx_static_check.
 ENDCLASS.
 
 
@@ -344,6 +347,88 @@ CLASS ltcl_methods IMPLEMENTATION.
                                         msg = 'Action result - Cancel Status' ).
   ENDMETHOD.
 
+  METHOD validateVisitorInvalid.
+    DATA mf_mock_data  TYPE STANDARD TABLE OF zpra_mf_a_mf.
+    DATA vst_mock_data TYPE STANDARD TABLE OF zpra_mf_a_vst.
+
+    mf_mock_data = VALUE #( ( uuid                = 'DEC190889AC21FE08191A45962D04217'
+                              event_date_time     = '2028-01-01T00:00:00.0000000'
+                              title               = 'Event 1'
+                              max_visitors_number = 2 ) ).
+
+    vst_mock_data = VALUE #( ( uuid         = 'DEC190889AC21FE08191A45962D04211'
+                               parent_uuid  = 'DEC190889AC21FE08191A45962D04217'
+                               visitor_uuid = 'DEADBEEFDEADBEEFDEADBEEFDEADBEEF'
+                               status       = zcl_pra_mf_enum_visit_status=>pending ) ).
+
+    cds_test_environment->insert_test_data( i_data = mf_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vst_mock_data ).
+
+    TYPES: BEGIN OF ty_entity_key,
+             uuid TYPE sysuuid_x16,
+           END OF ty_entity_key.
+
+    DATA reported    TYPE RESPONSE FOR REPORTED LATE zpra_mf_r_musicfestival.
+    DATA failed      TYPE RESPONSE FOR FAILED LATE zpra_mf_r_musicfestival.
+    DATA entity_keys TYPE STANDARD TABLE OF ty_entity_key.
+
+    entity_keys = VALUE #( ( uuid = 'DEC190889AC21FE08191A45962D04211' ) ).
+
+    class_under_test->validateVisitor( EXPORTING keys     = CORRESPONDING #( entity_keys )
+                                       CHANGING  reported = reported
+                                                 failed   = failed ).
+
+    cl_abap_unit_assert=>assert_not_initial( act = failed-visits
+                                             msg = 'failed-visits should contain entry for bogus UUID' ).
+
+    cl_abap_unit_assert=>assert_equals( exp = 'DEC190889AC21FE08191A45962D04211'
+                                        act = VALUE #( failed-visits[ 1 ]-Uuid OPTIONAL )
+                                        msg = 'failed-visits should reference the visit row under test' ).
+
+    cl_abap_unit_assert=>assert_equals( exp = zcm_pra_mf_messages=>visitor_invalid
+                                        act = VALUE #( reported-visits[ 2 ]-%msg->if_t100_message~t100key OPTIONAL )
+                                        msg = 'Expected message visitor_invalid' ).
+  ENDMETHOD.
+
+  METHOD validateVisitorValid.
+    DATA mf_mock_data   TYPE STANDARD TABLE OF zpra_mf_a_mf.
+    DATA vstr_mock_data TYPE STANDARD TABLE OF zpra_mf_a_vstr.
+    DATA vst_mock_data  TYPE STANDARD TABLE OF zpra_mf_a_vst.
+
+    vstr_mock_data = VALUE #( ( uuid = 'DEC190889AC21FE08191A45962D04210' name = 'visitor1' ) ).
+
+    mf_mock_data = VALUE #( ( uuid                = 'DEC190889AC21FE08191A45962D04217'
+                              event_date_time     = '2028-01-01T00:00:00.0000000'
+                              title               = 'Event 1'
+                              max_visitors_number = 2 ) ).
+
+    vst_mock_data = VALUE #( ( uuid         = 'DEC190889AC21FE08191A45962D04211'
+                               parent_uuid  = 'DEC190889AC21FE08191A45962D04217'
+                               visitor_uuid = 'DEC190889AC21FE08191A45962D04210'
+                               status       = zcl_pra_mf_enum_visit_status=>pending ) ).
+
+    cds_test_environment->insert_test_data( i_data = mf_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vst_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vstr_mock_data ).
+
+    TYPES: BEGIN OF ty_entity_key,
+             uuid TYPE sysuuid_x16,
+           END OF ty_entity_key.
+
+    DATA reported    TYPE RESPONSE FOR REPORTED LATE zpra_mf_r_musicfestival.
+    DATA failed      TYPE RESPONSE FOR FAILED LATE zpra_mf_r_musicfestival.
+    DATA entity_keys TYPE STANDARD TABLE OF ty_entity_key.
+
+    entity_keys = VALUE #( ( uuid = 'DEC190889AC21FE08191A45962D04211' ) ).
+
+    class_under_test->validateVisitor( EXPORTING keys     = CORRESPONDING #( entity_keys )
+                                       CHANGING  reported = reported
+                                                 failed   = failed ).
+
+    cl_abap_unit_assert=>assert_initial( act = failed-visits
+                                         msg = 'failed-visits must be empty for a valid visitor' ).
+  ENDMETHOD.
+
   METHOD instanceFeatsActiveBooked.
     " active booked visit: book/cancel disabled (non-draft), delete disabled (booked)
     DATA mf_mock_data   TYPE STANDARD TABLE OF zpra_mf_a_mf.
@@ -642,5 +727,93 @@ CLASS ltcl_methods IMPLEMENTATION.
                                                              reported                 = reported ).
 
     cl_abap_unit_assert=>assert_initial( act = result ).
+  ENDMETHOD.
+
+  METHOD sendUpdateQueuesEmail.
+    " sendUpdate queues one BGMC email process per visitor with a non-empty email
+    CLEAR zbp_pra_mf_r_musicfestival=>bgmc_email_processes.
+    DATA mf_mock_data   TYPE STANDARD TABLE OF zpra_mf_a_mf.
+    DATA vstr_mock_data TYPE STANDARD TABLE OF zpra_mf_a_vstr.
+    DATA vst_mock_data  TYPE STANDARD TABLE OF zpra_mf_a_vst.
+
+    mf_mock_data   = VALUE #( ( uuid            = 'DEC190889AC21FE08191A45962D04217'
+                                title           = 'Test Event'
+                                event_date_time = '2028-01-01T00:00:00.0000000' ) ).
+    vstr_mock_data = VALUE #( ( uuid  = 'DEC190889AC21FE08191A45962D04210'
+                                name  = 'Test Visitor'
+                                email = 'visitor@test.com' ) ).
+    vst_mock_data  = VALUE #( ( uuid         = 'DEC190889AC21FE08191A45962D04211'
+                                parent_uuid  = 'DEC190889AC21FE08191A45962D04217'
+                                visitor_uuid = 'DEC190889AC21FE08191A45962D04210'
+                                status       = zcl_pra_mf_enum_visit_status=>booked ) ).
+
+    cds_test_environment->insert_test_data( i_data = mf_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vstr_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vst_mock_data ).
+
+    TYPES: BEGIN OF ty_entity_key,
+             uuid TYPE sysuuid_x16,
+           END OF ty_entity_key.
+
+    DATA action_result TYPE TABLE FOR ACTION RESULT zpra_mf_r_musicfestival\\Visits~sendUpdate.
+    DATA reported      TYPE RESPONSE FOR REPORTED EARLY zpra_mf_r_musicfestival.
+    DATA failed        TYPE RESPONSE FOR FAILED EARLY zpra_mf_r_musicfestival.
+    DATA entity_keys   TYPE STANDARD TABLE OF ty_entity_key.
+
+    entity_keys = VALUE #( ( uuid = 'DEC190889AC21FE08191A45962D04211' ) ).
+
+    class_under_test->sendupdate( EXPORTING keys     = CORRESPONDING #( entity_keys )
+                                  CHANGING  result   = action_result
+                                            reported = reported
+                                            failed   = failed ).
+
+    cl_abap_unit_assert=>assert_initial( act = reported ).
+    cl_abap_unit_assert=>assert_equals( exp = 1
+                                        act = lines( zbp_pra_mf_r_musicfestival=>bgmc_email_processes ) ).
+    cl_abap_unit_assert=>assert_equals( exp = 1
+                                        act = lines( action_result ) ).
+  ENDMETHOD.
+
+  METHOD sendUpdateSkipsNoEmail.
+    " sendUpdate skips a visitor with no email and returns no reported error
+    CLEAR zbp_pra_mf_r_musicfestival=>bgmc_email_processes.
+    DATA mf_mock_data   TYPE STANDARD TABLE OF zpra_mf_a_mf.
+    DATA vstr_mock_data TYPE STANDARD TABLE OF zpra_mf_a_vstr.
+    DATA vst_mock_data  TYPE STANDARD TABLE OF zpra_mf_a_vst.
+
+    mf_mock_data   = VALUE #( ( uuid            = 'DEC190889AC21FE08191A45962D04217'
+                                title           = 'Test Event'
+                                event_date_time = '2028-01-01T00:00:00.0000000' ) ).
+    vstr_mock_data = VALUE #( ( uuid = 'DEC190889AC21FE08191A45962D04210'
+                                name = 'Test Visitor' ) ).
+    vst_mock_data  = VALUE #( ( uuid         = 'DEC190889AC21FE08191A45962D04211'
+                                parent_uuid  = 'DEC190889AC21FE08191A45962D04217'
+                                visitor_uuid = 'DEC190889AC21FE08191A45962D04210'
+                                status       = zcl_pra_mf_enum_visit_status=>booked ) ).
+
+    cds_test_environment->insert_test_data( i_data = mf_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vstr_mock_data ).
+    cds_test_environment->insert_test_data( i_data = vst_mock_data ).
+
+    TYPES: BEGIN OF ty_entity_key,
+             uuid TYPE sysuuid_x16,
+           END OF ty_entity_key.
+
+    DATA action_result TYPE TABLE FOR ACTION RESULT zpra_mf_r_musicfestival\\Visits~sendUpdate.
+    DATA reported      TYPE RESPONSE FOR REPORTED EARLY zpra_mf_r_musicfestival.
+    DATA failed        TYPE RESPONSE FOR FAILED EARLY zpra_mf_r_musicfestival.
+    DATA entity_keys   TYPE STANDARD TABLE OF ty_entity_key.
+
+    entity_keys = VALUE #( ( uuid = 'DEC190889AC21FE08191A45962D04211' ) ).
+
+    class_under_test->sendupdate( EXPORTING keys     = CORRESPONDING #( entity_keys )
+                                  CHANGING  result   = action_result
+                                            reported = reported
+                                            failed   = failed ).
+
+    cl_abap_unit_assert=>assert_initial( act = reported ).
+    cl_abap_unit_assert=>assert_initial( act = zbp_pra_mf_r_musicfestival=>bgmc_email_processes ).
+    cl_abap_unit_assert=>assert_equals( exp = 1
+                                        act = lines( action_result ) ).
   ENDMETHOD.
 ENDCLASS.

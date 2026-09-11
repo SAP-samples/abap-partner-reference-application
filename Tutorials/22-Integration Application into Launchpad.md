@@ -14,7 +14,7 @@ This section explains how to use identity and access management (IAM) apps and b
 
 ---
 
-For a detailed instruction on how to create the objects listed below, refer to the tutorial - [Create SAP Fiori Launchpad Space and Page Templates](https://developers.sap.com/tutorials/abap-environment-create-spaces-pages-template..html).
+For a detailed instruction on how to create the objects listed below, refer to the tutorial - [Create SAP Fiori Launchpad Space and Page Templates](https://developers.sap.com/tutorials/abap-environment-create-spaces-pages-template).
 
 - Launchpad page template
 - Launchpad space template
@@ -27,22 +27,22 @@ For a detailed instruction on how to create the objects listed below, refer to t
 [Launchpad page templates](https://help.sap.com/docs/abap-cloud/abap-development-tools-user-guide/working-with-page-templates-uipg?version=sap_btp) simplify the configuration process of the SAP Fiori launchpad by providing predefined layouts.
 
 1. Create a launchpad page template named **ZPRA_MF_LPT** in the **ZPRA_MF_UI_MNG_MUSIC_FESTS** package.
-   For detailed instructions, refer to [Creating Launchpad Page Templates](https://help.sap.com/docs/abap-cloud/abap-development-tools-user-guide/creating-page-templates?version=sap_btp&locale=en-US).
+   For detailed instructions, refer to [Creating Launchpad Page Templates](https://help.sap.com/docs/abap-cloud/abap-development-tools-user-guide/creating-page-templates?version=sap_btp).
 2. In the **Launchpad Page Template Editor**, create two new visualizations named **ZPRA_MF_SECTION_MF_VIZ** and **ZPRA_MF_SECTION_VSTR_VIZ** for the applications **Manage Music Festivals** and **Manage Visitors** respectively and assign the respective Launchpad App Descriptor Items.
-   For detailed instructions, refer to [Editing Launchpad Page Templates](https://help.sap.com/docs/abap-cloud/abap-development-tools-user-guide/editing-page-templates?version=sap_btp&locale=en-US).
+   For detailed instructions, refer to [Editing Launchpad Page Templates](https://help.sap.com/docs/abap-cloud/abap-development-tools-user-guide/editing-page-templates?version=sap_btp).
 
 ## Creating a Launchpad Space Template
 
 [Launchpad space templates](https://help.sap.com/docs/abap-cloud/abap-development-tools-user-guide/working-with-space-templates-uist?version=sap_btp) simplify the configuration process of the SAP Fiori launchpad by providing predefined layouts.
 
 1. Create a launchpad space template named **ZPRA_MF_LST** in the **ZPRA_MF_UI_MNG_MUSIC_FESTS** package.
-   For detailed instructions, refer to [Creating Launchpad Space Templates](https://help.sap.com/docs/abap-cloud/abap-development-tools-user-guide/creating-space-templates?version=sap_btp&locale=en-US).
+   For detailed instructions, refer to [Creating Launchpad Space Templates](https://help.sap.com/docs/abap-cloud/abap-development-tools-user-guide/creating-space-templates?version=sap_btp).
 2. In the **Launchpad Space Template Editor**, update the **Sort Priority** and add the launchpad page template named **ZPRA_MF_LPT**.
-   For detailed instructions, refer to [Editing Launchpad Space Templates](https://help.sap.com/docs/abap-cloud/abap-development-tools-user-guide/editing-space-templates?version=sap_btp&locale=en-US).
+   For detailed instructions, refer to [Editing Launchpad Space Templates](https://help.sap.com/docs/abap-cloud/abap-development-tools-user-guide/editing-space-templates?version=sap_btp).
 
 ## Scoping Page and Space Templates
 
-The [scoping of space and page templates](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/scoping-space-and-page-templates?locale=en-US) refers to the process of defining the visibility or accessibility of these objects.
+The [scoping of space and page templates](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/scoping-space-and-page-templates) refers to the process of defining the visibility or accessibility of these objects.
 
 - Create an ABAP class named **ZCL_PRA_MF_SCOPE_PG_SP_TMPLT** to implement your own scoping using the **CL_APS_BC_SCOPE_CHANGE_API** scoping API.
 - Update the names of the launchpad page template **ZPRA_MF_LPT** and launchpad space template **ZPRA_MF_LST** in the code.

@@ -54,6 +54,10 @@ CLASS ltcl_calc_mf_elements DEFINITION FINAL
     METHODS get_calc_info_wrong_entity     FOR TESTING RAISING cx_sadl_exit.
     METHODS calc_pdf_happy_path            FOR TESTING RAISING cx_static_check.
     METHODS calc_pdf_form_error            FOR TESTING RAISING cx_static_check.
+    METHODS hidesalesorder_positive        FOR TESTING RAISING cx_static_check.
+    METHODS hidesalesorder_negative        FOR TESTING RAISING cx_static_check.
+    METHODS get_calc_info_hidesalesorder   FOR TESTING RAISING cx_sadl_exit.
+    METHODS get_calc_info_salesorderurl    FOR TESTING RAISING cx_sadl_exit.
 ENDCLASS.
 
 CLASS zcl_pra_mf_calc_mf_elements DEFINITION LOCAL FRIENDS ltcl_calc_mf_elements.
@@ -333,5 +337,73 @@ CLASS ltcl_calc_mf_elements IMPLEMENTATION.
       CATCH zcx_pra_mf_calc_exit INTO DATA(calc_exit).
         cl_abap_unit_assert=>assert_bound( act = calc_exit->previous ).
     ENDTRY.
+  ENDMETHOD.
+
+  METHOD hidesalesorder_negative.
+    " Negative Test: HideSalesOrderSection = TRUE when SalesOrderId is empty (section hidden)
+    DATA original_data   TYPE STANDARD TABLE OF zpra_mf_c_musicfestivaltp.
+    DATA calc_elements   TYPE tt_calc_elements.
+    DATA calculated_data TYPE STANDARD TABLE OF zpra_mf_c_musicfestivaltp.
+
+    APPEND VALUE #( salesorderid = '' ) TO original_data.
+    INSERT `HIDESPONSORINGDATA` INTO TABLE calc_elements.
+
+    cut->if_sadl_exit_calc_element_read~calculate( EXPORTING it_original_data           = original_data
+                                                             it_requested_calc_elements = calc_elements
+                                                   CHANGING  ct_calculated_data         = calculated_data ).
+
+    READ TABLE calculated_data INTO DATA(result) INDEX 1.
+    cl_abap_unit_assert=>assert_equals( exp = abap_true
+                                        act = result-HideSponsoringData ).
+  ENDMETHOD.
+
+  METHOD hidesalesorder_positive.
+    " Positive Test: HideSalesOrderSection = FALSE when SalesOrderId has value (section shown)
+    DATA original_data   TYPE STANDARD TABLE OF zpra_mf_c_musicfestivaltp.
+    DATA calc_elements   TYPE tt_calc_elements.
+    DATA calculated_data TYPE STANDARD TABLE OF zpra_mf_c_musicfestivaltp.
+
+    APPEND VALUE #( salesorderid = 'SO-12345' ) TO original_data.
+    INSERT `HIDESPONSORINGDATA` INTO TABLE calc_elements.
+
+    cut->if_sadl_exit_calc_element_read~calculate( EXPORTING it_original_data           = original_data
+                                                             it_requested_calc_elements = calc_elements
+                                                   CHANGING  ct_calculated_data         = calculated_data ).
+
+    READ TABLE calculated_data INTO DATA(result) INDEX 1.
+    cl_abap_unit_assert=>assert_equals( exp = abap_false
+                                        act = result-HideSponsoringData ).
+  ENDMETHOD.
+
+  METHOD get_calc_info_hidesalesorder.
+    " Test: get_calculation_info should return SALESORDERID for HIDESPONSORINGDATA
+    DATA calc_elements TYPE tt_calc_elements.
+
+    INSERT `HIDESPONSORINGDATA` INTO TABLE calc_elements.
+
+    cut->if_sadl_exit_calc_element_read~get_calculation_info(
+      EXPORTING iv_entity                  = `ZPRA_MF_C_MUSICFESTIVALTP`
+                it_requested_calc_elements = calc_elements
+      IMPORTING et_requested_orig_elements = DATA(result) ).
+
+    cl_abap_unit_assert=>assert_equals( exp = 1
+                                        act = lines( result ) ).
+    cl_abap_unit_assert=>assert_true( xsdbool( line_exists( result[ table_line = `SALESORDERID` ] ) ) ).
+  ENDMETHOD.
+
+  METHOD get_calc_info_salesorderurl.
+    " Test: get_calculation_info should return SALESORDERID for SALESORDERURL
+    DATA calc_elements TYPE tt_calc_elements.
+
+    INSERT `SALESORDERURL` INTO TABLE calc_elements.
+
+    cut->if_sadl_exit_calc_element_read~get_calculation_info(
+      EXPORTING iv_entity                  = `ZPRA_MF_C_MUSICFESTIVALTP`
+                it_requested_calc_elements = calc_elements
+      IMPORTING et_requested_orig_elements = DATA(result) ).
+
+    cl_abap_unit_assert=>assert_equals( exp = 1
+                                        act = lines( result ) ).
+    cl_abap_unit_assert=>assert_true( xsdbool( line_exists( result[ table_line = `SALESORDERID` ] ) ) ).
   ENDMETHOD.
 ENDCLASS.

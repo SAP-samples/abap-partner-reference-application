@@ -1,0 +1,11 @@
+projection;
+strict ( 2 );
+use side effects;
+
+define behavior for ZPRA_MF_C_VISITOR_API alias Visitor
+{
+  use create;
+  use update;
+  use delete;
+
+}

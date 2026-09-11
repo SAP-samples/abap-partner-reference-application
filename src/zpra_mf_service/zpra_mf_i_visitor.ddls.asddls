@@ -1,4 +1,4 @@
-@AbapCatalog.sqlViewName: 'ZPRA_MF_VSTR'
+@AbapCatalog.sqlViewName: 'ZPRA_MF_VSTR2'
 @AbapCatalog.compiler.compareFilter: true
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Visitors Value Help'
@@ -24,5 +24,5 @@ define view ZPRA_MF_I_Visitor as select from zpra_mf_a_vstr as Visitor
       @Semantics.text: true
       @UI.lineItem: [{ position: 20, importance: #HIGH }]
       Visitor.email as VisitorEmail
-  
+
 }

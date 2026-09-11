@@ -12,7 +12,7 @@ This ensures that both you and the visitors have a centralized, well-organized s
 
 ## Prerequisites for Adobe Forms
 
-1. Install [Adobe LiveCycle Designer](https://help.sap.com/docs/forms-service-by-adobe/sap-forms-service-cf/using-adobe-livecycle-designer?locale=en-US) for the form template creation.
+1. Install [Adobe LiveCycle Designer](https://help.sap.com/docs/forms-service-by-adobe/sap-forms-service-cf/using-adobe-livecycle-designer) for the form template creation.
 2. Development is done in Adobe LiveCycle Designer.
 3. Follow these guidelines to set up the SAP Forms service and communication arrangements in SAP BTP:
    1. [Connecting the SAP Forms Service to ABAP](https://help.sap.com/docs/forms-service-by-adobe/sap-forms-service-cf/connecting-sap-forms-service-to-abap)
@@ -22,7 +22,7 @@ This ensures that both you and the visitors have a centralized, well-organized s
 
 The Adobe Document Services (ADS) can render Adobe XML Forms (XFA) into PDF documents. The application securely transmits the data and the form template to the service, which then returns the rendered document. This ensures a reliable and efficient process for generating high-quality output.
 
-1. [Retrieving Stored Form Templates](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/retrieve-stored-form-templates?locale=en-US)
+1. [Retrieving Stored Form Templates](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/retrieve-stored-form-templates)
    To utilize stored form templates during runtime, the `CL_FP_FORM_READER` class provides the necessary functionality. This class enables seamless access to uploaded form templates, ensuring that the correct template is used for rendering.
 
    To read a form template, you can use the `CREATE_FORM_READER` method provided by the `CL_FP_FORM_READER` class. This method facilitates the retrieval of the required form template, making it available for rendering and processing.
@@ -33,7 +33,7 @@ The Adobe Document Services (ADS) can render Adobe XML Forms (XFA) into PDF docu
 
    To read a form template, you can use the CREATE_FORM_READER method provided by the CL_FP_FORM_READER class. This method facilitates the retrieval of the required form template, making it available for rendering and processing.
 
-2. [Runtime API for ADS Rendering Calls](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/runtime-api-for-ads-rendering-calls?locale=en-US)
+2. [Runtime API for ADS Rendering Calls](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/runtime-api-for-ads-rendering-calls)
 
    The `CL_FP_ADS_UTIL` class provides the ABAP Runtime API for making ADS rendering calls. This class offers powerful methods to facilitate the rendering of documents in various formats, ensuring compatibility with different output requirements.
 
@@ -54,7 +54,7 @@ The Adobe Document Services (ADS) can render Adobe XML Forms (XFA) into PDF docu
 
    By leveraging these methods, you can efficiently generate high-quality documents tailored to both digital and print-specific requirements.
 
-3. [RAP Data Services](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/rap-data-services-for-print-forms?locale=en-US)
+3. [RAP Data Services](https://help.sap.com/docs/sap-btp-abap-environment/abap-environment/rap-data-services-for-print-forms)
 
    The `CL_FP_FDP_SERVICES` class provides the ABAP API to perform the following tasks:
    - _Initiate the Business Data Reader_ to fetch the required business data.
@@ -235,7 +235,7 @@ The Adobe Document Services (ADS) can render Adobe XML Forms (XFA) into PDF docu
     ...
     ```
 
-17. In the [**ZPRA_MF_C_MUSICFESTIVAL_TP**](../src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddlx.asddlxs) metadata extension, add the UI changes to include the PDF preview.
+17. In the [**ZPRA_MF_C_MUSICFESTIVAL_TP**](http://github.com/SAP-samples/abap-partner-reference-application/blob/main/src/zpra_mf_service/zpra_mf_c_musicfestivaltp.ddlx.asddlxs) metadata extension, add the UI changes to include the PDF preview.
 
     ```abap
     ...
